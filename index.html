@@ -563,7 +563,7 @@
         <a href="#intro" class="nav-link active">HOME</a>
         <a href="#projects" class="nav-link">PROJECTS</a>
         <a href="#about" class="nav-link">ABOUT</a>
-        <a href="#resume" class="nav-link">RESUME</a>
+        <a href="Alexander_Loker_Resume (10).pdf" target="_blank" class="nav-link">RESUME</a>
     </nav>
 </header>
 
@@ -609,7 +609,7 @@
             </div>
         </div>
         <div class="project-card" onclick="showBlog('blog3')">
-            <img src="https://i.imgur.com/AXCQDnp.png" alt="Companion Robot">
+            <img src="https://i.imgur.com/lwiULnB.png" alt="Companion Robot">
             <h3>COMPANION ROBOT - W.I.P.</h3>
             <div class="skill-bubbles">
                 <span class="skill-bubble">SolidWorks</span>
@@ -759,31 +759,11 @@
 </div>
 </section>
 
-<!-- Resume Page -->
-<!-- Resume Page -->
-<section id="resume" class="blog-page">
-    <div style="max-width: 1000px; margin: 0 auto; padding: 40px;">
-        <div class="blog-header" style="margin-bottom: 30px;">
-            <h2>RESUME</h2>
-        </div>
-        <iframe 
-            src="Alexander_Loker_Resume (10).pdf" 
-            width="100%" 
-            height="1100px" 
-            style="border: none; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
-        </iframe>
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="Alexander_Loker_Resume (10).pdf" download class="back-button">Download PDF</a>
-        </div>
-    </div>
-</section>
-
 <script>
     function showBlog(blogId) {
         document.getElementById('intro').style.display = 'none';
         document.getElementById('projects').classList.remove('active');
         document.getElementById('about').classList.remove('active');
-        document.getElementById('resume').classList.remove('active');
         document.getElementById('esports-blog').classList.remove('active');
         document.querySelectorAll('.blog-page').forEach(blog => {
             blog.classList.remove('active');
@@ -812,7 +792,6 @@
     function showProjects() {
         document.getElementById('intro').style.display = 'none';
         document.getElementById('about').classList.remove('active');
-        document.getElementById('resume').classList.remove('active');
         document.getElementById('esports-blog').classList.remove('active');
         document.getElementById('video-editing-blog').classList.remove('active');
         document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
@@ -831,7 +810,6 @@
 function showAbout() {
         document.getElementById('intro').style.display = 'none';
         document.getElementById('projects').classList.remove('active');
-        document.getElementById('resume').classList.remove('active');
         document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
         document.getElementById('esports-blog').classList.remove('active');
         document.getElementById('video-editing-blog').classList.remove('active');
@@ -840,25 +818,8 @@ function showAbout() {
 
     document.querySelector('header').classList.remove('hidden');
     document.getElementById('about').classList.add('active');
-    
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     document.querySelector('.nav-link[href="#about"]').classList.add('active');
-    window.scrollTo(0, 0);
-}
-
-function showResume() {
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('projects').classList.remove('active');
-    document.getElementById('about').classList.remove('active');
-    document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
-        blog.classList.remove('active');
-    });
-    
-    document.querySelector('header').classList.remove('hidden');
-    document.getElementById('resume').classList.add('active');
-    
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    document.querySelector('.nav-link[href="#resume"]').classList.add('active');
     window.scrollTo(0, 0);
 }
 
@@ -878,17 +839,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showAbout();
     });
     
-    document.querySelector('.nav-link[href="#resume"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        showResume();
-    });
 });
 
 function showEsportsBlog() {
     document.getElementById('intro').style.display = 'none';
     document.getElementById('projects').classList.remove('active');
     document.getElementById('about').classList.remove('active');
-    document.getElementById('resume').classList.remove('active');
     document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
         blog.classList.remove('active');
     });
@@ -904,7 +860,6 @@ function showVideoEditingBlog() {
     document.getElementById('intro').style.display = 'none';
     document.getElementById('projects').classList.remove('active');
     document.getElementById('about').classList.remove('active');
-    document.getElementById('resume').classList.remove('active');
     document.getElementById('esports-blog').classList.remove('active');
     document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
         blog.classList.remove('active');
