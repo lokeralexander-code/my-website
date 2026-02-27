@@ -591,25 +591,9 @@
         <h2>MY PROJECTS</h2>
     </div>
     <div class="projects-container">
-        <div class="project-card" onclick="showBlog('blog1')">
-            <img src="https://i.imgur.com/8e4SU1C.png" alt="Air Hockey Robot">
-            <h3>AUTONOMOUS AIR HOCKEY DEFENSE MACHINE</h3>
-            <div class="skill-bubbles">
-                <span class="skill-bubble">C++</span>
-                <span class="skill-bubble">Actuators</span>
-                <span class="skill-bubble">Gantry</span>
-            </div>
-        </div>
-        <div class="project-card" onclick="showBlog('blog2')">
-            <img src="https://i.imgur.com/Sb3FPiN.png" alt="Electrochemical Machining">
-            <h3>ELECTROCHEMICAL MACHINING MODELING & RESEARCH</h3>
-            <div class="skill-bubbles">
-                <span class="skill-bubble">Blender</span>
-                <span class="skill-bubble">Research & Presentation</span>
-            </div>
-        </div>
+        <!-- 1. Companion Robot (now first) -->
         <div class="project-card" onclick="showBlog('blog3')">
-            <img src="https://i.imgur.com/lwiULnB.png" alt="Companion Robot">
+            <img src="https://i.imgur.com/bfPMDOe.jpeg" alt="Companion Robot">
             <h3>COMPANION ROBOT - W.I.P.</h3>
             <div class="skill-bubbles">
                 <span class="skill-bubble">SolidWorks</span>
@@ -623,8 +607,28 @@
                 <span>Coming Soon</span>
             </div>
         </div>
+        <!-- 2. Air Hockey (now second) -->
+        <div class="project-card" onclick="showBlog('blog1')">
+            <img src="https://i.imgur.com/8e4SU1C.png" alt="Air Hockey Robot">
+            <h3>AUTONOMOUS AIR HOCKEY DEFENSE MACHINE</h3>
+            <div class="skill-bubbles">
+                <span class="skill-bubble">C++</span>
+                <span class="skill-bubble">Actuators</span>
+                <span class="skill-bubble">Gantry</span>
+            </div>
+        </div>
+        <!-- 3. Electrochemical Machining (now third) -->
+        <div class="project-card" onclick="showBlog('blog2')">
+            <img src="https://i.imgur.com/Sb3FPiN.png" alt="Electrochemical Machining">
+            <h3>ELECTROCHEMICAL MACHINING MODELING & RESEARCH</h3>
+            <div class="skill-bubbles">
+                <span class="skill-bubble">Blender</span>
+                <span class="skill-bubble">Research & Presentation</span>
+            </div>
+        </div>
     </div>
 </section>
+
 <!-- About Me Blog -->
 <section id="about" class="blog-page">
     <div class="blog-header">
@@ -725,8 +729,13 @@
         <img src="https://i.imgur.com/437FkhM.png" alt="Companion Robot Sketch" class="blog-image">
         
         <h3>Base</h3>
-        <p>Finish coming very soon!</p>
-        <img src="https://i.imgur.com/PhyuWVN.jpeg" alt="Companion Robot Sketch" class="blog-image">
+        <p>After many trials and tribulations, the base is complete (for now). Throughout my time working on developing a fully functioning tri-omni wheel movement system, I was forced to learn many important skills.</p>
+        <p>First of all, when developing the omni-wheel, I learned first hand how important it is to use SolidWorks' simulation capabilities and assemblies, and I learned it the hard way. It took a multitude of different prints and test versions of the omni wheel to finally get a version that allowed for proper 360 degree movement via the rollers.</p>
+        <p>Second, once I got all my electronics in sort, I ran into many problems that I had no idea where to solve: Nothing worked! Finally, I figured that the electrical connection was poor with un-soldered GPIO pins, and so I took it upon myself to learn how to solder, and it didn't end up being too hard! Throughout the time after soldering, I was forced to debug using LED's, learn the ins and outs of the microcontroller I am using (Pi Pico), and also the details on constructing a wiring system that is testable, fits into a small area, and most importantly works.</p>
+        <p>And so, I have a video of the setup partially working. You may notice it isn't super clean. Well, this is because I do not want to glue down the motors, and the wheels to the motors, as this would be rash, and I still have more debugging to do, parts to add (far past just movement), and most importantly I have to drop the breadboard.</p>
+            div style="margin: 40px 0;">
+            <iframe width="100%" height="500" src="https://youtube.com/shorts/xGcwUM80cDc" title="Electrochemical Machining Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);"></iframe>
+        </div>
     </div>
 </section>
 
@@ -739,7 +748,7 @@
     
     <div class="blog-content">
         <h3>My Journey</h3>
-        <p>For five years on and off (mainly on), I was an eSports player. Whether that be Overwatch, Valorant, or Marvel Rivals. I worked my way up from being a middling casual team player to a globally ranked recognized player and talent. In tournaments like Overwatch Open Division and MRCS, I placed nationally and internationally, reaching top 16 nationally in Open Division twice under the alias "akiivv" under <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_2/North_America" target="_blank">Shikigami</a> and <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_3/North_America" target="_blank">Spectre</a>. I managed to get top 32 in MRCS.</p>
+        <p>For five years on and off (mainly on), I was an eSports player. Whether that be Overwatch, Valorant, or Marvel Rivals. I worked my way up from being a middling casual team player to a globally ranked recognized player and talent. In tournaments like Overwatch Open Division and MRCS, I placed nationally and internationally, reaching top 16 nationally in Open Division twice under the alias "akiivv" under <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_2/North_America" target="_blank">Shikigami</a> and <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_3/North_America" target="_blank">Spectre</a>. I managed to get top 32 in MRCS (2025).</p>
         
         <h3>Leadership</h3>
         <p>Regardless, beyond the achievements and statistics, my experience leading 10+ teams has taught me a great deal as to what being a leader looks like. A leader isn't about being loud, it's about making compromise and taking initiative. Throughout my time, I had to deal with countless inner conflicts, many high pressure situations with many ideas, and was forced to take the charge and direct the team towards success. Whether that was simply picking up a player, or calling out a game plan in a tournament match. The responsibilities of organizing scrimmages, VOD reviews, and strategizing were heavy, but also very rewarding.</p>
@@ -876,4 +885,4 @@ function showVideoEditingBlog() {
 
 </script>
 </body>
-</html></parameter> <!DOCTYPE html>
+</html>
