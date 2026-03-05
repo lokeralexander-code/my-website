@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -578,6 +578,7 @@
             <p>Hey there, I am currently working on the following:</p>
             <ul style="list-style-type: disc; margin-left: 20px; margin-top: 15px;">
                 <li style="margin-bottom: 12px;">A project focused on developing the mechanics and interactive software of a small robot companion (W.I.P)!</li>
+                <li style="margin-bottom: 12px;">My task on the Biomechatronics Exoskeleton Electrical team!</li>
                 <li style="margin-bottom: 12px;">Getting my Mechatronics Engineering Degree</li>
                 <li style="margin-bottom: 12px;">The job search! Contact me @ aloker@uwaterloo.ca!</li>
             </ul>
@@ -591,7 +592,7 @@
         <h2>MY PROJECTS</h2>
     </div>
     <div class="projects-container">
-        <!-- 1. Companion Robot (now first) -->
+        <!-- 1. Companion Robot -->
         <div class="project-card" onclick="showBlog('blog3')">
             <img src="https://i.imgur.com/bfPMDOe.jpeg" alt="Companion Robot">
             <h3>COMPANION ROBOT - W.I.P.</h3>
@@ -607,7 +608,7 @@
                 <span>Coming Soon</span>
             </div>
         </div>
-        <!-- 2. Air Hockey (now second) -->
+        <!-- 2. Air Hockey -->
         <div class="project-card" onclick="showBlog('blog1')">
             <img src="https://i.imgur.com/8e4SU1C.png" alt="Air Hockey Robot">
             <h3>AUTONOMOUS AIR HOCKEY DEFENSE MACHINE</h3>
@@ -617,13 +618,16 @@
                 <span class="skill-bubble">Gantry</span>
             </div>
         </div>
-        <!-- 3. Electrochemical Machining (now third) -->
+        <!-- 3. Biotron -->
         <div class="project-card" onclick="showBlog('blog2')">
-            <img src="https://i.imgur.com/Sb3FPiN.png" alt="Electrochemical Machining">
-            <h3>ELECTROCHEMICAL MACHINING MODELING & RESEARCH</h3>
+            <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron">
+            <h3>BIOTRON</h3>
             <div class="skill-bubbles">
-                <span class="skill-bubble">Blender</span>
-                <span class="skill-bubble">Research & Presentation</span>
+                <span class="skill-bubble coming-soon">Coming Soon</span>
+            </div>
+            <div class="coming-soon-label">
+                <div class="coming-soon-square"></div>
+                <span>Coming Soon</span>
             </div>
         </div>
     </div>
@@ -694,23 +698,16 @@
         </div>
 </section>
 
-<!-- Blog 2: Electrochemical Machining -->
+<!-- Blog 2: Biotron -->
 <section id="blog2" class="blog-page">
     <a href="#projects" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
     <div class="blog-header">
-        <h2>ELECTROCHEMICAL MACHINING MODELING & RESEARCH</h2>
+        <h2>BIOTRON</h2>
     </div>
     
     <div class="blog-content">
-        <p>My solo project of modeling and researching an electrochemical machine was to test my 3D modeling skills, my ability to create a design from scratch, and my ability to effectively research and convey information.</p>
-        
-        <p>The first step was making the model, as shown in the timelapse at the bottom of the blog, this proved to be the most difficult section of the project. It was a giant hurdle to be able to accurately create a model that was not confusing, not overwhelming, aesthetically appealing, while also being accurate. To do this, I looked up multiple different examples, I landed on a basic appealing shell and a more complicated inner section that helped display the works of electrochemical machining.</p>
-        
-        <p>My research was focused on the uses and the science behind electrochemical machines, during my presentation the model proved extremely helpful. Being able to animate, display, and point out certain regions of the machinery and the point behind it helped me understand the core behind engineering presentations, and how to convey mechanical machinery effectively to an unfamiliar audience.</p>
-        
-        <div style="margin: 40px 0;">
-            <iframe width="100%" height="500" src="https://www.youtube.com/embed/MCpYQ0zq2HY?start=160&rel=0" title="Electrochemical Machining Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);"></iframe>
-        </div>
+        <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron Logo" class="blog-image">
+        <p>More details coming soon.</p>
     </div>
 </section>
 
@@ -724,7 +721,7 @@
     <div class="blog-content">
         <h3>Ideation</h3>
         <p>This project is in partnership with Elevait Labs, and is a robot designed to integrate the code the AI engineers are developing into a physical system. We ultimately decided on a small companion-like robot, but by far the most challenging part of this stage was making a unique design with all the features necessary. </p>
-        <p>Ultimately, me and my engineering partner decided on a design that is both friendly, serious, and practical. For the movement of the robot, we chose a tri-omniwheel setup that allows for smooth 360-degree movement, and for the motors something quiet (that I will get into later). Additionally, we plan to integrate an LCD screen into the head of the robot, and owl-like arms into the body for anthropomorphic, friendly characteristics. To allow for detection of people we plan to use an auditorial algorithm via an array of small electret speakers.</p>
+        <p>Ultimately, me and my engineering partner decided on a design that is both friendly, serious, and practical. For the movement of the robot, we chose a tri-omniwheel setup that allows for smooth 360-degree movement, and for the motors something quiet (that I will get into later). Additionally, we plan to integrate an LCD screen into the head of the robot, and owl-like arms into the body for anthropomorphic, friendly characteristics. To allow for detection of people we plan to use an auditory algorithm via an array of small electret microphones.</p>
         <p>Below you can see the shell we currently have planned for the robot.</p>
         <img src="https://i.imgur.com/437FkhM.png" alt="Companion Robot Sketch" class="blog-image">
         
@@ -733,8 +730,8 @@
         <p>First of all, when developing the omni-wheel, I learned first hand how important it is to use SolidWorks' simulation capabilities and assemblies, and I learned it the hard way. It took a multitude of different prints and test versions of the omni wheel to finally get a version that allowed for proper 360 degree movement via the rollers.</p>
         <p>Second, once I got all my electronics in sort, I ran into many problems that I had no idea where to solve: Nothing worked! Finally, I figured that the electrical connection was poor with un-soldered GPIO pins, and so I took it upon myself to learn how to solder, and it didn't end up being too hard! Throughout the time after soldering, I was forced to debug using LED's, learn the ins and outs of the microcontroller I am using (Pi Pico), and also the details on constructing a wiring system that is testable, fits into a small area, and most importantly works.</p>
         <p>And so, I have a video of the setup partially working. You may notice it isn't super clean. Well, this is because I do not want to glue down the motors, and the wheels to the motors, as this would be rash, and I still have more debugging to do, parts to add (far past just movement), and most importantly I have to drop the breadboard.</p>
-            div style="margin: 40px 0;">
-            <iframe width="100%" height="500" src="https://youtube.com/shorts/xGcwUM80cDc" title="Electrochemical Machining Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);"></iframe>
+        <div style="margin: 40px 0;">
+            <iframe width="100%" height="500" src="https://youtube.com/embed/xGcwUM80cDc" title="Companion Robot Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);"></iframe>
         </div>
     </div>
 </section>
