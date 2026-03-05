@@ -572,7 +572,7 @@
     <div class="intro-container">
         <div class="intro-left">
             <div class="name-display">Alexander<br>Loker</div>
-            <div class="intro-tagline">Mechatronics Engineering @ University of Waterloo</div>
+            <div style="font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: #dc143c; margin-top: -10px; margin-bottom: 30px;">Mechatronics Engineering @ University of Waterloo</div>
         </div>
         <div class="intro-right">
             <h3>What I'm Working On</h3>
@@ -705,17 +705,22 @@
     </div>
     
     <div class="blog-content">
-        <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron Logo" class="blog-image">
 
         <h3>UVLO</h3>
-        <p>A core protection feature of the Biotron powerboard is its Under-Voltage Lockout (UVLO) circuit, designed to prevent sensitive downstream components from operating outside their safe voltage range. The UVLO was implemented using Schmitt trigger hysteresis to create a clean switching threshold with built-in noise immunity, ensuring the system only enables power delivery once the supply voltage reaches a safe and stable level. Current and voltage flow is gated through a dual-MOSFET switch system with diode logic, providing hard lockout at 24.1V. This means the board will not pass power to connected components if the supply drops below this threshold, protecting against brownout-induced failures during operation.</p>
+        <p>For the exoskeleton, the typical input voltage from the 7S battery power supply is 29.4V, although, naturally batteries are not always consistent, and may fluctuate in voltage due to any variety of reasons. Due to this, an under-voltage lockout circuit is crucial, as any voltage too low flowing to various motors or other electronics may permanently damage the device. For my teams' purposes, 21V is killer, so 24.1V is a safe voltage to cutoff the circuit, hence my circuit design.</p>
+        <p>For the UVLO, there are three crucial components, a Schmitt trigger, switch logic using MOSFETs, and voltage supply management using diodes, capacitors, and an LDO. For the Schmitt trigger, I used an op-amp comparator with a hysteresis switching from the positive rail (15V out) to the negative rail (0V) at an input voltage at the non-inverting input of ~12.4V. This allowed for proper identification of when the voltage input from the battery was too low. Of course, this was made possible through the use of an external LDO, connected with two capacitors, a ceramic and aluminum capacitor, decoupling the noise and creating a smooth signal to ensure a smooth output. Furthermore, a N-MOSFET is connected to the output voltage at the gate, and a zener at the drain, that is further connected to a dual-P-MOSFET switch system to control when the input voltage "can" flow to the output terminal.</p>
+        <p>Overall, designing this circuit taught me so much, even beyond the op-amp logic and transistor specifications, I learned about the applications of diodes, how to adjust a circuit to your specific needs, and most importantly how to debug and test a schematic.</p>
 
-        <h3>LDO</h3>
-        <p>To supply stable operating voltage to the op-amp comparator subsystem, the Biotron powerboard uses a Low-Dropout (LDO) regulator stepping the main supply down from 29.4V to 15V. This regulated rail was verified through LTspice simulation to confirm safe and stable voltage delivery to all sensitive analog components. The LDO was selected and sized to meet the quiescent current requirements of the comparator circuit while minimizing thermal dissipation within the board's constrained footprint. Integration with the UVLO circuit ensures the LDO output is only active when input supply conditions are within spec, preventing any unsafe startup transients from reaching the comparator.</p>
+        <img src="https://i.imgur.com/6zoTrcv.png" alt="UVLO Schematic" class="blog-image">
 
-        <div style="text-align: center; margin-top: 50px; padding: 50px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;">
-            <h3 style="margin-top: 0;">OVERALL POWERBOARD</h3>
-            <p style="color: #888888; font-style: italic;">Coming Soon</p>
+        <div style="text-align: center; margin-top: 60px; padding: 50px 30px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;">
+            <h3 style="margin-top: 0; margin-bottom: 30px;">OVERALL POWERBOARD</h3>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <img src="https://i.imgur.com/6zoTrcv.png" alt="Powerboard Screenshot 1" style="width: calc(50% - 10px); min-width: 260px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+                <div style="width: calc(50% - 10px); min-width: 260px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                    <p style="color: #888888; font-style: italic; margin: 0;">Coming Soon</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
