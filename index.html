@@ -572,6 +572,7 @@
     <div class="intro-container">
         <div class="intro-left">
             <div class="name-display">Alexander<br>Loker</div>
+            <div class="intro-tagline">Mechatronics Engineering @ University of Waterloo</div>
         </div>
         <div class="intro-right">
             <h3>What I'm Working On</h3>
@@ -623,11 +624,9 @@
             <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron">
             <h3>BIOTRON</h3>
             <div class="skill-bubbles">
-                <span class="skill-bubble coming-soon">Coming Soon</span>
-            </div>
-            <div class="coming-soon-label">
-                <div class="coming-soon-square"></div>
-                <span>Coming Soon</span>
+                <span class="skill-bubble">Altium Designer</span>
+                <span class="skill-bubble">LTspice</span>
+                <span class="skill-bubble">Soldering</span>
             </div>
         </div>
     </div>
@@ -707,7 +706,17 @@
     
     <div class="blog-content">
         <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron Logo" class="blog-image">
-        <p>More details coming soon.</p>
+
+        <h3>UVLO</h3>
+        <p>A core protection feature of the Biotron powerboard is its Under-Voltage Lockout (UVLO) circuit, designed to prevent sensitive downstream components from operating outside their safe voltage range. The UVLO was implemented using Schmitt trigger hysteresis to create a clean switching threshold with built-in noise immunity, ensuring the system only enables power delivery once the supply voltage reaches a safe and stable level. Current and voltage flow is gated through a dual-MOSFET switch system with diode logic, providing hard lockout at 24.1V. This means the board will not pass power to connected components if the supply drops below this threshold, protecting against brownout-induced failures during operation.</p>
+
+        <h3>LDO</h3>
+        <p>To supply stable operating voltage to the op-amp comparator subsystem, the Biotron powerboard uses a Low-Dropout (LDO) regulator stepping the main supply down from 29.4V to 15V. This regulated rail was verified through LTspice simulation to confirm safe and stable voltage delivery to all sensitive analog components. The LDO was selected and sized to meet the quiescent current requirements of the comparator circuit while minimizing thermal dissipation within the board's constrained footprint. Integration with the UVLO circuit ensures the LDO output is only active when input supply conditions are within spec, preventing any unsafe startup transients from reaching the comparator.</p>
+
+        <div style="text-align: center; margin-top: 50px; padding: 50px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;">
+            <h3 style="margin-top: 0;">OVERALL POWERBOARD</h3>
+            <p style="color: #888888; font-style: italic;">Coming Soon</p>
+        </div>
     </div>
 </section>
 
