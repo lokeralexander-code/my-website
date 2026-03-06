@@ -167,6 +167,47 @@
         font-weight: 300;
         margin-bottom: 15px;
     }
+
+    /* ── Projects Arrow ── */
+    @keyframes arrowBounce {
+        0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.55; }
+        50%       { transform: translateX(-50%) translateY(-7px); opacity: 1;   }
+    }
+    .projects-arrow {
+        position: absolute;
+        top: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        animation: arrowBounce 2s ease-in-out infinite;
+        transition: opacity 0.3s ease;
+    }
+    .projects-arrow:hover {
+        opacity: 1;
+        animation-play-state: paused;
+    }
+    .projects-arrow svg {
+        width: 22px;
+        height: 22px;
+        color: rgba(220, 20, 60, 0.75);
+        transition: color 0.3s ease;
+    }
+    .projects-arrow span {
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(220, 20, 60, 0.75);
+    }
+    .projects-arrow:hover svg,
+    .projects-arrow:hover span {
+        color: #ff6b6b;
+    }
     
     /* Section Styles */
     .section-header {
@@ -724,7 +765,6 @@
 <!-- ElevaitLabs Banner -->
 <div class="elevait-banner" id="elevait-banner">
     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Stylized A/chevron mark matching ElevaitLabs logo -->
         <polygon points="50,8 90,88 74,88 50,38 26,88 10,88" fill="#ff8c00"/>
     </svg>
     <span>Made With ElevaitLabs</span>
@@ -754,10 +794,19 @@
                 <li style="margin-bottom: 12px;">A project focused on developing the electromechanical system and interactive software of a companion robot for <a href="https://www.elevaitlabs.ai/" target="_blank">ElevaitLabs</a> (W.I.P)</li>
                 <li style="margin-bottom: 12px;">My task on the Biomechatronics Exoskeleton Electrical team</li>
                 <li style="margin-bottom: 12px;">Getting my Mechatronics Engineering Degree</li>
-                <li style="margin-bottom: 12px;">The job search! Contact me @ aloker@uwaterloo.ca</li>
+                <li style="margin-bottom: 12px;">The job search! Contact me @ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4e2f2221252b3c0e3b392f3a2b3c222121602d2f">[email&#160;protected]</a></li>
             </ul>
         </div>
     </div>
+
+    <!-- Animated Projects Arrow -->
+    <a class="projects-arrow" onclick="showProjects()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 15 12 9 18 15"></polyline>
+        </svg>
+        <span>Projects</span>
+    </a>
+
 </section>
 
 <!-- Projects Blog Page -->
@@ -1028,7 +1077,7 @@
     <img id="lightbox-img" src="" alt="Expanded view">
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const ELEVAIT_PAGES = new Set(['blog3', 'subassemblies-blog']);
 
     function setBanner(pageId) {
