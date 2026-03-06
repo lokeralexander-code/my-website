@@ -18,6 +18,33 @@
         line-height: 1.6;
         overflow-x: hidden;
     }
+
+    /* ElevaitLabs Banner */
+    .elevait-banner {
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+        border-bottom: 1px solid rgba(255,140,0,0.25);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 8px 20px;
+    }
+    .elevait-banner.visible {
+        display: flex;
+    }
+    .elevait-banner svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+    .elevait-banner span {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #ff8c00;
+        letter-spacing: 0.5px;
+    }
+
     header {
         padding: 40px 20px 20px 20px;
         background-color: transparent;
@@ -310,6 +337,139 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(220, 20, 60, 0.5);
     }
+
+    /* Subassembly link button */
+    .subassembly-link {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 14px 35px;
+        background: linear-gradient(135deg, #dc143c, #ff6b6b);
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+        cursor: pointer;
+        letter-spacing: 0.5px;
+        border: none;
+    }
+    .subassembly-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 20, 60, 0.5);
+    }
+
+    /* Image gallery box */
+    .image-gallery-box {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 18px;
+        padding: 24px;
+    }
+    .gallery-thumb {
+        width: calc(50% - 8px);
+        min-width: 180px;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .gallery-thumb:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 28px rgba(220,20,60,0.3);
+    }
+    .gallery-thumb img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
+    .gallery-thumb .expand-hint {
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 3px 8px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .gallery-thumb:hover .expand-hint {
+        opacity: 1;
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.9);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+    .lightbox-overlay.open {
+        display: flex;
+    }
+    .lightbox-overlay img {
+        max-width: 90vw;
+        max-height: 88vh;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        object-fit: contain;
+    }
+    .lightbox-close {
+        position: absolute;
+        top: 22px;
+        right: 28px;
+        background: rgba(220,20,60,0.8);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+    .lightbox-close:hover {
+        background: #dc143c;
+    }
+
+    /* Subassembly section styling */
+    .subassembly-section {
+        margin-bottom: 55px;
+    }
+    .subassembly-section h3 {
+        color: #dc143c;
+        font-size: 1.8rem;
+        margin-bottom: 18px;
+        font-weight: 600;
+    }
+    .wip-note {
+        display: inline-block;
+        background: rgba(255,182,193,0.12);
+        border: 1px solid rgba(255,182,193,0.35);
+        color: #ffb6c1;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-style: italic;
+        margin-bottom: 30px;
+    }
     
     /* About Me Blog */
     .about-blog {
@@ -553,10 +713,23 @@
         .section-underline {
             width: 80%;
         }
+        .gallery-thumb {
+            width: 100%;
+        }
     }
 </style>
 </head>
 <body>
+
+<!-- ElevaitLabs Banner -->
+<div class="elevait-banner" id="elevait-banner">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stylized A/chevron mark matching ElevaitLabs logo -->
+        <polygon points="50,8 90,88 74,88 50,38 26,88 10,88" fill="#ff8c00"/>
+    </svg>
+    <span>Made With ElevaitLabs</span>
+</div>
+
 <header>
     <h1>Alexander Loker</h1>
     <nav>
@@ -738,7 +911,15 @@
         <p>Ultimately, me and my engineering partner decided on a design that is both friendly, serious, and practical. For the movement of the robot, we chose a tri-omniwheel setup that allows for smooth 360-degree movement, and for the motors something quiet (that I will get into later). Additionally, we plan to integrate an LCD screen into the head of the robot, and owl-like arms into the body for anthropomorphic, friendly characteristics. To allow for detection of people we plan to use an auditory algorithm via an array of small electret microphones.</p>
         <p>Below you can see the shell we currently have planned for the robot.</p>
         <img src="https://i.imgur.com/437FkhM.png" alt="Companion Robot Sketch" class="blog-image">
-        
+
+        <!-- SolidWorks Assembly Section -->
+        <h3>SolidWorks Assembly</h3>
+        <p>It was a great learning experience being solely responsible for a very large majority of the development of the mechanical design of the robot. This current design is the first version, and is actually not fully finished (missing 2 features). If you would like to see the individual subassemblies, how I developed them, my thought process, obstacles, and skills I learned, please click below!</p>
+        <img src="https://i.imgur.com/qb8uVCF.png" alt="SolidWorks Assembly" class="blog-image">
+        <div style="text-align: center;">
+            <button class="subassembly-link" onclick="showSubassembliesBlog()">Subassemblies — In Depth</button>
+        </div>
+
         <h3>Base</h3>
         <p>After many trials and tribulations, the base is complete (for now). Throughout my time working on developing a fully functioning tri-omni wheel movement system, I was forced to learn many important skills.</p>
         <p>First of all, when developing the omni-wheel, I learned first hand how important it is to use SolidWorks' simulation capabilities and assemblies, and I learned it the hard way. It took a multitude of different prints and test versions of the omni wheel to finally get a version that allowed for proper 360 degree movement via the rollers.</p>
@@ -746,6 +927,66 @@
         <p>And so, I have a video of the setup partially working. You may notice it isn't super clean. Well, this is because I do not want to glue down the motors, and the wheels to the motors, as this would be rash, and I still have more debugging to do, parts to add (far past just movement), and most importantly I have to drop the breadboard.</p>
         <div style="margin: 40px 0;">
             <iframe width="100%" height="500" src="https://youtube.com/embed/xGcwUM80cDc" title="Companion Robot Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Subassemblies Blog -->
+<section id="subassemblies-blog" class="blog-page">
+    <a class="back-button" onclick="showBlog('blog3')">← BACK TO COMPANION ROBOT</a>
+    <div class="blog-header">
+        <h2>SUBASSEMBLIES — IN DEPTH</h2>
+    </div>
+
+    <div class="blog-content">
+        <div class="wip-note">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</div>
+
+        <!-- Base -->
+        <div class="subassembly-section">
+            <h3>Base</h3>
+            <div class="image-gallery-box">
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/6iodtGe.png')">
+                    <img src="https://i.imgur.com/6iodtGe.png" alt="Base Assembly 1">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/W1v8pqx.png')">
+                    <img src="https://i.imgur.com/W1v8pqx.png" alt="Base Assembly 2">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+            </div>
+            <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
+        </div>
+
+        <!-- Shell -->
+        <div class="subassembly-section">
+            <h3>Shell</h3>
+            <div class="image-gallery-box">
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/65r333q.png')">
+                    <img src="https://i.imgur.com/65r333q.png" alt="Shell Assembly 1">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/dJmsc8a.png')">
+                    <img src="https://i.imgur.com/dJmsc8a.png" alt="Shell Assembly 2">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+            </div>
+            <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
+        </div>
+
+        <!-- Head -->
+        <div class="subassembly-section">
+            <h3>Head</h3>
+            <div class="image-gallery-box">
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/nPu71xb.png')">
+                    <img src="https://i.imgur.com/nPu71xb.png" alt="Head Assembly 1">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+                <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/OvQ3wHt.png')">
+                    <img src="https://i.imgur.com/OvQ3wHt.png" alt="Head Assembly 2">
+                    <span class="expand-hint">Click to expand</span>
+                </div>
+            </div>
+            <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
         </div>
     </div>
 </section>
@@ -781,119 +1022,130 @@
 </div>
 </section>
 
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightboxOnOverlay(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="Expanded view">
+</div>
+
 <script>
+    const ELEVAIT_PAGES = new Set(['blog3', 'subassemblies-blog']);
+
+    function setBanner(pageId) {
+        const banner = document.getElementById('elevait-banner');
+        if (ELEVAIT_PAGES.has(pageId)) {
+            banner.classList.add('visible');
+        } else {
+            banner.classList.remove('visible');
+        }
+    }
+
     function showBlog(blogId) {
         document.getElementById('intro').style.display = 'none';
-        document.getElementById('projects').classList.remove('active');
-        document.getElementById('about').classList.remove('active');
-        document.getElementById('esports-blog').classList.remove('active');
-        document.querySelectorAll('.blog-page').forEach(blog => {
-            blog.classList.remove('active');
-        });
-        
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
         document.querySelector('header').classList.add('hidden');
         document.getElementById(blogId).classList.add('active');
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        setBanner(blogId);
         window.scrollTo(0, 0);
     }
     
     function showIntro() {
-        document.querySelectorAll('.blog-page').forEach(blog => {
-            blog.classList.remove('active');
-        });
-        document.getElementById('esports-blog').classList.remove('active');
-        
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
         document.querySelector('header').classList.remove('hidden');
         document.getElementById('intro').style.display = 'flex';
-        
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         document.querySelector('.nav-link[href="#intro"]').classList.add('active');
+        setBanner('intro');
         window.scrollTo(0, 0);
     }
     
     function showProjects() {
         document.getElementById('intro').style.display = 'none';
-        document.getElementById('about').classList.remove('active');
-        document.getElementById('esports-blog').classList.remove('active');
-        document.getElementById('video-editing-blog').classList.remove('active');
-        document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
-            blog.classList.remove('active');
-        });
-        
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
         document.querySelector('header').classList.remove('hidden');
         document.getElementById('projects').classList.add('active');
-        
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         document.querySelector('.nav-link[href="#projects"]').classList.add('active');
+        setBanner('projects');
         window.scrollTo(0, 0);
     }
     
-    
-function showAbout() {
+    function showAbout() {
         document.getElementById('intro').style.display = 'none';
-        document.getElementById('projects').classList.remove('active');
-        document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
-        document.getElementById('esports-blog').classList.remove('active');
-        document.getElementById('video-editing-blog').classList.remove('active');
-            blog.classList.remove('active');
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
+        document.querySelector('header').classList.remove('hidden');
+        document.getElementById('about').classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelector('.nav-link[href="#about"]').classList.add('active');
+        setBanner('about');
+        window.scrollTo(0, 0);
+    }
+
+    function showSubassembliesBlog() {
+        document.getElementById('intro').style.display = 'none';
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
+        document.querySelector('header').classList.add('hidden');
+        document.getElementById('subassemblies-blog').classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        setBanner('subassemblies-blog');
+        window.scrollTo(0, 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.nav-link[href="#intro"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            showIntro();
         });
-
-    document.querySelector('header').classList.remove('hidden');
-    document.getElementById('about').classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    document.querySelector('.nav-link[href="#about"]').classList.add('active');
-    window.scrollTo(0, 0);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.nav-link[href="#intro"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        showIntro();
+        document.querySelector('.nav-link[href="#projects"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            showProjects();
+        });
+        document.querySelector('.nav-link[href="#about"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            showAbout();
+        });
     });
-    
-    document.querySelector('.nav-link[href="#projects"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        showProjects();
-    });
-    
-    document.querySelector('.nav-link[href="#about"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        showAbout();
-    });
-    
-});
 
-function showEsportsBlog() {
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('projects').classList.remove('active');
-    document.getElementById('about').classList.remove('active');
-    document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
-        blog.classList.remove('active');
-    });
-    
-    document.querySelector('header').classList.add('hidden');
-    document.getElementById('esports-blog').classList.add('active');
-    
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    window.scrollTo(0, 0);
-}
+    function showEsportsBlog() {
+        document.getElementById('intro').style.display = 'none';
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
+        document.querySelector('header').classList.add('hidden');
+        document.getElementById('esports-blog').classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        setBanner('esports-blog');
+        window.scrollTo(0, 0);
+    }
 
-function showVideoEditingBlog() {
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('projects').classList.remove('active');
-    document.getElementById('about').classList.remove('active');
-    document.getElementById('esports-blog').classList.remove('active');
-    document.querySelectorAll('#blog1, #blog2, #blog3').forEach(blog => {
-        blog.classList.remove('active');
-    });
-    
-    document.querySelector('header').classList.add('hidden');
-    document.getElementById('video-editing-blog').classList.add('active');
-    
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    window.scrollTo(0, 0);
-}
+    function showVideoEditingBlog() {
+        document.getElementById('intro').style.display = 'none';
+        document.querySelectorAll('.blog-page').forEach(blog => blog.classList.remove('active'));
+        document.querySelector('header').classList.add('hidden');
+        document.getElementById('video-editing-blog').classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        setBanner('video-editing-blog');
+        window.scrollTo(0, 0);
+    }
 
+    // Lightbox
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.getElementById('lightbox-img').src = '';
+        document.body.style.overflow = '';
+    }
+    function closeLightboxOnOverlay(e) {
+        if (e.target === document.getElementById('lightbox')) {
+            closeLightbox();
+        }
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
 </script>
 </body>
 </html>
