@@ -734,7 +734,7 @@
         </li>
         <li style="margin-bottom: 12px;">
           The job search! Contact me @
-          <a href="mailto:lokeralexander@gmail.com">lokeralexander@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#acc0c3c7c9decdc0c9d4cdc2c8c9deeccbc1cdc5c082cfc3c1"><span class="__cf_email__" data-cfemail="fd919296988f9c9198859c9399988fbd9a909c9491d39e9290">[email&#160;protected]</span></a>
         </li>
       </ul>
     </div>
@@ -767,7 +767,6 @@
         <span class="skill-bubble">Raspberry Pi</span>
         <span class="skill-bubble">Electromechanical Assembly</span>
         <span class="skill-bubble">C++/Python</span>
-        <span class="skill-bubble">Soldering</span>
         <span class="skill-bubble coming-soon">PID Controls</span>
       </div>
       <div class="coming-soon-label">
@@ -1019,7 +1018,7 @@
       subassemblies, how I developed them, my thought process, obstacles, and skills I learned, please
       click below!
     </p>
-    <img src="https://i.imgur.com/qb8uVCF.png" alt="SolidWorks Assembly" class="blog-image">
+    <img src="https://i.imgur.com/yYraRBY.png" alt="SolidWorks Assembly" class="blog-image">
     <div style="text-align: center;">
       <button class="subassembly-link" onclick="showSubassembliesBlog()">
         Subassemblies — In Depth
@@ -1096,23 +1095,110 @@
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
-      <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
+      <p>
+        The base consists of two main features and their connectors: an electrical housing-framework, and
+        the omniwheels.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Omniwheel Design</h4>
+      <p>
+        The omni-wheels were developed with three main features in mind: quiet, functional, and 55 millimeters
+        in rim plate diameter. Quiet because the design of the product is to be quiet, and even soothing if
+        necessary. 55 mm because that size was judged to be appropriate and scalable to a "desk-sized" robot,
+        with the entire robot further scaled from that single decision (more on this in the Shell section).
+      </p>
+      <p>
+        To achieve quiet omni-wheels, as many rollers as possible were fitted, eventually settling on 16,
+        maximising the time a roller is in contact with the ground at any given moment. The wheels are
+        manufactured from TPU due to its renowned elasticity compared to PLA and PETG, among other printable
+        materials available at my University. Their full functionality is still to be fully confirmed, but
+        from current testing they work great. A motor hub attaches to four rim plates on each side via
+        interference fit with a tolerance fit to the motor shaft, and is pinned with a washer for the best
+        long-term hold (represented as a screw in the assembly). An additional pin runs through holes between
+        each "leg" of the rim plates, on which a roller is placed loosely. Via the magic of gravity, the
+        rollers fall and make strong contact with the ground whilst making no contact with the plate itself,
+        allowing for full rolling capability.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Electrical Housing & Framework</h4>
+      <p>
+        The rest of the base is structured to allow for proper electrical housing. An elevated interference
+        fit accepts the standoffs of the Raspberry Pi, and a dedicated space fits a waffle-board for the Pi
+        Pico and motor boards. Additionally, blocks printed separately sit above the motors and hold them
+        down via strong friction within the space they lock into, with an extrusion pressing against the
+        omniwheel hub to keep each wheel firmly in place.
+      </p>
     </div>
 
     <!-- Shell -->
     <div class="subassembly-section">
       <h3>Shell</h3>
       <div class="image-gallery-box">
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/65r333q.png')">
-          <img src="https://i.imgur.com/65r333q.png" alt="Shell Assembly 1">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/ng5JVDy.png')">
+          <img src="https://i.imgur.com/ng5JVDy.png" alt="Shell Assembly 1">
           <span class="expand-hint">Click to expand</span>
         </div>
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/dJmsc8a.png')">
-          <img src="https://i.imgur.com/dJmsc8a.png" alt="Shell Assembly 2">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/pWKM7z6.png')">
+          <img src="https://i.imgur.com/pWKM7z6.png" alt="Shell Assembly 2">
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
-      <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
+      <p>
+        The shell is full of different parts necessary for the overall goal of this project: arm housing,
+        a speaker, microphones, and a camera. For the final product, a different path will likely be followed,
+        but the current design prioritizes reliability and accessibility.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Assembly & Structure</h4>
+      <p>
+        For assembly purposes, the shell is cut into fours, with holes for square-shaped and L-shaped
+        mounting brackets for attaching parts to each other, and the shell to the base respectively.
+        Cutting the shell into fours was reasoned to be the best design path because it allows for the
+        most concrete, reliable structure whilst also enabling easy maintenance, simply unscrewing every
+        fastener grants full access to the internals.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Microphones</h4>
+      <p>
+        For the microphones, a grommet-insert sound decoupling system was created alongside a housing for
+        further noise reduction from the inside of the shell. Initially, the grommet was sticking out,
+        creating quite the awkward design. To remedy this, a triple incision was made inside the
+        shell/housing to allow the grommet to sit entirely inside the shell while remaining completely
+        invisible, resulting in a much cleaner, flusher look, whilst also reducing the risk of harming
+        the grommet or microphone.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Speaker</h4>
+      <p>
+        For the speaker, an angled extrude was designed from the inside of the shell, with four mounting
+        holes for screws alongside a grille, miniature holes in front of the speaker, to allow for
+        clean audio output. This extrude is also relatively thick to dull sound coming back into the shell
+        from the interior.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Camera</h4>
+      <p>
+        For the camera, it's a simple extrude below the intended hole of the camera module, with holes
+        allowing for a pin-in placement of a back-wall. This back-wall sits behind the camera module with
+        standoffs for securement, allowing it to be held firmly in place.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Lessons Learned & Design Challenges</h4>
+      <p>
+        In general, creating the shell taught many useful skills: different patterns (such as fill for the
+        grille), how to create any angled plane, how to design for long-term stability, and most
+        importantly how to optimize a design both aesthetically and space-wise.
+      </p>
+      <p>
+        As described in the base section, the wheels are approximately 55 mm. This led to a shell and head
+        design that was far too large to accommodate for the initial look of the robot in combination with
+        the width of the base (see Head for more details), and a height that was far larger than intended
+        (~370 mm). A full redesign of the bot was necessary, requiring every feature to be adjusted.
+        Although it was a significant setback, it was well worth it as the current model is much more flush
+        and proportionate.
+      </p>
     </div>
 
     <!-- Head -->
@@ -1128,7 +1214,33 @@
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
-      <p style="color: #888; font-style: italic; font-size: 0.9rem;">Description coming soon.</p>
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
+      <p>
+        The head is the simplest part of the design, consisting of three main components: a shell, an LCD
+        screen, and a connector to the main body. The shell itself is a simple, friendly-robotic enclosure.
+        The LCD screen is secured via a pin-connected back-wall, very similar to the camera-housing design
+        in the shell, which is then connected to the screen itself using standoffs.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Connection to Main Body</h4>
+      <p>
+        The connection to the main body is via a matching-fit that simply locks into place on the top of
+        the main body. This allows for easy detachability, reliable securement, and a clean overall design.
+        The head can be removed for maintenance or swapped out without any tools.
+      </p>
+
+      <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">The Redesign</h4>
+      <p>
+        For reference, pictured below is the previous final design of the head. The lesson learned from
+        redesigning it was to keep the bigger picture in mind: the overall look of the product is extremely
+        important. No one wants their companion robot to be aesthetically unappealing.
+      </p>
+      <img
+        src="https://i.imgur.com/9QjugDr.png"
+        alt="Previous Head Design"
+        class="blog-image"
+        style="max-width: 500px;"
+      >
     </div>
   </div>
 </section>
@@ -1207,7 +1319,7 @@
   <img id="lightbox-img" src="" alt="Expanded view">
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const ELEVAIT_PAGES = new Set(['blog3', 'subassemblies-blog']);
 
   function setBanner(pageId) {
