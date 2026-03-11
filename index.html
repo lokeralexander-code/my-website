@@ -734,7 +734,7 @@
         </li>
         <li style="margin-bottom: 12px;">
           The job search! Contact me @
-          <a href="/cdn-cgi/l/email-protection#acc0c3c7c9decdc0c9d4cdc2c8c9deeccbc1cdc5c082cfc3c1"><span class="__cf_email__" data-cfemail="fd919296988f9c9198859c9399988fbd9a909c9491d39e9290">[email&#160;protected]</span></a>
+          <a href="mailto:a5loker@uwaterloo.ca">aloker@uwaterloo.ca</a>
         </li>
       </ul>
     </div>
@@ -894,6 +894,8 @@
 
   <div class="blog-content">
     <h3>UVLO</h3>
+
+    <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 20px 0 14px 0; letter-spacing: 0.5px;">LTSpice - Schematic</h4>
     <p>
       For the exoskeleton, the typical input voltage from the 7S battery power supply is 29.4V, although,
       naturally batteries are not always consistent, and may fluctuate in voltage due to any variety of
@@ -921,6 +923,33 @@
 
     <img src="https://i.imgur.com/6zoTrcv.png" alt="UVLO Schematic" class="blog-image">
 
+    <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 40px 0 14px 0; letter-spacing: 0.5px;">Altium - PCB</h4>
+    <p>
+      I learned plenty from transforming my schematic into a manufacturable PCB board. Of course, I
+      started with finding real, applicable parts matching the needs of my circuit board, although the
+      challenge was not great, it was still useful to learn the quickest method of finding these parts,
+      how to read a data-sheet, and how to balance cost with effectiveness. Then began the hard-part,
+      making the actual PCB. I had to learn many important lessons: First of all, calculate the wire
+      thickness you need to carry the relatively large 5 Amps through the circuit. I did this using
+      <a href="https://www.advancedpcb.com/en-us/tools/trace-width-calculator/" target="_blank" style="color: #ff6b6b;">advancedPCB</a>.
+      I learned this after thinking that routing with 10 mil would be trivial, but routing with 100 mil
+      forced me to use more tools. Specifically, two layer-routing, and signal-efficient routing
+      practices. Two-layer routing is self-explanatory, but very useful, and you can see below I used it
+      a good bit. Signal-efficient routing is more complicated; I learned from my lead how 90 degree
+      turns are bad for impedance, and the shorter the wire the better. Especially for capacitors. So I
+      adapted, and eventually developed a solid routing scheme, that I am proud of.
+    </p>
+    <p>
+      Some other tools I learned was ground pour, mounting-holes, board-shaping, and JST's. These were
+      all useful in creating efficient ground signal routing, and proper manufacturability.
+    </p>
+    <p>
+      In general, the hardest part of making the PCB was making it compact. The schematic is large,
+      complicated, and full of wires going all over the place, but I managed to cut it down, and shorten
+      the board to 5.5cm x 4cm. Additionally, for ease of installation, the output and input terminals
+      are aligned.
+    </p>
+
     <div style="
       text-align: center;
       margin-top: 60px;
@@ -933,7 +962,7 @@
       <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
         <img
           src="https://i.imgur.com/6zoTrcv.png"
-          alt="Powerboard Screenshot 1"
+          alt="UVLO Schematic"
           style="
             width: calc(50% - 10px);
             min-width: 260px;
@@ -941,19 +970,16 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
           "
         >
-        <div style="
-          width: calc(50% - 10px);
-          min-width: 260px;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.03);
-          border: 2px dashed rgba(255,255,255,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 200px;
-        ">
-          <p style="color: #888888; font-style: italic; margin: 0;">Coming Soon</p>
-        </div>
+        <img
+          src="https://i.imgur.com/2eqVgzw.png"
+          alt="PCB Board"
+          style="
+            width: calc(50% - 10px);
+            min-width: 260px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+          "
+        >
       </div>
     </div>
   </div>
@@ -1018,7 +1044,7 @@
       subassemblies, how I developed them, my thought process, obstacles, and skills I learned, please
       click below!
     </p>
-<div style="text-align: center;">
+    <div style="text-align: center;">
       <img src="https://i.imgur.com/yYraRBY.png" alt="SolidWorks Assembly" class="blog-image" style="max-width: 50%; height: auto;">
       <br>
       <button class="subassembly-link" onclick="showSubassembliesBlog()">
@@ -1320,7 +1346,7 @@
   <img id="lightbox-img" src="" alt="Expanded view">
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const ELEVAIT_PAGES = new Set(['blog3', 'subassemblies-blog']);
 
   function setBanner(pageId) {
