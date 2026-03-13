@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alexander Loker Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ============================================================ -->
+  <!--  VERCEL ANALYTICS — tracks page views & custom events        -->
+  <!--  Step 1: Deploy this file to Vercel                          -->
+  <!--  Step 2: Vercel Dashboard → your project → Analytics tab     -->
+  <!--          → click "Enable" (free, one click)                  -->
+  <!-- ============================================================ -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Vercel Speed Insights — tracks Core Web Vitals / load perf  -->
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -694,7 +706,7 @@
   <nav>
     <a href="#intro" class="nav-link active">HOME</a>
     <a href="#projects" class="nav-link">PROJECTS</a>
-    <a href="Alexander_Loker_Resume (10).pdf" target="_blank" class="nav-link">RESUME</a>
+    <a href="Alexander_Loker_Resume (10).pdf" target="_blank" class="nav-link" onclick="track('resume_viewed')">RESUME</a>
   </nav>
 </header>
 
@@ -724,7 +736,7 @@
         <li style="margin-bottom: 12px;">
           A project focused on developing the electromechanical system and interactive software
           of a companion robot for
-          <a href="https://www.elevaitlabs.ai/" target="_blank">ElevaitLabs</a> (W.I.P)
+          <a href="https://www.elevaitlabs.ai/" target="_blank" onclick="track('elevait_link_clicked')">ElevaitLabs</a> (W.I.P)
         </li>
         <li style="margin-bottom: 12px;">
           My task on the Biomechatronics Exoskeleton Electrical team
@@ -734,7 +746,7 @@
         </li>
         <li style="margin-bottom: 12px;">
           The job search! Contact me @
-          <a href="mailto:a5loker@uwaterloo.ca">aloker@uwaterloo.ca</a>
+          <a href="mailto:a5loker@uwaterloo.ca" onclick="track('email_clicked')">aloker@uwaterloo.ca</a>
         </li>
       </ul>
     </div>
@@ -742,7 +754,7 @@
   </div>
 
   <!-- Animated Projects Arrow -->
-  <a class="projects-arrow" onclick="showProjects()">
+  <a class="projects-arrow" onclick="showProjects(); track('arrow_projects_clicked')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 15 12 9 18 15"></polyline>
@@ -759,7 +771,7 @@
   <div class="projects-container">
 
     <!-- 1. Companion Robot -->
-    <div class="project-card" onclick="showBlog('blog3')">
+    <div class="project-card" onclick="showBlog('blog3'); track('project_opened', {project: 'Companion Robot'})">
       <img src="https://i.imgur.com/bfPMDOe.jpeg" alt="Companion Robot">
       <h3>COMPANION ROBOT - W.I.P.</h3>
       <div class="skill-bubbles">
@@ -776,7 +788,7 @@
     </div>
 
     <!-- 2. Air Hockey -->
-    <div class="project-card" onclick="showBlog('blog1')">
+    <div class="project-card" onclick="showBlog('blog1'); track('project_opened', {project: 'Air Hockey Robot'})">
       <img src="https://i.imgur.com/8e4SU1C.png" alt="Air Hockey Robot">
       <h3>AUTONOMOUS AIR HOCKEY DEFENSE MACHINE</h3>
       <div class="skill-bubbles">
@@ -787,7 +799,7 @@
     </div>
 
     <!-- 3. Biotron -->
-    <div class="project-card" onclick="showBlog('blog2')">
+    <div class="project-card" onclick="showBlog('blog2'); track('project_opened', {project: 'Biotron'})">
       <img src="https://i.imgur.com/cQQLjnV.jpeg" alt="Biotron">
       <h3>BIOTRON</h3>
       <div class="skill-bubbles">
@@ -801,7 +813,7 @@
 
 <!-- Blog 1: Air Hockey Defense -->
 <section id="blog1" class="blog-page">
-  <a href="#projects" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
+  <a href="#projects" class="back-button" onclick="showProjects(); track('back_to_projects', {from: 'Air Hockey Robot'})">← BACK TO PROJECTS</a>
   <div class="blog-header">
     <h2>AUTONOMOUS AIR HOCKEY DEFENSE MACHINE</h2>
   </div>
@@ -887,7 +899,7 @@
 
 <!-- Blog 2: Biotron -->
 <section id="blog2" class="blog-page">
-  <a href="#projects" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
+  <a href="#projects" class="back-button" onclick="showProjects(); track('back_to_projects', {from: 'Biotron'})">← BACK TO PROJECTS</a>
   <div class="blog-header">
     <h2>BIOTRON</h2>
   </div>
@@ -987,7 +999,7 @@
 
 <!-- Blog 3: Companion Robot - W.I.P -->
 <section id="blog3" class="blog-page">
-  <a href="#projects" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
+  <a href="#projects" class="back-button" onclick="showProjects(); track('back_to_projects', {from: 'Companion Robot'})">← BACK TO PROJECTS</a>
   <div class="blog-header">
     <h2>COMPANION ROBOT - W.I.P.</h2>
   </div>
@@ -1007,7 +1019,7 @@
     </div>
 
     <!-- Ideation: collapsible -->
-    <details class="ideation-details">
+    <details class="ideation-details" ontoggle="if(this.open) track('ideation_expanded', {project: 'Companion Robot'})">
       <summary>
         <span class="chevron">›</span>
         Ideation
@@ -1047,7 +1059,7 @@
     <div style="text-align: center;">
       <img src="https://i.imgur.com/yYraRBY.png" alt="SolidWorks Assembly" class="blog-image" style="max-width: 50%; height: auto;">
       <br>
-      <button class="subassembly-link" onclick="showSubassembliesBlog()">
+      <button class="subassembly-link" onclick="showSubassembliesBlog(); track('subassemblies_opened')">
         Subassemblies — In Depth
       </button>
     </div>
@@ -1101,7 +1113,7 @@
 
 <!-- Subassemblies Blog -->
 <section id="subassemblies-blog" class="blog-page">
-  <a class="back-button" onclick="showBlog('blog3')">← BACK TO COMPANION ROBOT</a>
+  <a class="back-button" onclick="showBlog('blog3'); track('back_to_companion_robot')">← BACK TO COMPANION ROBOT</a>
   <div class="blog-header">
     <h2>SUBASSEMBLIES — IN DEPTH</h2>
   </div>
@@ -1113,21 +1125,17 @@
     <div class="subassembly-section">
       <h3>Base</h3>
       <div class="image-gallery-box">
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/6iodtGe.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/6iodtGe.png'); track('image_expanded', {section: 'Base', image: 1})">
           <img src="https://i.imgur.com/6iodtGe.png" alt="Base Assembly 1">
           <span class="expand-hint">Click to expand</span>
         </div>
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/W1v8pqx.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/W1v8pqx.png'); track('image_expanded', {section: 'Base', image: 2})">
           <img src="https://i.imgur.com/W1v8pqx.png" alt="Base Assembly 2">
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
-      <p>
-        The base consists of two main features and their connectors: an electrical housing-framework, and
-        the omniwheels.
-      </p>
-
+      <p>The base consists of two main features and their connectors: an electrical housing-framework, and the omniwheels.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Omniwheel Design</h4>
       <p>
         The omni-wheels were developed with three main features in mind: quiet, functional, and 55 millimeters
@@ -1147,7 +1155,6 @@
         rollers fall and make strong contact with the ground whilst making no contact with the plate itself,
         allowing for full rolling capability.
       </p>
-
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Electrical Housing & Framework</h4>
       <p>
         The rest of the base is structured to allow for proper electrical housing. An elevated interference
@@ -1162,181 +1169,51 @@
     <div class="subassembly-section">
       <h3>Shell</h3>
       <div class="image-gallery-box">
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/ng5JVDy.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/ng5JVDy.png'); track('image_expanded', {section: 'Shell', image: 1})">
           <img src="https://i.imgur.com/ng5JVDy.png" alt="Shell Assembly 1">
           <span class="expand-hint">Click to expand</span>
         </div>
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/pWKM7z6.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/pWKM7z6.png'); track('image_expanded', {section: 'Shell', image: 2})">
           <img src="https://i.imgur.com/pWKM7z6.png" alt="Shell Assembly 2">
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
-      <p>
-        The shell is full of different parts necessary for the overall goal of this project: arm housing,
-        a speaker, microphones, and a camera. For the final product, a different path will likely be followed,
-        but the current design prioritizes reliability and accessibility.
-      </p>
-
+      <p>The shell is full of different parts necessary for the overall goal of this project: arm housing, a speaker, microphones, and a camera.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Assembly & Structure</h4>
-      <p>
-        For assembly purposes, the shell is cut into fours, with holes for square-shaped and L-shaped
-        mounting brackets for attaching parts to each other, and the shell to the base respectively.
-        Cutting the shell into fours was reasoned to be the best design path because it allows for the
-        most concrete, reliable structure whilst also enabling easy maintenance, simply unscrewing every
-        fastener grants full access to the internals.
-      </p>
-
+      <p>For assembly purposes, the shell is cut into fours, with holes for square-shaped and L-shaped mounting brackets for attaching parts to each other, and the shell to the base respectively.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Microphones</h4>
-      <p>
-        For the microphones, a grommet-insert sound decoupling system was created alongside a housing for
-        further noise reduction from the inside of the shell. Initially, the grommet was sticking out,
-        creating quite the awkward design. To remedy this, a triple incision was made inside the
-        shell/housing to allow the grommet to sit entirely inside the shell while remaining completely
-        invisible, resulting in a much cleaner, flusher look, whilst also reducing the risk of harming
-        the grommet or microphone.
-      </p>
-
+      <p>For the microphones, a grommet-insert sound decoupling system was created alongside a housing for further noise reduction from the inside of the shell.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Speaker</h4>
-      <p>
-        For the speaker, an angled extrude was designed from the inside of the shell, with four mounting
-        holes for screws alongside a grille, miniature holes in front of the speaker, to allow for
-        clean audio output. This extrude is also relatively thick to dull sound coming back into the shell
-        from the interior.
-      </p>
-
+      <p>For the speaker, an angled extrude was designed from the inside of the shell, with four mounting holes for screws alongside a grille to allow for clean audio output.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Camera</h4>
-      <p>
-        For the camera, it's a simple extrude below the intended hole of the camera module, with holes
-        allowing for a pin-in placement of a back-wall. This back-wall sits behind the camera module with
-        standoffs for securement, allowing it to be held firmly in place.
-      </p>
-
+      <p>For the camera, it's a simple extrude below the intended hole of the camera module, with holes allowing for a pin-in placement of a back-wall.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Lessons Learned & Design Challenges</h4>
-      <p>
-        In general, creating the shell taught many useful skills: different patterns (such as fill for the
-        grille), how to create any angled plane, how to design for long-term stability, and most
-        importantly how to optimize a design both aesthetically and space-wise.
-      </p>
-      <p>
-        As described in the base section, the wheels are approximately 55 mm. This led to a shell and head
-        design that was far too large to accommodate for the initial look of the robot in combination with
-        the width of the base (see Head for more details), and a height that was far larger than intended
-        (~370 mm). A full redesign of the bot was necessary, requiring every feature to be adjusted.
-        Although it was a significant setback, it was well worth it as the current model is much more flush
-        and proportionate.
-      </p>
+      <p>In general, creating the shell taught many useful skills: different patterns (such as fill for the grille), how to create any angled plane, how to design for long-term stability, and most importantly how to optimize a design both aesthetically and space-wise.</p>
+      <p>As described in the base section, the wheels are approximately 55 mm. This led to a shell and head design that was far too large, requiring a full redesign.</p>
     </div>
 
     <!-- Head -->
     <div class="subassembly-section">
       <h3>Head</h3>
       <div class="image-gallery-box">
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/nPu71xb.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/nPu71xb.png'); track('image_expanded', {section: 'Head', image: 1})">
           <img src="https://i.imgur.com/nPu71xb.png" alt="Head Assembly 1">
           <span class="expand-hint">Click to expand</span>
         </div>
-        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/OvQ3wHt.png')">
+        <div class="gallery-thumb" onclick="openLightbox('https://i.imgur.com/OvQ3wHt.png'); track('image_expanded', {section: 'Head', image: 2})">
           <img src="https://i.imgur.com/OvQ3wHt.png" alt="Head Assembly 2">
           <span class="expand-hint">Click to expand</span>
         </div>
       </div>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Overview</h4>
-      <p>
-        The head is the simplest part of the design, consisting of three main components: a shell, an LCD
-        screen, and a connector to the main body. The shell itself is a simple, friendly-robotic enclosure.
-        The LCD screen is secured via a pin-connected back-wall, very similar to the camera-housing design
-        in the shell, which is then connected to the screen itself using standoffs.
-      </p>
-
+      <p>The head consists of three main components: a shell, an LCD screen, and a connector to the main body.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">Connection to Main Body</h4>
-      <p>
-        The connection to the main body is via a matching-fit that simply locks into place on the top of
-        the main body. This allows for easy detachability, reliable securement, and a clean overall design.
-        The head can be removed for maintenance or swapped out without any tools.
-      </p>
-
+      <p>The connection to the main body is via a matching-fit that simply locks into place on the top of the main body, allowing for easy detachability and reliable securement.</p>
       <h4 style="color: #ff6b6b; font-size: 1.2rem; font-weight: 600; margin: 28px 0 12px 0; letter-spacing: 0.5px;">The Redesign</h4>
-      <p>
-        For reference, pictured below is the previous final design of the head. The lesson learned from
-        redesigning it was to keep the bigger picture in mind: the overall look of the product is extremely
-        important. No one wants their companion robot to be aesthetically unappealing.
-      </p>
-      <img
-        src="https://i.imgur.com/9QjugDr.png"
-        alt="Previous Head Design"
-        class="blog-image"
-        style="max-width: 500px;"
-      >
+      <p>For reference, pictured below is the previous final design of the head.</p>
+      <img src="https://i.imgur.com/9QjugDr.png" alt="Previous Head Design" class="blog-image" style="max-width: 500px;">
     </div>
-  </div>
-</section>
-
-<!-- eSports Blog -->
-<section id="esports-blog" class="blog-page">
-  <a href="#" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
-  <div class="blog-header">
-    <h2>ESPORTS</h2>
-  </div>
-
-  <div class="blog-content">
-    <h3>My Journey</h3>
-    <p>
-      For five years on and off (mainly on), I was an eSports player. Whether that be Overwatch,
-      Valorant, or Marvel Rivals. I worked my way up from being a middling casual team player to a
-      globally ranked recognized player and talent. In tournaments like Overwatch Open Division and MRCS,
-      I placed nationally and internationally, reaching top 16 nationally in Open Division twice under
-      the alias "akiivv" under
-      <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_2/North_America" target="_blank">Shikigami</a>
-      and
-      <a href="https://liquipedia.net/overwatch/Open_Division/2021/Season_3/North_America" target="_blank">Spectre</a>.
-      I managed to get top 32 in MRCS (2025).
-    </p>
-
-    <h3>Leadership</h3>
-    <p>
-      Regardless, beyond the achievements and statistics, my experience leading 10+ teams has taught me
-      a great deal as to what being a leader looks like. A leader isn't about being loud, it's about
-      making compromise and taking initiative. Throughout my time, I had to deal with countless inner
-      conflicts, many high pressure situations with many ideas, and was forced to take the charge and
-      direct the team towards success. Whether that was simply picking up a player, or calling out a
-      game plan in a tournament match. The responsibilities of organizing scrimmages, VOD reviews, and
-      strategizing were heavy, but also very rewarding.
-    </p>
-
-    <h3>Application to Engineering</h3>
-    <p>
-      If you're wondering how this applies to my portfolio and engineering in general, I could tell you
-      the obvious: How I learned discipline, how hard work equals results, and how I love to work in
-      teams. Although, what's less obvious is that last point I made in the previous paragraph;
-      strategizing. Team sports, all of them, have strategy involved, a coach draws up a play and the
-      team executes the play ideally perfectly. In team eSports, it's no different. Leading strategical
-      design and playmaking really ties in with my editing and design experience, it was an interesting
-      and unique creative outlet that led to real world results, granted it was behind the scenes, but
-      it felt very very rewarding.
-    </p>
-  </div>
-</section>
-
-<!-- Video Editing Blog -->
-<section id="video-editing-blog" class="blog-page">
-  <a href="#" class="back-button" onclick="showProjects()">← BACK TO PROJECTS</a>
-  <div class="blog-header">
-    <h2>VIDEO EDITING & DESIGN</h2>
-  </div>
-
-  <div class="blog-content">
-    <h3>Editing</h3>
-    <p>
-      I spent around 6 years of my life now editing, and three years of it under an internship. Through
-      this time, I truly fell in love with the process of designing and creating, especially later in my
-      career when I picked up after effects. The ability to create your own effects, the open source
-      community, the freedom to create whatever you want, the potential to solve any problem or task in
-      your own unique expressive way that made your work truly feel like your own. That was the magic of
-      editing, and it made me fall in love with the concept of being a future engineer, as I know I have
-      the potential to apply my editing skills further, to apply my creativity and design-oriented
-      thinking towards bigger and more influential projects, problems, and tasks.
-    </p>
   </div>
 </section>
 
@@ -1347,6 +1224,26 @@
 </div>
 
 <script>
+  // ─── Vercel Analytics helper ──────────────────────────────────────────────
+  // window.va is injected by /_vercel/insights/script.js once enabled.
+  // This wrapper safely no-ops until that script loads.
+  function track(eventName, props) {
+    if (typeof window.va === 'function') {
+      window.va('event', Object.assign({ name: eventName }, props || {}));
+    }
+  }
+
+  // ─── Page-view tracking per section ──────────────────────────────────────
+  // Vercel Analytics auto-tracks URL changes; since this is a single-page
+  // app with no URL changes, we fire a manual virtual pageview on each
+  // section transition so you see per-section traffic in your dashboard.
+  function trackPageView(pageName) {
+    if (typeof window.va === 'function') {
+      window.va('pageview', { path: '/' + pageName });
+    }
+  }
+
+  // ─── Banner logic ─────────────────────────────────────────────────────────
   const ELEVAIT_PAGES = new Set(['blog3', 'subassemblies-blog']);
 
   function setBanner(pageId) {
@@ -1358,6 +1255,7 @@
     }
   }
 
+  // ─── Navigation ───────────────────────────────────────────────────────────
   function showBlog(blogId) {
     document.getElementById('intro').style.display = 'none';
     document.querySelectorAll('.blog-page').forEach(b => b.classList.remove('active'));
@@ -1365,6 +1263,7 @@
     document.getElementById(blogId).classList.add('active');
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     setBanner(blogId);
+    trackPageView(blogId);
     window.scrollTo(0, 0);
   }
 
@@ -1375,6 +1274,7 @@
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     document.querySelector('.nav-link[href="#intro"]').classList.add('active');
     setBanner('intro');
+    trackPageView('home');
     window.scrollTo(0, 0);
   }
 
@@ -1386,6 +1286,7 @@
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     document.querySelector('.nav-link[href="#projects"]').classList.add('active');
     setBanner('projects');
+    trackPageView('projects');
     window.scrollTo(0, 0);
   }
 
@@ -1396,41 +1297,29 @@
     document.getElementById('subassemblies-blog').classList.add('active');
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     setBanner('subassemblies-blog');
+    trackPageView('subassemblies');
     window.scrollTo(0, 0);
   }
 
-  function showEsportsBlog() {
-    document.getElementById('intro').style.display = 'none';
-    document.querySelectorAll('.blog-page').forEach(b => b.classList.remove('active'));
-    document.querySelector('header').classList.add('hidden');
-    document.getElementById('esports-blog').classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    setBanner('esports-blog');
-    window.scrollTo(0, 0);
-  }
-
-  function showVideoEditingBlog() {
-    document.getElementById('intro').style.display = 'none';
-    document.querySelectorAll('.blog-page').forEach(b => b.classList.remove('active'));
-    document.querySelector('header').classList.add('hidden');
-    document.getElementById('video-editing-blog').classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    setBanner('video-editing-blog');
-    window.scrollTo(0, 0);
-  }
-
+  // ─── Nav link listeners ───────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.nav-link[href="#intro"]').addEventListener('click', function (e) {
       e.preventDefault();
+      track('nav_clicked', { destination: 'home' });
       showIntro();
     });
     document.querySelector('.nav-link[href="#projects"]').addEventListener('click', function (e) {
       e.preventDefault();
+      track('nav_clicked', { destination: 'projects' });
       showProjects();
     });
+
+    // Track initial page load
+    trackPageView('home');
+    track('portfolio_loaded');
   });
 
-  // Lightbox
+  // ─── Lightbox ─────────────────────────────────────────────────────────────
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('open');
