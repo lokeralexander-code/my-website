@@ -140,16 +140,16 @@
   .detail-back{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:3px;color:#111;cursor:pointer;border:none;background:none;padding:8px 0;margin-bottom:30px;display:inline-block;text-transform:uppercase;position:relative}
   .detail-back::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:2px;background:#111;transition:width .3s ease}
   .detail-back:hover::after{width:35%}
-  .detail-title{font-family:'Anton',sans-serif;font-size:clamp(32px,5.5vw,60px);color:#111;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;line-height:1.05}
+  .detail-title{font-family:'Anton',sans-serif;font-size:clamp(32px,5.5vw,60px);color:#111;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;line-height:1.05;text-align:center}
   .detail-body{font-family:'Space Mono',monospace;font-size:13px;line-height:1.85;color:#111}
   .detail-body p{margin-bottom:16px}
-  .detail-body h3{font-family:'Anton',sans-serif;font-size:24px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:35px 0 14px}
+  .detail-body h3{font-family:'Anton',sans-serif;font-size:24px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:35px 0 14px;text-align:center}
   .detail-body h4{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#666;margin:22px 0 10px;letter-spacing:1px}
   .detail-body img{max-width:100%;border-radius:12px;margin:18px 0;box-shadow:0 8px 24px rgba(0,0,0,.12)}
   .detail-body iframe{width:100%;height:420px;border:none;border-radius:12px;margin:20px 0;box-shadow:0 8px 24px rgba(0,0,0,.12)}
   .detail-body a{color:#FF6B35;text-decoration:underline}
-  .detail-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-  .detail-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;padding:5px 14px;border:2px solid #111;text-transform:uppercase}
+  .detail-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;justify-content:center}
+  .detail-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;padding:5px 14px;border:2px solid currentColor;text-transform:uppercase;color:inherit}
   .detail-img-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0}
   .detail-img-row img{width:calc(50% - 8px);min-width:240px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
   .subassembly-btn{display:inline-block;margin-top:20px;font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:#111;padding:12px 28px;cursor:pointer;border:none;transition:all .3s ease}
@@ -262,7 +262,7 @@
     <div class="why-vinyl-content" id="why-vinyl-content">
       <p>I've been collecting vinyl for 2 years now, and listening to music for many more. I love music, especially indie rock, hard rock, indie music as a whole, and some melodic hip-hop.</p>
       <p>Here is my vinyl collection: Beabadoobee — <em>Beatopia</em>; Muse — <em>Origin of Symmetry</em>, <em>The Resistance</em>; Nas — <em>Illmatic</em>; Oasis — <em>Heathen Chemistry</em>; Radiohead — <em>Pablo Honey</em>, <em>The Bends</em>, <em>In Rainbows</em>; Smashing Pumpkins — <em>Siamese Dream</em>, <em>Adore</em>; Sundots — <em>Honeyspot</em>, <em>room</em>; The Strokes — <em>Room on Fire</em>, <em>The New Abnormal</em>; Tyler, the Creator — <em>Flower Boy</em>, <em>Call Me If You Get Lost</em>; A$AP Rocky — <em>AT.LONG.LAST.A$AP</em>; and more!</p>
-      <p>If you're interested, I would love to chat with you about music, or robotics — reach out at: <a href="/cdn-cgi/l/email-protection#a9c5c6c2ccdbc8c5ccd1c8c7cdccdbe9cec4c8c0c587cac6c4" style="color:#FF6B35;text-decoration:underline"><span class="__cf_email__" data-cfemail="f39f9c989681929f968b929d979681b3949e929a9fdd909c9e">[email&#160;protected]</span></a></p>
+      <p>If you're interested, I would love to chat with you about music, or robotics — reach out at: <a href="mailto:lokeralexander@gmail.com" style="color:#FF6B35;text-decoration:underline">lokeralexander@gmail.com</a></p>
     </div>
   </section>
 </div>
@@ -338,7 +338,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ============ VERCEL ANALYTICS ============
 const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|facebookexternalhit|twitterbot|linkedinbot|semrush|ahref/i.test(navigator.userAgent);
 function track(eventName, props) {
@@ -399,7 +399,7 @@ const projects = [
     `
   },
   {
-    name:'Air Hockey\nDefense',
+    name:'AHDM',
     displayName:'Autonomous Air Hockey Defense Machine',
     catalog:'AL-002',side:'A',year:'2025',
     color:palette[1],
@@ -566,6 +566,10 @@ setTimeout(() => {
 function openDetail(i) {
   const proj = projects[i];
   document.getElementById('detail-inner').innerHTML = proj.html;
+  // Color the tags to match the vinyl
+  document.querySelectorAll('#detail-inner .detail-tags').forEach(el => {
+    el.style.color = proj.color;
+  });
   document.getElementById('project-detail').classList.add('open');
   document.getElementById('groove-left').style.display = 'block';
   document.getElementById('groove-right').style.display = 'block';
@@ -645,6 +649,7 @@ if (spinesEl) {
 }
 
 // ============ DECORATION COLOR (commented out — accessories disabled) ============
+
 </script>
 </body>
 </html>
