@@ -81,8 +81,11 @@
   /* VINYL ROW */
   .vinyl-section{display:flex;justify-content:center;padding:60px 20px 60px}
   .vinyl-row{display:flex;gap:60px;align-items:center;justify-content:center;flex-wrap:wrap}
-  .vinyl-wrap{width:280px;height:280px;cursor:pointer;filter:drop-shadow(0 10px 28px rgba(0,0,0,.22));transition:filter .3s ease}
+  .vinyl-wrap{width:280px;height:280px;cursor:pointer;filter:drop-shadow(0 10px 28px rgba(0,0,0,.22));transition:filter .3s ease;position:relative}
   .vinyl-wrap:hover{filter:drop-shadow(0 14px 38px rgba(0,0,0,.35));z-index:10}
+  .vinyl-hold-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.74);z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none}
+  .vinyl-hold-x{font-family:'Anton',sans-serif;font-size:86px;color:#e63946;line-height:1;text-shadow:0 0 24px rgba(230,57,70,.55),4px 4px 0 rgba(0,0,0,.5)}
+  .vinyl-hold-text{font-family:'Space Mono',monospace;font-size:7.5px;color:rgba(255,255,255,.82);text-align:center;text-transform:uppercase;letter-spacing:1.2px;line-height:1.6;padding:0 22px}
 
   .vinyl{
     width:100%;height:100%;border-radius:50%;position:relative;
@@ -393,8 +396,7 @@ const projects = [
           <button class="subassembly-btn" onclick="openSubpage()">Subassemblies — In Depth</button>
         </div>
         <h3>Current Progress</h3>
-        <p>See video for movement demonstration of the current prototype. The movement system is fully functional, and the software is being developed in parallel. The next steps are to integrate the software into the robot, and to further develop the shell, arms, LCD, and external functions of the robot.</p>
-        <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=MIdhPs_6usqRJeb2" title="Current Progress" allowfullscreen></iframe>
+        <p>The movement is complete for the non-assembled version (unoptimized), no video is recorded. Additionally, the SolidWorks modeling is complete, alongside battery-servo-pi integration, and arm spinning functionality is present. The camera is also functional to a degree. More progress to come in September.</p>
       </div>
     `
   },
@@ -495,6 +497,12 @@ projects.forEach((proj,i) => {
       </div>
       <div class="vinyl-hole"></div>
     </div>`;
+  if (i === 0) {
+    const holdOverlay = document.createElement('div');
+    holdOverlay.className = 'vinyl-hold-overlay';
+    holdOverlay.innerHTML = '<span class="vinyl-hold-x">✕</span><span class="vinyl-hold-text">on hold until end of<br>internship @ WET Design</span>';
+    wrap.appendChild(holdOverlay);
+  }
   wrap.addEventListener('mouseenter', () => { vinylStates[i].hovering=true; vinylStates[i].wobbleAmp=0; vinylStates[i].mode='spinning'; });
   wrap.addEventListener('mouseleave', () => { vinylStates[i].hovering=false; vinylStates[i].mode='decelerating'; });
   wrap.addEventListener('click', () => openDetail(i));
