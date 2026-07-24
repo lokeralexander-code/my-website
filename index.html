@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alexander Loker — Portfolio</title>
+<title>Alexander Loker · Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -83,9 +83,14 @@
   .vinyl-row{display:flex;gap:60px;align-items:center;justify-content:center;flex-wrap:wrap}
   .vinyl-wrap{width:280px;height:280px;cursor:pointer;filter:drop-shadow(0 10px 28px rgba(0,0,0,.22));transition:filter .3s ease;position:relative}
   .vinyl-wrap:hover{filter:drop-shadow(0 14px 38px rgba(0,0,0,.35));z-index:10}
-  .vinyl-hold-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.74);z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none}
-  .vinyl-hold-x{font-family:'Anton',sans-serif;font-size:86px;color:#e63946;line-height:1;text-shadow:0 0 24px rgba(230,57,70,.55),4px 4px 0 rgba(0,0,0,.5)}
-  .vinyl-hold-text{font-family:'Space Mono',monospace;font-size:7.5px;color:rgba(255,255,255,.82);text-align:center;text-transform:uppercase;letter-spacing:1.2px;line-height:1.6;padding:0 22px}
+
+  .wet-badge{
+    position:absolute;top:6px;right:8px;z-index:15;
+    background:#111;color:#fff;font-family:'Anton',sans-serif;
+    font-size:10px;letter-spacing:1.5px;padding:4px 10px;
+    border-radius:3px;transform:rotate(6deg);
+    box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none;
+  }
 
   .vinyl{
     width:100%;height:100%;border-radius:50%;position:relative;
@@ -144,6 +149,7 @@
   .detail-back::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:2px;background:#111;transition:width .3s ease}
   .detail-back:hover::after{width:35%}
   .detail-title{font-family:'Anton',sans-serif;font-size:clamp(32px,5.5vw,60px);color:#111;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;line-height:1.05;text-align:center}
+  .detail-note{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:#888;font-style:italic;text-align:center;max-width:560px;margin:-14px auto 0}
   .detail-body{font-family:'Space Mono',monospace;font-size:13px;line-height:1.85;color:#111}
   .detail-body p{margin-bottom:16px}
   .detail-body h3{font-family:'Anton',sans-serif;font-size:24px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:35px 0 14px;text-align:center}
@@ -264,8 +270,8 @@
     <button class="why-vinyl-btn" onclick="toggleWhyVinyl()">Why Vinyl?</button>
     <div class="why-vinyl-content" id="why-vinyl-content">
       <p>I've been collecting vinyl for 2 years now, and listening to music for many more. I love music, especially indie rock, hard rock, indie music as a whole, and some melodic hip-hop.</p>
-      <p>Here is my vinyl collection: Beabadoobee — <em>Beatopia</em>; Muse — <em>Origin of Symmetry</em>, <em>The Resistance</em>; Nas — <em>Illmatic</em>; Oasis — <em>Heathen Chemistry</em>; Radiohead — <em>Pablo Honey</em>, <em>The Bends</em>, <em>In Rainbows</em>; Smashing Pumpkins — <em>Siamese Dream</em>, <em>Adore</em>; Sundots — <em>Honeyspot</em>, <em>room</em>; The Strokes — <em>Room on Fire</em>, <em>The New Abnormal</em>; Tyler, the Creator — <em>Flower Boy</em>, <em>Call Me If You Get Lost</em>; A$AP Rocky — <em>AT.LONG.LAST.A$AP</em>; and more!</p>
-      <p>If you're interested, I would love to chat with you about music, or robotics — reach out at: <a href="mailto:lokeralexander@gmail.com" style="color:#FF6B35;text-decoration:underline">lokeralexander@gmail.com</a></p>
+      <p>Here is my vinyl collection: Beabadoobee: <em>Beatopia</em>; Muse: <em>Origin of Symmetry</em>, <em>The Resistance</em>; Nas: <em>Illmatic</em>; Oasis: <em>Heathen Chemistry</em>; Radiohead: <em>Pablo Honey</em>, <em>The Bends</em>, <em>In Rainbows</em>; Smashing Pumpkins: <em>Siamese Dream</em>, <em>Adore</em>; Sundots: <em>Honeyspot</em>, <em>room</em>; The Strokes: <em>Room on Fire</em>, <em>The New Abnormal</em>; Tyler, the Creator: <em>Flower Boy</em>, <em>Call Me If You Get Lost</em>; A$AP Rocky: <em>AT.LONG.LAST.A$AP</em>; and more!</p>
+      <p>If you're interested, I would love to chat with you about music, or robotics, reach out at: <a href="mailto:lokeralexander@gmail.com" style="color:#FF6B35;text-decoration:underline">lokeralexander@gmail.com</a></p>
     </div>
   </section>
 </div>
@@ -283,7 +289,7 @@
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
   <div class="detail-content">
     <button class="detail-back" onclick="closeSubpage()">← Back to Companion Robot</button>
-    <h2 class="detail-title">Subassemblies — In Depth</h2>
+    <h2 class="detail-title">Subassemblies · In Depth</h2>
     <div class="detail-body">
       <p style="background:rgba(0,0,0,.03);border:1px solid #ddd;border-radius:10px;padding:10px 16px;font-size:12px;color:#888;font-style:italic;margin:20px 0">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</p>
 
@@ -362,41 +368,131 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============ PALETTES ============
-const palettes=[['#FF6B8A','#4ECDC4','#FFD93D'],['#FF8A5C','#7DCEA0','#A78BFA'],['#FF69B4','#00CED1','#FFE066'],['#F77F00','#06D6A0','#EF476F'],['#FF5E78','#36D6B6','#FFC947'],['#E056A0','#56CBF9','#F5E960'],['#FF6F91','#67E8B4','#FFD166']];
+const palettes=[
+  ['#FF6B8A','#4ECDC4','#FFD93D','#7B61FF','#FF9F1C','#2EC4B6'],
+  ['#FF8A5C','#7DCEA0','#A78BFA','#FF6B6B','#4CC9F0','#FFD166'],
+  ['#FF69B4','#00CED1','#FFE066','#B983FF','#FF9F5C','#43AA8B'],
+  ['#F77F00','#06D6A0','#EF476F','#118AB2','#8338EC','#FFB4A2'],
+  ['#FF5E78','#36D6B6','#FFC947','#9D4EDD','#4EA8DE','#80FFDB'],
+  ['#E056A0','#56CBF9','#F5E960','#FF8FAB','#70E4EF','#B5E48C'],
+  ['#FF6F91','#67E8B4','#FFD166','#9D8CFF','#FF8C42','#4CC9A0'],
+];
 const palette=palettes[Math.floor(Math.random()*palettes.length)];
 
 // ============ PROJECTS ============
 const projects = [
   {
-    name:'Companion\nRobot',
-    displayName:'Companion Robot — W.I.P.',
-    catalog:'AL-001',side:'A',year:'2026',
+    name:'DMX\nTester',
+    displayName:'DMX Handheld Tester',
+    catalog:'AL-004',side:'A',year:'2026',
     color:palette[0],
-    tags:['SolidWorks','Raspberry Pi','Electromechanical Assembly','C++/Python','PID Controls'],
+    tags:['Raspberry Pi CM4','Altium Designer','Python','PyGame','DMX Protocol','SolidWorks','BMS','I2C','SPI','UART'],
+    trackKey:'dmx',
+    wet:true,
+    html:`
+      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
+      <h2 class="detail-title">DMX Handheld Tester</h2>
+      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
+      <div class="detail-tags" style="margin-bottom:30px">
+        <span class="detail-tag">Raspberry Pi CM4</span>
+        <span class="detail-tag">Altium Designer</span>
+        <span class="detail-tag">Python</span>
+        <span class="detail-tag">PyGame</span>
+        <span class="detail-tag">DMX Protocol</span>
+        <span class="detail-tag">SolidWorks</span>
+        <span class="detail-tag">BMS</span>
+        <span class="detail-tag">I2C</span>
+        <span class="detail-tag">SPI</span>
+        <span class="detail-tag">UART</span>
+      </div>
+      <div class="detail-body">
+        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
+          <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
+          <p style="margin:0">A handheld DMX light tester for in-house use at WET, built to be easily iterable, changeable, compatible with Python script injection, durable, and affordable.</p>
+        </div>
+        <h3>Hardware · From Prototype to Custom Board</h3>
+        <p>The first prototype ran on a Raspberry Pi CM4 and a DMX Master Shield, which, combined with Waterglo testing and a power supply controlled by DMX (made in-house), let me iterate on what features would be included, specifically from a software angle, and therefore what hardware would be necessary. Along the way I learned how to use crimps (ferrules and forks, for example) and Waygos, alongside some more soldering practice. See the Software section below for more on the UX development.</p>
+        <p>From there, the project moved to design in both SolidWorks and Altium; as of writing (Jul 23) the project is unfinished, but below you can see what has been done so far (censored). Once my supervisor picked out chips for the Buck-Boost and BMS, I worked with him on the schematic, leaning on principles like signal filtering with small capacitors, alongside ensuring power distribution integrity by placing caps at all power ports, for the first time using a modular, multi-layer Altium schematic design split into Interface, Brain, and Power sections. I learned how switches are wired, how to wire protocols like SPI and I2C, and used my UART knowledge from the earlier mockup to communicate with the in-house DMX ports. Alongside this, I picked parts and added them to our database for use on this project, ranging from resistors to a thermistor. I also learned how BMS and Buck-Boost chips work, which was eye-opening, especially the inductor-switching logic, and following the manual was extremely helpful. I'm now moving onto the routing/PCB, but that is unfinished. SolidWorks was a good experience too; it came quickly for me, but it helped me understand how I'd like the UI to look, how to secure the PCB and screen, and where to place all the different ports while ensuring sufficient space for every part.</p>
+        <div class="detail-img-row">
+          <img src="https://i.imgur.com/xE61TT1.png" alt="DMX Tester SolidWorks Shell Design">
+          <img src="https://i.imgur.com/PJV9Lgl.png" alt="DMX Tester Altium Schematic">
+        </div>
+        <div class="detail-img-row">
+          <img src="https://i.imgur.com/sVxSOD3.png" alt="DMX Tester Schematic 1">
+          <img src="https://i.imgur.com/2kUSvSx.png" alt="DMX Tester Schematic 2">
+        </div>
+        <h3>Software · DMX_Tester.py</h3>
+        <p>Writing the controller software, for a prototype nonetheless, was a tall task for me. I dedicated myself to furthering my Python experience; not only that, but learning PySerial, PyGame, threading, and more along the way. The script has everything you could imagine: from handling the initiation of the UART protocol, to time-interrupted data updates, to mouse hooking and using my keyboard as a stand-in for real-life switches. In this script I introduced some genuinely useful features: ALL Mode, instant access to all channels such that when scrolling (changing the "CURSOR," or current DMX value) it updates every DMX channel's value corresponding to the RGBW (1, 2, 3, 4) value of the channel you're on (e.g. cursor on 3, every light fixture has its blue value edited up or down). Alongside that, I added Creative Mode, Fullscreen Mode (both display variations for the UI), Interpolation-State Mode, "Try Color" Mode, Lightmode, and more. It was quite a blast writing this script fully by hand, learning Python even more, and working through the frustrations of coding.</p>
+      </div>
+    `
+  },
+  {
+    name:'Companion\nRobot',
+    displayName:'Companion Robot',
+    catalog:'AL-001',side:'A',year:'2026',
+    color:palette[1],
+    tags:['SolidWorks','Raspberry Pi','Electromechanical Assembly','Python','PID Controls'],
     trackKey:'robot',
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Companion Robot — W.I.P.</h2>
+      <h2 class="detail-title">Companion Robot</h2>
+      <p class="detail-note">* An unfinished project, but achieved the goal of teaching me how to be an engineer, and what engineering is like.</p>
       <div class="detail-tags" style="margin-bottom:30px">
         <span class="detail-tag">SolidWorks</span>
         <span class="detail-tag">Raspberry Pi</span>
         <span class="detail-tag">Electromechanical Assembly</span>
-        <span class="detail-tag">C++/Python</span>
+        <span class="detail-tag">Python</span>
         <span class="detail-tag">PID Controls</span>
       </div>
       <div class="detail-body">
         <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
           <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
-          <p style="margin:0">The purpose of this project is to develop an interactive therapeutic robotic companion. The neutral appearance of the small robot serves to adhere to its functional use by a wide demographic. Interactive software is implemented into the design including microphones, speakers, automated movement systems, and an LCD screen for emotive responses. This project is to be utilized alongside the AI software being developed by ElevaitLabs.</p>
+          <p style="margin:0">The purpose of this project is to develop an interactive therapeutic robotic companion. The neutral appearance of the small robot serves to adhere to its functional use by a wide demographic. Interactive software is implemented into the design including microphones, speakers, automated movement systems, and an LCD screen for emotive responses. This project is intended to help learn the fundamentals of being an engineer through mechanical, electrical, and software design.</p>
         </div>
         <h3>SolidWorks Assembly</h3>
         <p>As the lead engineer responsible for the development of the mechanical design I was able to learn new skills experientially throughout this process. The design shown below is the first finished prototype. If you would like to see the individual sub-assemblies, how I developed them, as well as my thought process and obstacles I overcame, please click below.</p>
         <iframe src="https://www.youtube.com/embed/D7X9jYpiPsQ?si=VZEJJJCJZ5qbOjga" title="SolidWorks Assembly" allowfullscreen></iframe>
         <div style="text-align:center">
-          <button class="subassembly-btn" onclick="openSubpage()">Subassemblies — In Depth</button>
+          <button class="subassembly-btn" onclick="openSubpage()">Subassemblies · In Depth</button>
         </div>
-        <h3>Current Progress</h3>
-        <p>The movement is complete for the non-assembled version (unoptimized), no video is recorded. Additionally, the SolidWorks modeling is complete, alongside battery-servo-pi integration, and arm spinning functionality is present. The camera is also functional to a degree. More progress to come in September.</p>
+        <h3>Demo:</h3>
+        <p>Will record once back in Waterloo on Aug 22, for now see this video below from February, and the arm video from April.</p>
+        <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
+      </div>
+    `
+  },
+  {
+    name:'Biotron',
+    displayName:'Biotron',
+    catalog:'AL-003',side:'B',year:'2026',
+    color:palette[2],
+    tags:['Altium Designer','LTspice'],
+    trackKey:'biotron',
+    html:`
+      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
+      <h2 class="detail-title">Biotron</h2>
+      <div class="detail-tags" style="margin-bottom:30px">
+        <span class="detail-tag">Altium Designer</span>
+        <span class="detail-tag">LTspice</span>
+      </div>
+      <div class="detail-body">
+        <h3>UVLO</h3>
+        <h4>LTSpice · Schematic</h4>
+        <p>All electronic parts have a minimum threshold voltage. The exoskeleton is no different. The exoskeleton has a typical input voltage from the 7S battery power supply of 29.4V, although naturally batteries are not always consistent, and may fluctuate in voltage due to any variety of reasons. Due to this, an under-voltage lockout circuit is crucial, as any voltage too low flowing to various motors or other electronics may permanently damage the device. For my teams' purposes, 21V will fry the motors (3V each), so 24.1V is a safe voltage to cutoff the circuit, hence my circuit design.</p>
+        <p>For the UVLO, there are three crucial components: a Schmitt trigger, switch logic using MOSFETs, and voltage supply management using diodes, capacitors, and an LDO. For the Schmitt trigger, I used an op-amp comparator with a hysteresis switching from the positive rail (15V out) to the negative rail (0V) at an input voltage at the non-inverting input of ~12.4V. This allowed for proper identification of when the voltage input from the battery was too low. Of course, this was made possible through the use of an external LDO, connected with two capacitors, a ceramic and aluminum capacitor, decoupling the noise and creating a smooth signal to ensure a smooth output. Furthermore, a N-MOSFET is connected to the output voltage at the gate, and a zener at the drain, that is further connected to a dual-P-MOSFET switch system to control when the input voltage "can" flow to the output terminal.</p>
+        <p>Overall, designing this circuit taught me so much, even beyond the op-amp logic and transistor specifications, I learned about the applications of diodes, how to adjust a circuit to your specific needs, and most importantly how to debug and test a schematic.</p>
+        <img src="https://i.imgur.com/8sH0tmw.png" alt="UVLO Schematic">
+        <h4>Altium · PCB</h4>
+        <p>I learned plenty from transforming my schematic into a manufacturable PCB board. Of course, I started with finding real, applicable parts matching the needs of my circuit board, although the challenge was not great, it was still useful to learn the quickest method of finding these parts, how to read a data-sheet, and how to balance cost with effectiveness. Then began the hard part, making the actual PCB. I had to learn many important lessons: First of all, calculate the wire thickness you need to carry the relatively large 5 Amps through the circuit. I did this using <a href="https://www.advancedpcb.com/en-us/tools/trace-width-calculator/" target="_blank">advancedPCB</a>. I learned this after thinking that routing with 10 mil would be trivial, but routing with 100 mil forced me to use more tools. Specifically, two layer-routing, and signal-efficient routing practices. Two-layer routing is self-explanatory, but very useful, and you can see below I used it a good bit. Signal-efficient routing is more complicated; I learned from my lead how 90 degree turns are bad for impedance, and the shorter the wire the better. Especially for capacitors. So I adapted, and eventually developed a solid routing scheme, that I am proud of.</p>
+        <p>In general, the hardest part of making the PCB was making it compact. The schematic is large, complicated, and full of wires going all over the place, but I managed to cut it down, and shorten the board to 5.5cm x 4cm. Additionally, for ease of installation, the output and input terminals are aligned.</p>
+        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px;margin-top:30px;text-align:center">
+          <h3 style="margin-top:0;margin-bottom:20px">Overall Powerboard</h3>
+          <div class="detail-img-row">
+            <img src="https://i.imgur.com/8sH0tmw.png" alt="Schematic">
+            <img src="https://i.imgur.com/2eqVgzw.png" alt="PCB Board">
+          </div>
+        </div>
       </div>
     `
   },
@@ -404,7 +500,7 @@ const projects = [
     name:'AHDM',
     displayName:'Autonomous Air Hockey Defense Machine',
     catalog:'AL-002',side:'A',year:'2025',
-    color:palette[1],
+    color:palette[3],
     tags:['C++','Actuators','Gantry'],
     trackKey:'hockey',
     html:`
@@ -431,35 +527,67 @@ const projects = [
     `
   },
   {
-    name:'Biotron',
-    displayName:'Biotron',
-    catalog:'AL-003',side:'B',year:'2026',
-    color:palette[2],
-    tags:['Altium Designer','LTspice'],
-    trackKey:'biotron',
+    name:'Waterglo',
+    displayName:'Waterglo',
+    catalog:'AL-005',side:'B',year:'2026',
+    color:palette[4],
+    tags:['SolidWorks','Flow/Fluid Design','Prototyping'],
+    trackKey:'waterglo',
+    wet:true,
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Biotron</h2>
+      <h2 class="detail-title">Waterglo</h2>
+      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
       <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">Altium Designer</span>
-        <span class="detail-tag">LTspice</span>
+        <span class="detail-tag">SolidWorks</span>
+        <span class="detail-tag">Flow/Fluid Design</span>
+        <span class="detail-tag">Prototyping</span>
       </div>
       <div class="detail-body">
-        <h3>UVLO</h3>
-        <h4>LTSpice — Schematic</h4>
-        <p>All electronic parts have a minimum threshold voltage. The exoskeleton is no different. The exoskeleton has a typical input voltage from the 7S battery power supply of 29.4V, although naturally batteries are not always consistent, and may fluctuate in voltage due to any variety of reasons. Due to this, an under-voltage lockout circuit is crucial, as any voltage too low flowing to various motors or other electronics may permanently damage the device. For my teams' purposes, 21V will fry the motors (3V each), so 24.1V is a safe voltage to cutoff the circuit, hence my circuit design.</p>
-        <p>For the UVLO, there are three crucial components: a Schmitt trigger, switch logic using MOSFETs, and voltage supply management using diodes, capacitors, and an LDO. For the Schmitt trigger, I used an op-amp comparator with a hysteresis switching from the positive rail (15V out) to the negative rail (0V) at an input voltage at the non-inverting input of ~12.4V. This allowed for proper identification of when the voltage input from the battery was too low. Of course, this was made possible through the use of an external LDO, connected with two capacitors, a ceramic and aluminum capacitor, decoupling the noise and creating a smooth signal to ensure a smooth output. Furthermore, a N-MOSFET is connected to the output voltage at the gate, and a zener at the drain, that is further connected to a dual-P-MOSFET switch system to control when the input voltage "can" flow to the output terminal.</p>
-        <p>Overall, designing this circuit taught me so much, even beyond the op-amp logic and transistor specifications, I learned about the applications of diodes, how to adjust a circuit to your specific needs, and most importantly how to debug and test a schematic.</p>
-        <img src="https://i.imgur.com/6zoTrcv.png" alt="UVLO Schematic">
-        <h4>Altium — PCB</h4>
-        <p>I learned plenty from transforming my schematic into a manufacturable PCB board. Of course, I started with finding real, applicable parts matching the needs of my circuit board, although the challenge was not great, it was still useful to learn the quickest method of finding these parts, how to read a data-sheet, and how to balance cost with effectiveness. Then began the hard part, making the actual PCB. I had to learn many important lessons: First of all, calculate the wire thickness you need to carry the relatively large 5 Amps through the circuit. I did this using <a href="https://www.advancedpcb.com/en-us/tools/trace-width-calculator/" target="_blank">advancedPCB</a>. I learned this after thinking that routing with 10 mil would be trivial, but routing with 100 mil forced me to use more tools. Specifically, two layer-routing, and signal-efficient routing practices. Two-layer routing is self-explanatory, but very useful, and you can see below I used it a good bit. Signal-efficient routing is more complicated; I learned from my lead how 90 degree turns are bad for impedance, and the shorter the wire the better. Especially for capacitors. So I adapted, and eventually developed a solid routing scheme, that I am proud of.</p>
-        <p>In general, the hardest part of making the PCB was making it compact. The schematic is large, complicated, and full of wires going all over the place, but I managed to cut it down, and shorten the board to 5.5cm x 4cm. Additionally, for ease of installation, the output and input terminals are aligned.</p>
-        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px;margin-top:30px;text-align:center">
-          <h3 style="margin-top:0;margin-bottom:20px">Overall Powerboard</h3>
-          <div class="detail-img-row">
-            <img src="https://i.imgur.com/6zoTrcv.png" alt="Schematic">
-            <img src="https://i.imgur.com/2eqVgzw.png" alt="PCB Board">
-          </div>
+        <h3>SolidWorks Design &amp; Mock-Ups</h3>
+        <p>Modeled the Waterglo fixture family in SolidWorks alongside a fellow intern, then moved into physical mock-ups, building a tri-bulb shape by hand before producing the rest of the shapes from our SolidWorks models. To test the bottle-style Waterglo mock-ups, we learned pipe fitting and plumbing from scratch, sourced the right fittings, and set up a small aquarium pump driven through the DMX Handheld Tester project, letting us daisy-chain the lights and pump for combined light/water testing.</p>
+        <div class="detail-img-row">
+          <img src="https://i.imgur.com/18OTIcU.png" alt="Waterglo SolidWorks Design">
+          <img src="https://i.imgur.com/FBLfiGn.png" alt="Waterglo Test Bulbs Construction">
+        </div>
+        <div class="detail-img-row">
+          <img src="https://i.imgur.com/9EKeYrD.jpeg" alt="Waterglo Tri-Bulb Mock-Up">
+          <img src="https://i.imgur.com/kiI0sml.png" alt="Waterglo Plumbing Setup">
+        </div>
+        <h3>Flow Modulation</h3>
+        <p>Iterated on the internal channel geometry to modulate flow and create distinct bubble effects, redesigning the internals around multiple small channels for finer control over the bubbles.</p>
+        <div style="max-width:560px;margin:16px auto 0;aspect-ratio:16/9">
+          <iframe src="https://www.youtube.com/embed/F8hJlOiMmG4" title="Waterglo Flow Modulation Demo" allowfullscreen></iframe>
+        </div>
+        <img src="https://i.imgur.com/dUt60rs.png" alt="Waterglo Multi-Channel Flow SolidWorks Model">
+        <h3>Test Rig</h3>
+        <p>Designed a dedicated test rig using bar-in-slot mechanisms at the 13-inch and 18.5-inch marks to accommodate Waterglo fixtures of varying heights, all stabilized on a shared wooden base so multiple units could be tested in parallel.</p>
+        <img src="https://i.imgur.com/6CgeT6y.png" alt="Waterglo Test Rig Design">
+      </div>
+    `
+  },
+  {
+    name:'Weigl',
+    displayName:'Weigl ProCommander HXi',
+    catalog:'AL-006',side:'A',year:'2026',
+    color:palette[5],
+    tags:['HTML/CSS/JS','Claude Code','Technical Documentation'],
+    trackKey:'weigl',
+    wet:true,
+    html:`
+      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
+      <h2 class="detail-title">Weigl ProCommander HXi</h2>
+      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
+      <div class="detail-tags" style="margin-bottom:30px">
+        <span class="detail-tag">HTML/CSS/JS</span>
+        <span class="detail-tag">Claude Code</span>
+        <span class="detail-tag">Technical Documentation</span>
+      </div>
+      <div class="detail-body">
+        <h3>Interactive Presentation Tool</h3>
+        <p>Built an interactive website demonstrating how to use the Weigl ProCommander HXi and its partner software, Showforge. Using HTML and Claude Code, I built the presentation layer alongside sorting logic that determines device compatibility with the software, tracks electrical limitations, and monitors hardware port counts on the Weigl hardware. It's designed as a streamlined reference for non-technical users to accelerate testing and prototyping workflows, and was presented professionally to potential users.</p>
+        <div style="text-align:center">
+          <a class="subassembly-btn" href="https://alexander-code-wet-weigl-demo.vercel.app/" target="_blank" style="text-decoration:none;display:inline-block">View Presentation ↗</a>
         </div>
       </div>
     `
@@ -482,6 +610,7 @@ projects.forEach((proj,i) => {
   const wrap = document.createElement('div');
   wrap.className = 'vinyl-wrap';
   wrap.innerHTML = `
+    ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
     <div class="vinyl" id="vd-${i}" style="transform:rotate(${vinylStates[i].angle}deg)">
       <div class="vinyl-grain"></div>
       <div class="vinyl-rim"></div>
@@ -497,12 +626,6 @@ projects.forEach((proj,i) => {
       </div>
       <div class="vinyl-hole"></div>
     </div>`;
-  if (i === 0) {
-    const holdOverlay = document.createElement('div');
-    holdOverlay.className = 'vinyl-hold-overlay';
-    holdOverlay.innerHTML = '<span class="vinyl-hold-x">✕</span><span class="vinyl-hold-text">on hold until end of<br>internship @ WET Design</span>';
-    wrap.appendChild(holdOverlay);
-  }
   wrap.addEventListener('mouseenter', () => { vinylStates[i].hovering=true; vinylStates[i].wobbleAmp=0; vinylStates[i].mode='spinning'; });
   wrap.addEventListener('mouseleave', () => { vinylStates[i].hovering=false; vinylStates[i].mode='decelerating'; });
   wrap.addEventListener('click', () => openDetail(i));
@@ -656,7 +779,7 @@ if (spinesEl) {
   }
 }
 
-// ============ DECORATION COLOR (commented out — accessories disabled) ============
+// ============ DECORATION COLOR (commented out - accessories disabled) ============
 
 </script>
 </body>
