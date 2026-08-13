@@ -199,6 +199,18 @@
   .detail-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;padding:5px 14px;border:2px solid currentColor;text-transform:uppercase;color:inherit}
   .detail-img-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0}
   .detail-img-row img{width:calc(50% - 8px);min-width:240px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .detail-img-row-3{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .detail-img-row-3 img{width:calc(33.333% - 10px);min-width:150px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .zoomable{cursor:zoom-in;transition:opacity .2s ease}
+  .zoomable:hover{opacity:.88}
+
+  /* LIGHTBOX */
+  #lightbox{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+    z-index:5000;align-items:center;justify-content:center;cursor:zoom-out;padding:40px;
+  }
+  #lightbox.open{display:flex}
+  #lightbox-img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.5);cursor:default;display:block}
   .subassembly-btn{display:inline-block;margin-top:20px;font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:#111;padding:12px 28px;cursor:pointer;border:none;transition:all .3s ease}
   .subassembly-btn:hover{background:#333}
   .sub-section{margin:30px 0}
@@ -323,6 +335,11 @@
   <div class="detail-content" id="detail-inner"></div>
 </div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <!-- SUBASSEMBLIES SUBPAGE -->
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
   <div class="detail-content">
@@ -428,7 +445,6 @@ const projects = [
     trackKey:'dmx',
     wet:true,
     wip:true,
-    locked:true,
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">DMX Handheld Tester</h2>
@@ -490,13 +506,19 @@ const projects = [
           <div class="sub-section">
             <h4>SolidWorks UI</h4>
             <p>The second portion of the UI (physical) was developed in SolidWorks. The first preliminary design was eventually scrapped to make more space on the PCB.</p>
-            <img src="https://i.imgur.com/xE61TT1.png" alt="DMX Tester SolidWorks Shell Design">
+            <img src="https://i.imgur.com/OMblFu9.png" alt="DMX Tester SolidWorks Shell Design">
           </div>
           <div class="sub-section">
             <h4>Altium Schematic</h4>
-            <p>The schematic was developed in Altium in sync with the SolidWorks UI, as UI choices directly influenced the parts needed and pins required (especially GPIO) on a schematic level. Below is the overall schematic developed for this project.</p>
+            <p>The schematic was developed in Altium in sync with the SolidWorks UI, as UI choices directly influenced the parts needed and pins required (especially GPIO) on a schematic level. Below is the "main" schematic developed, combining "Brain," "Power," and "Interface" for this project.</p>
             <img class="nda-blur" src="https://i.imgur.com/2o2PfUw.png" alt="DMX Tester Altium Schematic">
             <p style="text-align:center;font-size:11px;color:#999;font-style:italic;margin-top:-8px">Blurred for NDA reasons.</p>
+            <div class="detail-img-row-3">
+              <img class="zoomable" src="https://i.imgur.com/I25zgLJ.png" alt="DMX Tester PCB 3D Render 1" onclick="openLightbox(this.src,this.alt)">
+              <img class="zoomable" src="https://i.imgur.com/JUeLQiT.png" alt="DMX Tester PCB 3D Render 2" onclick="openLightbox(this.src,this.alt)">
+              <img class="zoomable" src="https://i.imgur.com/ylxllao.png" alt="DMX Tester PCB 3D Render 3" onclick="openLightbox(this.src,this.alt)">
+            </div>
+            <p style="text-align:center;font-size:11px;color:#999;font-style:italic;margin-top:-8px">Note: the green, wide, opaque object is the screen.</p>
           </div>
           <div class="sub-section">
             <h4>PCB</h4>
@@ -857,10 +879,24 @@ function closeDetail() {
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (document.getElementById('subpage-detail').style.display === 'block') closeSubpage();
+    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+    else if (document.getElementById('subpage-detail').style.display === 'block') closeSubpage();
     else closeDetail();
   }
 });
+
+// ============ LIGHTBOX ============
+function openLightbox(src, alt) {
+  const img = document.getElementById('lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  document.getElementById('lightbox').classList.add('open');
+  track('image_zoomed', { image: alt || src });
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
 
 // ============ COLLAPSIBLE SECTIONS ============
 function toggleSection(id, btn) {
