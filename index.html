@@ -71,6 +71,15 @@
     padding:5px 16px;margin-bottom:14px;transition:all .3s ease;
   }
   .resume-link:hover{background:#FF6B35;color:#fff}
+  .pcb-gallery-btn{
+    position:absolute;top:30px;right:60px;z-index:5;
+    display:inline-block;font-family:'Anton',sans-serif;
+    font-size:clamp(12px,1.4vw,16px);color:#111;background:none;
+    letter-spacing:3px;text-transform:uppercase;border:2px solid #111;
+    padding:5px 16px;cursor:pointer;transition:all .3s ease;
+  }
+  .pcb-gallery-btn:hover{background:#111;color:#fff}
+  @media(max-width:680px){.pcb-gallery-btn{position:static;display:block;margin-top:14px;width:fit-content}}
   .name{
     font-family:'Anton',sans-serif;font-size:clamp(48px,8vw,100px);
     color:#F5C518;letter-spacing:4px;text-transform:uppercase;line-height:1;
@@ -125,6 +134,40 @@
     border:2px dashed #ddd;border-radius:12px;padding:70px 20px;margin-bottom:28px;
     text-align:center;color:#aaa;font-family:'Space Mono',monospace;
     font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  }
+
+  /* PCB GALLERY */
+  #pcb-gallery{position:fixed;inset:0;background:#fff;z-index:1050;display:none;overflow-y:auto}
+  #pcb-gallery.open{display:block;animation:detailIn .5s ease forwards}
+  .pcb-gallery-content{max-width:760px;margin:0 auto;padding:60px 80px 100px}
+  .pcb-slide-title{font-family:'Anton',sans-serif;font-size:clamp(28px,5vw,48px);color:#111;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:8px;line-height:1.1}
+  .pcb-slide-date{font-family:'Space Mono',monospace;font-size:12px;color:#999;letter-spacing:1.5px;text-transform:uppercase;text-align:center;margin-bottom:28px}
+  .pcb-slide-desc{font-family:'Space Mono',monospace;font-size:13.5px;line-height:1.85;color:#333;text-align:center;max-width:600px;margin:0 auto 30px}
+  .pcb-slide-placeholder{font-family:'Anton',sans-serif;font-size:clamp(36px,7vw,64px);color:#ddd;letter-spacing:4px;text-transform:uppercase;text-align:center;padding:120px 20px}
+  .pcb-slide-fade{animation:pcbFadeIn .45s ease forwards}
+  @keyframes pcbFadeIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+
+  .pcb-gallery-arrow{
+    position:fixed;top:50%;transform:translateY(-50%);z-index:1060;
+    width:56px;height:56px;border-radius:0;border:none;background:none;
+    color:#ccc;cursor:pointer;padding:0;
+    display:none;align-items:center;justify-content:center;
+    transition:color .25s ease,transform .25s ease;
+  }
+  .pcb-gallery-arrow:hover{color:#999;transform:translateY(-50%) scale(1.1)}
+  .pcb-gallery-arrow-left{left:24px}
+  .pcb-gallery-arrow-right{right:24px}
+
+  .pcb-gallery-dots{position:fixed;left:0;right:0;bottom:26px;z-index:1060;display:none;gap:8px;justify-content:center;pointer-events:none}
+  .pcb-gallery-dot{width:7px;height:7px;border-radius:50%;background:#ddd;transition:background .3s ease}
+  .pcb-gallery-dot.active{background:#111}
+
+  @media(max-width:680px){
+    .pcb-gallery-content{padding:50px 30px 80px}
+    .pcb-gallery-arrow{width:42px;height:42px}
+    .pcb-gallery-arrow svg{width:26px;height:26px}
+    .pcb-gallery-arrow-left{left:12px}
+    .pcb-gallery-arrow-right{right:12px}
   }
 
   .vinyl{
@@ -308,6 +351,7 @@
 
   <header class="header">
     <a href="Alexander_Loker_Resume (10).pdf" target="_blank" class="resume-link" onclick="track('resume_viewed')">Resume ↗</a>
+    <button class="pcb-gallery-btn" onclick="openPcbGallery()">PCB Gallery</button>
     <h1 class="name">Alexander Loker</h1>
     <p class="subtitle">Mechatronics Engineering @ University of Waterloo</p>
   </header>
@@ -339,6 +383,18 @@
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
 </div>
+
+<!-- PCB GALLERY -->
+<div id="pcb-gallery">
+  <button class="detail-back" style="margin:30px 0 0 60px" onclick="closePcbGallery()">← Back to Records</button>
+  <div class="pcb-gallery-content" id="pcb-gallery-content"></div>
+</div>
+<button class="pcb-gallery-arrow pcb-gallery-arrow-left" id="pcb-gallery-arrow-left" style="display:none" onclick="prevPcbSlide()" aria-label="Previous board">
+  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"></polyline></svg>
+</button>
+<button class="pcb-gallery-arrow pcb-gallery-arrow-right" id="pcb-gallery-arrow-right" style="display:none" onclick="nextPcbSlide()" aria-label="Next board">
+  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"></polyline></svg>
+</button>
 
 <!-- SUBASSEMBLIES SUBPAGE -->
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
@@ -880,6 +936,7 @@ function closeDetail() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+    else if (document.getElementById('pcb-gallery').classList.contains('open')) closePcbGallery();
     else if (document.getElementById('subpage-detail').style.display === 'block') closeSubpage();
     else closeDetail();
   }
@@ -896,6 +953,130 @@ function openLightbox(src, alt) {
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
+}
+
+// ============ PCB GALLERY ============
+const pcbSlides = [
+  {
+    title: 'DMX Handheld Tester',
+    date: 'August, 2026 (ongoing)',
+    description: "This board is the brain of the DMX Handheld Tester: it runs a Raspberry Pi CM4 off a BQ25620 battery charger, talks I²C to the BMS and SPI to the onboard LCD, and drives DMX fixtures over UART so anybody can test a full lighting rig via the pre-programmed light fixture settings, or using a USB-A Python inject, can test their light rigs their own way.",
+    images: [
+      { src: 'https://i.imgur.com/I25zgLJ.png', alt: 'DMX Tester PCB 3D Render 1' },
+      { src: 'https://i.imgur.com/JUeLQiT.png', alt: 'DMX Tester PCB 3D Render 2' },
+      { src: 'https://i.imgur.com/ylxllao.png', alt: 'DMX Tester PCB 3D Render 3' },
+    ],
+  },
+  {
+    title: 'WARG Onboarding: LDO Regulator',
+    date: 'August, 2026',
+    description: 'I designed this LDO 5V to 3.3V PCB for the WARG onboarding, I decided to challenge myself by using a USB-C, and a more filter-intensive IC.',
+    images: [
+      { src: 'https://i.imgur.com/YR80CL9.png', alt: 'WARG LDO Schematic' },
+      { src: 'https://i.imgur.com/xHXgjE0.png', alt: 'WARG LDO PCB Layout' },
+      { src: 'https://i.imgur.com/Y4gwe5D.png', alt: 'WARG LDO PCB 3D Render' },
+    ],
+  },
+  {
+    title: 'Biotron: UVLO',
+    date: 'March, 2026',
+    description: "This under-voltage lockout board was one of my first real PCBs, designed to cut power to the exoskeleton before a low battery could damage the motors. I was pretty inexperienced with Altium and analog design at the time, but it was a great learning opportunity; looking back at it now, I can tell how much I've grown since.",
+    images: [
+      { src: 'https://i.imgur.com/8sH0tmw.png', alt: 'UVLO Schematic' },
+      { src: 'https://i.imgur.com/2eqVgzw.png', alt: 'UVLO PCB Board' },
+    ],
+  },
+  {
+    title: 'More to Come',
+    date: '',
+    description: '',
+    images: [],
+    placeholder: true,
+  },
+];
+
+let pcbIndex = 0;
+
+function renderPcbSlide(i) {
+  const slide = pcbSlides[i];
+  const el = document.getElementById('pcb-gallery-content');
+
+  if (slide.placeholder) {
+    el.innerHTML = `<div class="pcb-slide-placeholder">${slide.title}</div>`;
+  } else {
+    const rowClass = slide.images.length >= 3 ? 'detail-img-row-3' : 'detail-img-row';
+    const imagesHtml = slide.images.map(img =>
+      `<img class="zoomable" src="${img.src}" alt="${img.alt}" onclick="openLightbox(this.src,this.alt)">`
+    ).join('');
+    el.innerHTML = `
+      <h2 class="pcb-slide-title">${slide.title}</h2>
+      <p class="pcb-slide-date">${slide.date}</p>
+      <p class="pcb-slide-desc">${slide.description}</p>
+      <div class="${rowClass}">${imagesHtml}</div>
+    `;
+  }
+
+  el.classList.remove('pcb-slide-fade');
+  void el.offsetWidth; // restart the animation
+  el.classList.add('pcb-slide-fade');
+
+  document.querySelectorAll('.pcb-gallery-dot').forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === i);
+  });
+}
+
+function buildPcbDots() {
+  const container = document.createElement('div');
+  container.className = 'pcb-gallery-dots';
+  pcbSlides.forEach(() => {
+    const dot = document.createElement('div');
+    dot.className = 'pcb-gallery-dot';
+    container.appendChild(dot);
+  });
+  // Appended to <body>, not inside #pcb-gallery: that element gets an animated
+  // transform (the opening animation), which makes it a new containing block
+  // for any position:fixed descendants, a combination browsers repaint
+  // inconsistently, causing the dots to vanish/reappear around scrolling.
+  // Living at the body level sidesteps that entirely.
+  document.body.appendChild(container);
+}
+
+function openPcbGallery() {
+  pcbIndex = 0;
+  if (!document.querySelector('.pcb-gallery-dots')) buildPcbDots();
+  renderPcbSlide(pcbIndex);
+  document.getElementById('pcb-gallery').classList.add('open');
+  document.getElementById('pcb-gallery-arrow-left').style.display = 'flex';
+  document.getElementById('pcb-gallery-arrow-right').style.display = 'flex';
+  document.querySelector('.pcb-gallery-dots').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+  track('pcb_gallery_opened');
+  trackPageView('pcb-gallery');
+}
+
+function closePcbGallery() {
+  document.getElementById('pcb-gallery').classList.remove('open');
+  document.getElementById('pcb-gallery-arrow-left').style.display = 'none';
+  document.getElementById('pcb-gallery-arrow-right').style.display = 'none';
+  document.querySelector('.pcb-gallery-dots').style.display = 'none';
+  document.body.style.overflow = '';
+  track('pcb_gallery_closed');
+  trackPageView('home');
+}
+
+function nextPcbSlide() {
+  pcbIndex = (pcbIndex + 1) % pcbSlides.length;
+  renderPcbSlide(pcbIndex);
+  track('pcb_gallery_next', { slide: pcbSlides[pcbIndex].title });
+  trackPageView('pcb-gallery/' + pcbIndex);
+}
+
+function prevPcbSlide() {
+  pcbIndex = (pcbIndex - 1 + pcbSlides.length) % pcbSlides.length;
+  renderPcbSlide(pcbIndex);
+  track('pcb_gallery_prev', { slide: pcbSlides[pcbIndex].title });
+  trackPageView('pcb-gallery/' + pcbIndex);
 }
 
 // ============ COLLAPSIBLE SECTIONS ============
