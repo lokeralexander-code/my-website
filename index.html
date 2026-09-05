@@ -88,6 +88,8 @@
   .pcb-gallery-btn:hover{background:#111;color:#fff}
 
   /* Board fragment: bus routing, connector, passives */
+  /* temporarily hidden - delete this one line to bring the traces back */
+  .pcb-deco{display:none}
   .pcb-deco{
     position:absolute;left:-280px;top:-20px;z-index:1;
     color:#d6c098;pointer-events:none;
@@ -121,11 +123,121 @@
   }
   .subtitle{font-size:clamp(11px,1.5vw,16px);color:#444;margin-top:8px;letter-spacing:1.5px;font-weight:700}
 
-  /* VINYL ROW */
+  /* VINYL ROW - album sleeves with the record tucked inside */
   .vinyl-section{display:flex;justify-content:center;padding:60px 20px 60px}
-  .vinyl-row{display:flex;gap:60px;align-items:center;justify-content:center;flex-wrap:wrap}
-  .vinyl-wrap{width:280px;height:280px;cursor:pointer;position:relative}
+  .vinyl-row{
+    --sleeve:250px;                    /* cover size */
+    --slide:150px;                     /* how far the record slides out on hover */
+    --disc:calc(var(--sleeve)*.9);
+    --cue:calc(var(--sleeve)*.12);   /* caption strip under each cover */
+    display:flex;gap:36px 34px;align-items:flex-start;justify-content:center;flex-wrap:wrap;
+    max-width:100%;
+    /* every row ends with one empty slide-out slot, so nudge the covers back to optical centre.
+       transform, not margin, so it cannot change wrapping or overflow */
+    transform:translateX(calc(var(--slide) / 2));
+  }
+  /* the wrap permanently reserves the slide-out room, so neighbours never shift or collide mid-animation */
+  .vinyl-wrap{position:relative;width:calc(var(--sleeve) + var(--slide));height:calc(var(--sleeve) + var(--cue));pointer-events:none}
   .vinyl-wrap:hover{z-index:10}
+  .sleeve-box{position:absolute;left:0;top:0;width:var(--sleeve);height:var(--sleeve);z-index:3}
+
+  /* THE RECORD - slides out from behind the sleeve on hover, click it to open the project */
+  .disc-slide{
+    position:absolute;z-index:1;pointer-events:auto;cursor:pointer;
+    top:calc((var(--sleeve) - var(--disc))/2);left:calc((var(--sleeve) - var(--disc))/2);
+    width:var(--disc);height:var(--disc);
+    transform:translateX(0);
+    transition:transform 1.15s cubic-bezier(.22,.62,.28,1);
+  }
+  .vinyl-wrap:hover .disc-slide,.vinyl-wrap.is-hovered .disc-slide{transform:translateX(var(--slide))}
+  .disc-cue{
+    position:absolute;left:0;top:var(--sleeve);width:var(--sleeve);height:var(--cue);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;font-size:calc(var(--sleeve)*.038);letter-spacing:2px;
+    text-transform:uppercase;color:#a5a5a5;pointer-events:none;
+    transition:color .35s ease;
+  }
+  .vinyl-wrap:hover .disc-cue,.vinyl-wrap.is-hovered .disc-cue{color:#111}
+
+  /* SLEEVE - shared parts */
+  .sleeve{
+    position:absolute;inset:0;overflow:hidden;pointer-events:auto;cursor:pointer;
+    background:#EFE9DE;
+    box-shadow:0 10px 26px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.12),inset 0 0 0 1px rgba(0,0,0,.14);
+    transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease;
+  }
+  .vinyl-wrap:hover .sleeve,.vinyl-wrap.is-hovered .sleeve{transform:translateY(-7px);box-shadow:0 20px 42px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.16),inset 0 0 0 1px rgba(0,0,0,.16)}
+  .sleeve>*{position:absolute}
+  .sleeve-art{background-color:#141414;background-size:cover;background-position:center;z-index:1}
+  .sleeve-plate{display:flex;flex-direction:column;z-index:3}
+  .sleeve-title{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:.95;letter-spacing:.5px;font-size:calc(var(--sleeve)*.1)}
+  .sleeve-meta{display:flex;align-items:baseline;gap:.5em;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1.6px;font-size:calc(var(--sleeve)*.035)}
+  .sleeve-date{font-size:inherit;letter-spacing:inherit;white-space:nowrap}
+  .sleeve-cat{z-index:4;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:calc(var(--sleeve)*.031);letter-spacing:1.2px}
+  .sleeve-grain{inset:0;z-index:5;pointer-events:none;opacity:.3;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");background-size:150px 150px}
+  .sleeve-gloss{
+    inset:0;z-index:6;pointer-events:none;
+    background:
+      linear-gradient(90deg,rgba(0,0,0,.3) 0,rgba(0,0,0,.1) 2.5%,rgba(255,255,255,.07) 6%,rgba(0,0,0,0) 15%),
+      linear-gradient(270deg,rgba(0,0,0,.18) 0,rgba(0,0,0,0) 7%),
+      linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.07));
+  }
+
+  /* 1 - BLOCK: full-bleed art, solid title block bottom-left */
+  .sv-block{background:#111}
+  .sv-block .sleeve-art{inset:0}
+  .sv-block .sleeve-plate{left:0;bottom:0;max-width:80%;background:var(--c);padding:5.5% 7% 5.2%;gap:.5em}
+  .sv-block .sleeve-title{font-size:calc(var(--sleeve)*.112);color:#16130f}
+  .sv-block .sleeve-meta{color:rgba(0,0,0,.6)}
+  .sv-block .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;background:rgba(0,0,0,.45);padding:.35em .6em}
+
+  /* 2 - WINDOW: art framed inside a colour field, credits centred */
+  .sv-window{background:var(--c)}
+  .sv-window .sleeve-art{top:30%;left:11%;right:11%;bottom:23%;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.25)}
+  .sv-window .sleeve-plate{inset:0;padding:6.5% 8%;justify-content:space-between;align-items:center;text-align:center}
+  .sv-window .sleeve-title{font-size:calc(var(--sleeve)*.076);color:#16130f;letter-spacing:2px}
+  .sv-window .sleeve-meta{color:rgba(0,0,0,.58);font-size:calc(var(--sleeve)*.032)}
+  .sv-window .sleeve-cat{bottom:2.6%;left:6%;color:rgba(0,0,0,.42)}
+
+  /* 3 - SPLIT: art up top, colour block below */
+  .sv-split{background:#111}
+  .sv-split .sleeve-art{top:0;left:0;right:0;height:58%}
+  .sv-split .sleeve-plate{left:0;right:0;top:58%;bottom:0;background:var(--c);padding:0 6%;justify-content:center;gap:.55em}
+  .sv-split .sleeve-title{font-size:calc(var(--sleeve)*.1);color:#16130f}
+  .sv-split .sleeve-meta{color:rgba(0,0,0,.58)}
+  .sv-split .sleeve-cat{top:49%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+
+  /* 4 - BAND: full-bleed art with a title band struck across it */
+  .sv-band{background:#111}
+  .sv-band .sleeve-art{inset:0}
+  .sv-band .sleeve-plate{left:0;right:0;top:30%;background:#F4F1EA;border-top:3px solid var(--c);border-bottom:3px solid var(--c);padding:4% 6%;align-items:center;text-align:center;gap:.35em}
+  .sv-band .sleeve-title{font-size:calc(var(--sleeve)*.09);color:#141414}
+  .sv-band .sleeve-meta{color:rgba(0,0,0,.5);font-size:calc(var(--sleeve)*.031)}
+  .sv-band .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+
+  /* 5 - FRAME: ruled swiss frame, art plate offset to the corner */
+  .sv-frame{background:#F0EAE0}
+  .sv-frame .sleeve-art{top:33%;left:40%;right:8%;bottom:9%}
+  .sv-frame .sleeve-plate{inset:5.5%;padding:6%;justify-content:space-between;align-items:flex-start;box-shadow:inset 0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
+  .sv-frame .sleeve-title{font-size:calc(var(--sleeve)*.098);color:#16130f;max-width:66%;border-left:calc(var(--sleeve)*.018) solid var(--c);padding-left:.26em}
+  .sv-frame .sleeve-meta{max-width:30%;color:rgba(0,0,0,.55);font-size:calc(var(--sleeve)*.031)}
+  .sv-frame .sleeve-cat{bottom:12%;right:10.5%;color:rgba(255,255,255,.85);text-shadow:0 1px 3px rgba(0,0,0,.55)}
+
+  /* 6 - STAMP: dark ground, circular art crop, boxed title */
+  .sv-stamp{background:#17171b}
+  .sv-stamp .sleeve-art{top:9%;left:50%;transform:translateX(-50%);width:54%;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 12px 28px rgba(0,0,0,.55)}
+  .sv-stamp .sleeve-plate{inset:0;padding:6%;justify-content:flex-end;align-items:center;text-align:center;gap:.55em}
+  .sv-stamp .sleeve-title{font-size:calc(var(--sleeve)*.082);color:#fff;border:1px solid rgba(255,255,255,.45);padding:.3em .6em}
+  .sv-stamp .sleeve-meta{color:var(--c);font-size:calc(var(--sleeve)*.031)}
+  .sv-stamp .sleeve-cat{bottom:5.5%;left:5.5%;color:rgba(255,255,255,.45)}
+
+  /* stand-in cover art, used until a photo is set on the project (proj.cover) */
+  .ph-block{background:radial-gradient(circle at 68% 30%,var(--c) 0 26%,transparent 26.5%),repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 14px),linear-gradient(150deg,#242428,#0f0f12)}
+  .ph-window{background:repeating-radial-gradient(circle at 50% 50%,var(--c) 0 3px,#16161a 3px 11px)}
+  .ph-split{background:linear-gradient(115deg,transparent 0 38%,var(--c) 38% 46%,transparent 46%),linear-gradient(115deg,transparent 0 58%,rgba(255,255,255,.14) 58% 62%,transparent 62%),linear-gradient(200deg,#1d1d22,#101014)}
+  .ph-band{background:radial-gradient(circle at 50% 64%,var(--c) 0 17%,transparent 17.5%),repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 9px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 9px),linear-gradient(180deg,#191920,#0d0d10)}
+  .ph-frame{background:linear-gradient(0deg,var(--c) 0 32%,transparent 32%),radial-gradient(circle at 3px 3px,rgba(255,255,255,.18) 0 2px,transparent 2.5px) 0 0/12px 12px,linear-gradient(160deg,#26262c,#131317)}
+  .ph-stamp{background:radial-gradient(circle at 50% 45%,var(--c) 0 12%,rgba(0,0,0,.8) 58%),repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.05) 0 6deg,transparent 6deg 12deg),#0c0c0f}
 
   .wet-badge{
     position:absolute;top:6px;right:8px;z-index:15;
@@ -219,12 +331,12 @@
   .vinyl-label-bg{position:absolute;inset:0;border-radius:50%}
   .vinyl-label-grain{position:absolute;inset:0;border-radius:50%;opacity:.15;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");background-size:100px 100px}
   .vinyl-label-ring{position:absolute;top:8%;left:8%;right:8%;bottom:8%;border-radius:50%;border:1px solid rgba(0,0,0,.12);pointer-events:none}
-  .vinyl-label-text{position:relative;z-index:5;font-family:'Anton',sans-serif;font-size:18px;color:#111;letter-spacing:2px;text-transform:uppercase;line-height:1.15}
-  .vinyl-label-sub{position:relative;z-index:5;font-family:'Space Mono',monospace;font-size:6.5px;color:rgba(0,0,0,.5);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
-  .vinyl-label-top{position:absolute;top:11px;z-index:5;font-family:'Space Mono',monospace;font-size:5.5px;color:rgba(0,0,0,.35);letter-spacing:2px;text-transform:uppercase}
-  .vinyl-label-bottom{position:absolute;bottom:9px;z-index:5;font-family:'Space Mono',monospace;font-size:5px;color:rgba(0,0,0,.3);letter-spacing:1px;text-transform:uppercase}
-  .vinyl-label-side{position:absolute;top:11px;right:13px;z-index:5;font-family:'Anton',sans-serif;font-size:9px;color:rgba(0,0,0,.22)}
-  .vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:#fff;border-radius:50%;z-index:6;box-shadow:0 0 0 2px #444,0 0 3px rgba(0,0,0,.4)}
+  .vinyl-label-text{position:relative;z-index:5;font-family:'Anton',sans-serif;font-size:calc(var(--disc)*.068);color:#111;letter-spacing:2px;text-transform:uppercase;line-height:1.15}
+  .vinyl-label-sub{position:relative;z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.027);color:rgba(0,0,0,.5);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+  .vinyl-label-top{position:absolute;top:calc(var(--disc)*.048);z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.023);color:rgba(0,0,0,.35);letter-spacing:2px;text-transform:uppercase}
+  .vinyl-label-bottom{position:absolute;bottom:calc(var(--disc)*.04);z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.021);color:rgba(0,0,0,.3);letter-spacing:1px;text-transform:uppercase}
+  .vinyl-label-side{position:absolute;top:calc(var(--disc)*.048);right:calc(var(--disc)*.056);z-index:5;font-family:'Anton',sans-serif;font-size:calc(var(--disc)*.038);color:rgba(0,0,0,.22)}
+  .vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(var(--disc)*.045);height:calc(var(--disc)*.045);background:#fff;border-radius:50%;z-index:6;box-shadow:0 0 0 2px #444,0 0 3px rgba(0,0,0,.4)}
 
   /* WHY VINYL */
   .why-vinyl-section{text-align:center;padding:20px 40px 80px}
@@ -290,6 +402,16 @@
   #lightbox-img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.5);cursor:default;display:block}
   .subassembly-btn{display:inline-block;margin-top:20px;font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:#111;padding:12px 28px;cursor:pointer;border:none;transition:all .3s ease}
   .subassembly-btn:hover{background:#333}
+  .subassembly-btn .btn-toggle-x{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:17px;height:17px;margin-left:11px;vertical-align:middle;
+    border:1px solid rgba(255,255,255,.45);border-radius:50%;
+    font-family:'Space Mono',monospace;font-size:11px;line-height:1;letter-spacing:0;
+    transition:background .3s ease,border-color .3s ease;
+  }
+  .subassembly-btn .btn-toggle-x::before{content:'+'}
+  .subassembly-btn.is-open .btn-toggle-x::before{content:'\2715'}
+  .subassembly-btn:hover .btn-toggle-x{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.8)}
   .sub-section{margin:30px 0}
   .sub-section h4{font-family:'Anton',sans-serif;font-size:18px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px}
 
@@ -309,8 +431,10 @@
   .binary-fade{opacity:0;animation:binaryIn 1.5s ease forwards}
   @keyframes binaryIn{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
 
-  @media(max-width:960px){.vinyl-row{gap:30px}.vinyl-wrap{width:220px;height:220px}.vinyl-label-text{font-size:14px}.deco-circuit,.deco-binary{display:none}#gear-container{display:none}}
-  @media(max-width:680px){.header{padding:25px 25px 10px}.vinyl-row{gap:20px}.vinyl-wrap{width:160px;height:160px}.vinyl-label-text{font-size:11px}.vinyl-label-sub,.vinyl-label-top,.vinyl-label-bottom{display:none}.detail-content{padding:50px 60px}.detail-groove-left,.detail-groove-right{width:22px}}
+  @media(max-width:960px){.vinyl-row{--sleeve:212px;--slide:124px;gap:30px 26px}.deco-circuit,.deco-binary{display:none}#gear-container{display:none}}
+  @media(max-width:680px){.header{padding:25px 25px 10px}.vinyl-row{--sleeve:158px;--slide:86px;gap:26px 18px}.vinyl-label-sub,.vinyl-label-top,.vinyl-label-bottom{display:none}.detail-content{padding:50px 60px}.detail-groove-left,.detail-groove-right{width:22px}}
+  /* no hover on touch, so the record sits half out and stays tappable */
+  @media(hover:none){.disc-slide{transform:translateX(calc(var(--slide)*.62))}}
 </style>
 </head>
 <body>
@@ -634,6 +758,8 @@ const projects = [
     name:'DMX\nTester',
     displayName:'DMX Handheld Tester',
     catalog:'AL-004',side:'A',year:'2026',
+    cover:'https://i.imgur.com/I25zgLJ.png',
+    sleeve:'block',
     color:palette[0],
     tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX, I<sup>2</sup>C, UART, and SPI Protocols'],
     trackKey:'dmx',
@@ -686,9 +812,9 @@ const projects = [
         <p>The device communicates with its internals using I<sup>2</sup>C and SPI, communicating with the BMS and LCD screen respectively. Furthermore, it communicates with the in-house DMX port using UART protocols, and therefore communicates with the light fixtures via UART. The device has internal ventilation with a fan, and a buck-boost for proper power distribution from the BMS (3.2V-4.2V) to other devices (5V). The 3.3V rail is supplied via the Raspi CM4. Lastly, the device has side ridges for holdability.</p>
         <p>The device was built from the ground up, starting with a Raspi CM4, a DMX Master Shield, UART, and some peripherals; the initial code was constructed to determine what functions would be necessary. This was done in Python, and tested with in-house DMX fixtures. This led to the core-level features listed above.</p>
         <div style="text-align:center">
-          <button class="subassembly-btn" onclick="toggleSection('dmx-more', this)">Development · In Depth</button>
+          <button class="subassembly-btn is-open" data-static-label="1" aria-expanded="true" onclick="toggleSection('dmx-more', this)">Development · In Depth<span class="btn-toggle-x"></span></button>
         </div>
-        <div id="dmx-more" style="display:none;margin-top:22px">
+        <div id="dmx-more" style="display:block;margin-top:22px">
           <div class="sub-section">
             <h4>PyGame Interface</h4>
             <p>After the features were approved, a very preliminary interface was constructed in PyGame, and eventually finalized into a macro-encoder style system. The final interface is also developed using PyGame.</p>
@@ -726,6 +852,8 @@ const projects = [
     name:'Companion\nRobot',
     displayName:'Companion Robot',
     catalog:'AL-001',side:'A',year:'2026',
+    cover:'https://i.imgur.com/41vTl4Z.png',
+    sleeve:'window',
     color:palette[1],
     tags:['SolidWorks','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
@@ -755,7 +883,7 @@ const projects = [
           <button class="subassembly-btn" onclick="openSubpage()">Subassemblies · In Depth</button>
         </div>
         <h3>Demo:</h3>
-        <p>Will record once back in Waterloo on Aug 22, for now see this video below from February, and the arm video from April.</p>
+        <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
         <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
       </div>
@@ -765,6 +893,8 @@ const projects = [
     name:'Biotron',
     displayName:'Biotron',
     catalog:'AL-003',side:'B',year:'2026',
+    cover:'https://i.imgur.com/8sH0tmw.png',
+    sleeve:'split',
     color:palette[2],
     tags:['Altium Designer','LTspice'],
     trackKey:'biotron',
@@ -799,6 +929,8 @@ const projects = [
     name:'AHDM',
     displayName:'Autonomous Air Hockey Defense Machine',
     catalog:'AL-002',side:'A',year:'2025',
+    cover:'https://i.imgur.com/yyUza6V.jpeg',
+    sleeve:'band',
     color:palette[3],
     tags:['C++','Actuators','Gantry'],
     trackKey:'hockey',
@@ -829,6 +961,8 @@ const projects = [
     name:'Waterglo',
     displayName:'Waterglo',
     catalog:'AL-005',side:'B',year:'2026',
+    cover:'https://i.imgur.com/biTFGzA.jpeg',
+    sleeve:'frame',
     color:palette[4],
     tags:['SolidWorks','Flow/Fluid Design','Prototyping'],
     trackKey:'waterglo',
@@ -843,9 +977,7 @@ const projects = [
         <span class="detail-tag">Prototyping</span>
       </div>
       <div class="detail-body">
-        <video controls preload="metadata">
-          <source src="Waterglo.mp4" type="video/mp4">
-        </video>
+        <iframe src="https://www.youtube.com/embed/ykclXV86JBs?si=1M1KWLgjWS3AuFOz" title="Waterglo Demo" allowfullscreen></iframe>
         <p>The Waterglo project is a consumer-level product that, using an air pump and water pump alongside a specialized nozzle that releases water at a high rate (7 GAL/min), creates "cool" effects. The work my fellow intern and I did on this project was the prototype/mock-up initial step.</p>
         <p>SolidWorks was used to model potential interesting shapes to be used in the project, and a test rig was also modeled in SolidWorks and eventually semi-assembled in real life via the Wood Shop team. After approval, using Coke bottles and snap bottles (2L), the shapes were mocked up using a heat gun, a hot glue gun, and a piping/lighting setup that conformed to the given nozzle, introducing air and water to the system controlled by a DMX-converted power supply.</p>
         <p>Eventually, after testing the "Coke bottle" shapes, the final "test" shape, which is significantly larger, was created by 3D printing the negative of the shape and vacuum forming acrylic over the shape, then using Weld-On to make the seal water-tight. See the video above for a demonstration.</p>
@@ -857,6 +989,8 @@ const projects = [
     name:'Weigl',
     displayName:'Weigl ProCommander HXi',
     catalog:'AL-006',side:'A',year:'2026',
+    cover:'',                 // <- cover art: point this at a project photo, e.g. 'images/dmx.jpg'
+    sleeve:'stamp',
     color:palette[5],
     tags:['HTML/CSS/JS','Claude Code','Technical Documentation'],
     trackKey:'weigl',
@@ -896,30 +1030,60 @@ const vinylStates = projects.map((_,i) => ({
   mode: 'wobble',
 }));
 
+// each project gets its own cover layout, so no two records look alike
+const SLEEVE_STYLES = ['block','window','split','band','frame','stamp'];
+
 projects.forEach((proj,i) => {
+  const style = proj.sleeve || SLEEVE_STYLES[i % SLEEVE_STYLES.length];
+  const art = proj.cover ? ` style="background-image:url('${proj.cover}')"` : '';
   const wrap = document.createElement('div');
   wrap.className = 'vinyl-wrap';
   wrap.innerHTML = `
-    ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
-    ${proj.wip ? '<div class="wip-badge">*WIP</div>' : ''}
-    <div class="vinyl" id="vd-${i}" style="transform:rotate(${vinylStates[i].angle}deg)">
-      <div class="vinyl-grain"></div>
-      <div class="vinyl-rim"></div>
-      <div class="vinyl-label">
-        <div class="vinyl-label-bg" style="background:${proj.color}"></div>
-        <div class="vinyl-label-grain"></div>
-        <div class="vinyl-label-ring"></div>
-        <span class="vinyl-label-top">LOKER ENGINEERING · ${proj.catalog}</span>
-        <span class="vinyl-label-side">${proj.side}</span>
-        <span class="vinyl-label-text">${proj.name.replace('\n','<br>')}</span>
-        <span class="vinyl-label-sub">UWaterloo · ${proj.year} · 33⅓ RPM</span>
-        <span class="vinyl-label-bottom">Alexander Loker · Mechatronics · Side ${proj.side}</span>
+    <div class="disc-slide">
+      <div class="vinyl" id="vd-${i}" style="transform:rotate(${vinylStates[i].angle}deg)">
+        <div class="vinyl-grain"></div>
+        <div class="vinyl-rim"></div>
+        <div class="vinyl-label">
+          <div class="vinyl-label-bg" style="background:${proj.color}"></div>
+          <div class="vinyl-label-grain"></div>
+          <div class="vinyl-label-ring"></div>
+          <span class="vinyl-label-top">LOKER ENGINEERING · ${proj.catalog}</span>
+          <span class="vinyl-label-side">${proj.side}</span>
+          <span class="vinyl-label-text">${proj.name.replace('\n','<br>')}</span>
+          <span class="vinyl-label-sub">UWaterloo · ${proj.year} · 33⅓ RPM</span>
+          <span class="vinyl-label-bottom">Alexander Loker · Mechatronics · Side ${proj.side}</span>
+        </div>
+        <div class="vinyl-hole"></div>
       </div>
-      <div class="vinyl-hole"></div>
-    </div>`;
-  wrap.addEventListener('mouseenter', () => { vinylStates[i].hovering=true; vinylStates[i].wobbleAmp=0; vinylStates[i].mode='spinning'; });
-  wrap.addEventListener('mouseleave', () => { vinylStates[i].hovering=false; vinylStates[i].mode='decelerating'; });
-  wrap.addEventListener('click', () => openDetail(i));
+    </div>
+    <div class="sleeve-box">
+      <div class="sleeve sv-${style}" style="--c:${proj.color}">
+        <div class="sleeve-art${proj.cover ? '' : ' ph-' + style}"${art}></div>
+        <div class="sleeve-plate">
+          <div class="sleeve-title">${proj.name.replace('\n','<br>')}</div>
+          <div class="sleeve-meta"><span class="sleeve-date">${proj.year}</span></div>
+        </div>
+        <div class="sleeve-cat">${proj.catalog}</div>
+        <div class="sleeve-grain"></div>
+        <div class="sleeve-gloss"></div>
+      </div>
+      ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
+      ${proj.wip ? '<div class="wip-badge">*WIP</div>' : ''}
+    </div>
+    <div class="disc-cue">Click to play</div>`;
+  // the wrap is click-through (it reserves the empty slide-out room), so hover comes from the
+  // children bubbling up; relatedTarget filters out moves between sleeve and record
+  wrap.addEventListener('mouseover', e => {
+    if (wrap.contains(e.relatedTarget)) return;
+    wrap.classList.add('is-hovered');
+    vinylStates[i].hovering = true; vinylStates[i].wobbleAmp = 0; vinylStates[i].mode = 'spinning';
+  });
+  wrap.addEventListener('mouseout', e => {
+    if (wrap.contains(e.relatedTarget)) return;
+    wrap.classList.remove('is-hovered');
+    vinylStates[i].hovering = false; vinylStates[i].mode = 'decelerating';
+  });
+  wrap.querySelectorAll('.disc-slide,.sleeve').forEach(el => el.addEventListener('click', () => openDetail(i)));
   rowEl.appendChild(wrap);
 });
 
@@ -1219,6 +1383,9 @@ function toggleSection(id, btn) {
   const showing = el.style.display !== 'block';
   el.style.display = showing ? 'block' : 'none';
   if (btn) {
+    btn.classList.toggle('is-open', showing);
+    btn.setAttribute('aria-expanded', showing);
+    if (btn.dataset.staticLabel) return;   // label stays put, the x carries the open/closed state
     if (!btn.dataset.showLabel) btn.dataset.showLabel = btn.textContent;
     if (!btn.dataset.hideLabel) btn.dataset.hideLabel = 'Hide ' + btn.textContent.replace(/^Show\s+/i, '');
     btn.textContent = showing ? btn.dataset.hideLabel : btn.dataset.showLabel;
