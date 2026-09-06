@@ -20,6 +20,7 @@ const projects = [
     displayName:'DMX Handheld Tester',
     catalog:'AL-004',side:'A',year:'2026',
     slug:'dmx-tester',
+    tone:'dark',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'https://i.imgur.com/I25zgLJ.png',
     sleeve:'block',
     color:palette[0],
@@ -128,6 +129,7 @@ const projects = [
     displayName:'Companion Robot',
     catalog:'AL-001',side:'A',year:'2026',
     slug:'companion-robot',
+    tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'https://i.imgur.com/41vTl4Z.png',
     sleeve:'window',
     color:palette[1],
@@ -233,6 +235,7 @@ const projects = [
     displayName:'Biotron',
     catalog:'AL-003',side:'B',year:'2026',
     slug:'biotron',
+    tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'https://i.imgur.com/8sH0tmw.png',
     sleeve:'split',
     color:palette[2],
@@ -270,6 +273,7 @@ const projects = [
     displayName:'Autonomous Air Hockey Defense Machine',
     catalog:'AL-002',side:'A',year:'2025',
     slug:'ahdm',
+    tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'https://i.imgur.com/yyUza6V.jpeg',
     sleeve:'band',
     color:palette[3],
@@ -303,6 +307,7 @@ const projects = [
     displayName:'Waterglo',
     catalog:'AL-005',side:'B',year:'2026',
     slug:'waterglo',
+    tone:'dark',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'https://i.imgur.com/biTFGzA.jpeg',
     sleeve:'frame',
     color:palette[4],
@@ -332,6 +337,7 @@ const projects = [
     displayName:'Weigl ProCommander HXi',
     catalog:'AL-006',side:'A',year:'2026',
     slug:'weigl',
+    tone:'dark',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
     cover:'',                 // <- cover art: point this at a project photo, e.g. 'images/dmx.jpg'
     sleeve:'stamp',
     color:palette[5],

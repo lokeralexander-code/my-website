@@ -272,7 +272,7 @@ projects.forEach((proj,i) => {
       </div>
     </a>
     <div class="sleeve-box">
-      <a class="sleeve sv-${style}" href="/${proj.slug}" style="--c:${proj.color}">
+      <a class="sleeve sv-${style} tone-${proj.tone || 'dark'}" href="/${proj.slug}" style="--c:${proj.color}">
         <div class="sleeve-art${proj.cover ? '' : ' ph-' + style}"${art}></div>
         <div class="sleeve-plate">
           <div class="sleeve-title">${proj.name.replace('\n','<br>')}</div>

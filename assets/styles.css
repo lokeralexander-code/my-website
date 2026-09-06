@@ -160,10 +160,10 @@
   .sleeve>*{position:absolute}
   .sleeve-art{background-color:#141414;background-size:cover;background-position:center;z-index:1}
   .sleeve-plate{display:flex;flex-direction:column;z-index:3}
-  .sleeve-title{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:.95;letter-spacing:.5px;font-size:calc(var(--sleeve)*.1)}
-  .sleeve-meta{display:flex;align-items:baseline;gap:.5em;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1.6px;font-size:calc(var(--sleeve)*.035)}
+  .sleeve-title{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:.95;letter-spacing:.5px;font-size:calc(var(--sleeve)*.1);color:var(--ink);text-shadow:var(--ink-shadow)}
+  .sleeve-meta{display:flex;align-items:baseline;gap:.5em;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1.6px;font-size:calc(var(--sleeve)*.035);color:var(--ink-soft);text-shadow:var(--ink-shadow)}
   .sleeve-date{font-size:inherit;letter-spacing:inherit;white-space:nowrap}
-  .sleeve-cat{z-index:4;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:calc(var(--sleeve)*.031);letter-spacing:1.2px}
+  .sleeve-cat{z-index:4;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:calc(var(--sleeve)*.031);letter-spacing:1.2px;color:var(--ink-faint);text-shadow:var(--ink-shadow)}
   .sleeve-grain{inset:0;z-index:5;pointer-events:none;opacity:.3;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");background-size:150px 150px}
   .sleeve-gloss{
     inset:0;z-index:6;pointer-events:none;
@@ -173,53 +173,54 @@
       linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.07));
   }
 
-  /* 1 - BLOCK: full-bleed art, solid title block bottom-left */
-  .sv-block{background:#111}
-  .sv-block .sleeve-art{inset:0}
-  .sv-block .sleeve-plate{left:0;bottom:0;max-width:80%;background:var(--c);padding:5.5% 7% 5.2%;gap:.5em}
-  .sv-block .sleeve-title{font-size:calc(var(--sleeve)*.112);color:#16130f}
-  .sv-block .sleeve-meta{color:rgba(0,0,0,.6)}
-  .sv-block .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;background:rgba(0,0,0,.45);padding:.35em .6em}
+  /* Every cover is the photograph, full bleed. The type sits over it on a soft
+     scrim, always in the lower part of the frame so it stays clear of the
+     WET / *WIP corner badges and keeps the image itself unobstructed. */
+  .sleeve-art{inset:0}
+  .sleeve{
+    --ink:#fff;--ink-soft:rgba(255,255,255,.88);--ink-faint:rgba(255,255,255,.74);
+    --ink-shadow:0 1px 12px rgba(0,0,0,.55);
+    --scrim-bottom:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.74) 30%,rgba(0,0,0,.32) 55%,rgba(0,0,0,0) 80%);
+    --scrim-left:linear-gradient(to right,rgba(0,0,0,.9) 0%,rgba(0,0,0,.56) 42%,rgba(0,0,0,0) 80%);
+    --scrim-centre:linear-gradient(to top,rgba(0,0,0,0) 20%,rgba(0,0,0,.72) 34%,rgba(0,0,0,.72) 62%,rgba(0,0,0,0) 76%);
+  }
+  .sleeve.tone-light{
+    --ink:#131313;--ink-soft:rgba(0,0,0,.7);--ink-faint:rgba(0,0,0,.5);
+    --ink-shadow:0 1px 10px rgba(255,255,255,.7);
+    --scrim-bottom:linear-gradient(to top,rgba(255,255,255,.94) 0%,rgba(255,255,255,.82) 30%,rgba(255,255,255,.38) 55%,rgba(255,255,255,0) 80%);
+    --scrim-left:linear-gradient(to right,rgba(255,255,255,.94) 0%,rgba(255,255,255,.62) 42%,rgba(255,255,255,0) 80%);
+    --scrim-centre:linear-gradient(to top,rgba(255,255,255,0) 20%,rgba(255,255,255,.86) 34%,rgba(255,255,255,.86) 62%,rgba(255,255,255,0) 76%);
+  }
 
-  /* 2 - WINDOW: art framed inside a colour field, credits centred */
-  .sv-window{background:var(--c)}
-  .sv-window .sleeve-art{top:30%;left:11%;right:11%;bottom:23%;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.25)}
-  .sv-window .sleeve-plate{inset:0;padding:6.5% 8%;justify-content:space-between;align-items:center;text-align:center}
-  .sv-window .sleeve-title{font-size:calc(var(--sleeve)*.076);color:#16130f;letter-spacing:2px}
-  .sv-window .sleeve-meta{color:rgba(0,0,0,.58);font-size:calc(var(--sleeve)*.032)}
-  .sv-window .sleeve-cat{bottom:2.6%;left:6%;color:rgba(0,0,0,.42)}
+  /* 1 - lower left */
+  .sv-block .sleeve-plate{left:0;right:0;bottom:0;padding:30% 8% 7%;justify-content:flex-end;align-items:flex-start;gap:.45em;background:var(--scrim-bottom)}
+  .sv-block .sleeve-title{font-size:calc(var(--sleeve)*.112);border-left:calc(var(--sleeve)*.015) solid var(--c);padding-left:.26em}
+  .sv-block .sleeve-cat{bottom:7.4%;right:7%}
 
-  /* 3 - SPLIT: art up top, colour block below */
-  .sv-split{background:#111}
-  .sv-split .sleeve-art{top:0;left:0;right:0;height:58%}
-  .sv-split .sleeve-plate{left:0;right:0;top:58%;bottom:0;background:var(--c);padding:0 6%;justify-content:center;gap:.55em}
-  .sv-split .sleeve-title{font-size:calc(var(--sleeve)*.1);color:#16130f}
-  .sv-split .sleeve-meta{color:rgba(0,0,0,.58)}
-  .sv-split .sleeve-cat{top:49%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  /* 2 - lower right */
+  .sv-window .sleeve-plate{left:0;right:0;bottom:0;padding:30% 8% 7%;justify-content:flex-end;align-items:flex-end;text-align:right;gap:.45em;background:var(--scrim-bottom)}
+  .sv-window .sleeve-title{font-size:calc(var(--sleeve)*.105);border-right:calc(var(--sleeve)*.015) solid var(--c);padding-right:.26em}
+  .sv-window .sleeve-cat{bottom:7.4%;left:7%}
 
-  /* 4 - BAND: full-bleed art with a title band struck across it */
-  .sv-band{background:#111}
-  .sv-band .sleeve-art{inset:0}
-  .sv-band .sleeve-plate{left:0;right:0;top:30%;background:#F4F1EA;border-top:3px solid var(--c);border-bottom:3px solid var(--c);padding:4% 6%;align-items:center;text-align:center;gap:.35em}
-  .sv-band .sleeve-title{font-size:calc(var(--sleeve)*.09);color:#141414}
-  .sv-band .sleeve-meta{color:rgba(0,0,0,.5);font-size:calc(var(--sleeve)*.031)}
-  .sv-band .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  /* 3 - lower centre */
+  .sv-split .sleeve-plate{left:0;right:0;bottom:0;padding:32% 8% 7.5%;justify-content:flex-end;align-items:center;text-align:center;gap:.5em;background:var(--scrim-bottom)}
+  .sv-split .sleeve-title{font-size:calc(var(--sleeve)*.1)}
+  .sv-split .sleeve-cat{bottom:7.5%;right:7%}
 
-  /* 5 - FRAME: ruled swiss frame, art plate offset to the corner */
-  .sv-frame{background:#F0EAE0}
-  .sv-frame .sleeve-art{top:33%;left:40%;right:8%;bottom:9%}
-  .sv-frame .sleeve-plate{inset:5.5%;padding:6%;justify-content:space-between;align-items:flex-start;box-shadow:inset 0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
-  .sv-frame .sleeve-title{font-size:calc(var(--sleeve)*.098);color:#16130f;max-width:66%;border-left:calc(var(--sleeve)*.018) solid var(--c);padding-left:.26em}
-  .sv-frame .sleeve-meta{max-width:30%;color:rgba(0,0,0,.55);font-size:calc(var(--sleeve)*.031)}
-  .sv-frame .sleeve-cat{bottom:12%;right:10.5%;color:rgba(255,255,255,.85);text-shadow:0 1px 3px rgba(0,0,0,.55)}
+  /* 4 - struck across the middle */
+  .sv-band .sleeve-plate{inset:0;padding:14% 9%;justify-content:center;align-items:center;text-align:center;gap:.55em;background:var(--scrim-centre)}
+  .sv-band .sleeve-title{font-size:calc(var(--sleeve)*.1);border-top:2px solid var(--c);border-bottom:2px solid var(--c);padding:.2em 0}
+  .sv-band .sleeve-cat{bottom:6.5%;right:6.5%}
 
-  /* 6 - STAMP: dark ground, circular art crop, boxed title */
-  .sv-stamp{background:#17171b}
-  .sv-stamp .sleeve-art{top:9%;left:50%;transform:translateX(-50%);width:54%;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 12px 28px rgba(0,0,0,.55)}
-  .sv-stamp .sleeve-plate{inset:0;padding:6%;justify-content:flex-end;align-items:center;text-align:center;gap:.55em}
-  .sv-stamp .sleeve-title{font-size:calc(var(--sleeve)*.082);color:#fff;border:1px solid rgba(255,255,255,.45);padding:.3em .6em}
-  .sv-stamp .sleeve-meta{color:var(--c);font-size:calc(var(--sleeve)*.031)}
-  .sv-stamp .sleeve-cat{bottom:5.5%;left:5.5%;color:rgba(255,255,255,.45)}
+  /* 5 - spine, reading up the left edge */
+  .sv-frame .sleeve-plate{left:0;top:0;bottom:0;width:52%;padding:9% 0 7.5% 7.5%;justify-content:flex-end;align-items:flex-start;gap:.75em;background:var(--scrim-left)}
+  .sv-frame .sleeve-title{writing-mode:vertical-rl;transform:rotate(180deg);font-size:calc(var(--sleeve)*.1);max-height:66%}
+  .sv-frame .sleeve-cat{bottom:7.5%;right:7%}
+
+  /* 6 - boxed, lower left */
+  .sv-stamp .sleeve-plate{left:0;right:0;bottom:0;padding:30% 8% 7%;justify-content:flex-end;align-items:flex-start;gap:.55em;background:var(--scrim-bottom)}
+  .sv-stamp .sleeve-title{font-size:calc(var(--sleeve)*.085);border:1px solid var(--ink-faint);padding:.32em .62em}
+  .sv-stamp .sleeve-cat{bottom:7.4%;right:7%}
 
   /* stand-in cover art, used until a photo is set on the project (proj.cover) */
   .ph-block{background:radial-gradient(circle at 68% 30%,var(--c) 0 26%,transparent 26.5%),repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 14px),linear-gradient(150deg,#242428,#0f0f12)}
