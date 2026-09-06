@@ -8,435 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.imgur.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#fff;font-family:'Space Mono',monospace;overflow-x:hidden}
-
-  /* INTRO */
-  #intro-overlay{
-    position:fixed;inset:0;z-index:9999;background:#fff;
-    display:flex;align-items:center;justify-content:center;overflow:hidden;
-    transition:opacity 1.2s ease;
-  }
-  #intro-overlay.gone{opacity:0;pointer-events:none}
-
-  .crate{
-    width:300px;height:200px;position:absolute;top:-350px;
-    animation:crateFall 1.1s cubic-bezier(.6,0,.9,.4) forwards;
-  }
-  .crate-body{
-    width:100%;height:100%;border-radius:3px;
-    display:flex;align-items:flex-end;justify-content:center;
-    position:relative;overflow:hidden;
-    background:#1a1a1a;
-    border:3px solid #333;
-    box-shadow:
-      inset 0 0 20px rgba(0,0,0,0.5),
-      0 8px 30px rgba(0,0,0,0.6);
-  }
-  .crate-body::before{
-    content:'PORTFOLIO';font-family:'Anton',sans-serif;font-size:18px;
-    color:rgba(255,255,255,0.5);letter-spacing:6px;z-index:2;
-    padding-bottom:25px;
-    text-shadow:0 1px 3px rgba(0,0,0,0.5);
-  }
-  .crate-spines{
-    position:absolute;top:8px;left:8px;right:8px;bottom:55%;
-    display:flex;gap:1px;align-items:stretch;z-index:1;
-  }
-  .crate-spine{
-    border-radius:1px 1px 0 0;
-    box-shadow:inset -1px 0 0 rgba(0,0,0,0.2), inset 1px 0 0 rgba(255,255,255,0.05);
-  }
-
-  @keyframes crateFall{0%{top:-350px;transform:rotate(-2deg)}65%{top:calc(50% - 100px);transform:rotate(0)}75%{top:calc(50% - 115px);transform:rotate(1deg)}85%{top:calc(50% - 100px);transform:rotate(-.5deg)}100%{top:calc(50% - 100px);transform:rotate(0)}}
-  .crate.break .crate-body{animation:crateBreak .5s ease forwards}
-  @keyframes crateBreak{0%{transform:scale(1);opacity:1}30%{transform:scale(1.05)}100%{transform:scale(1.3) rotate(3deg);opacity:0}}
-  .intro-vinyl{position:absolute;width:140px;height:140px;opacity:0;border-radius:50%}
-  .intro-vinyl:nth-child(2).fly{animation:ivFly1 .85s cubic-bezier(.25,.46,.45,.94) forwards}
-  .intro-vinyl:nth-child(3).fly{animation:ivFly2 .85s cubic-bezier(.25,.46,.45,.94) .04s forwards}
-  .intro-vinyl:nth-child(4).fly{animation:ivFly3 .85s cubic-bezier(.25,.46,.45,.94) .08s forwards}
-  @keyframes ivFly1{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.2)}100%{opacity:1;transform:translate(-170px,0) rotate(600deg) scale(1)}}
-  @keyframes ivFly2{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.2)}100%{opacity:1;transform:translate(0,-20px) rotate(-500deg) scale(1)}}
-  @keyframes ivFly3{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.2)}100%{opacity:1;transform:translate(170px,0) rotate(450deg) scale(1)}}
-
-  /* MAIN */
-  #main-site{opacity:0;transition:opacity 1s ease;min-height:100vh}
-  #main-site.visible{opacity:1}
-
-  .header{padding:30px 60px 12px;position:relative}
-  .resume-link{
-    display:inline-block;font-family:'Anton',sans-serif;
-    font-size:clamp(12px,1.4vw,16px);color:#FF6B35;text-decoration:none;
-    letter-spacing:3px;text-transform:uppercase;border:2px solid #FF6B35;
-    padding:5px 16px;margin-bottom:14px;transition:all .3s ease;
-  }
-  .resume-link:hover{background:#FF6B35;color:#fff}
-  /* The gallery button IS the IC (U1): fixed box so the SVG footprint aligns to its edges */
-  .ic-module{position:absolute;top:30px;right:60px;z-index:5}
-  .pcb-gallery-btn{
-    position:relative;z-index:2;
-    width:170px;height:34px;padding:0;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Anton',sans-serif;font-size:15px;
-    color:#111;background:#fff;
-    letter-spacing:3px;text-transform:uppercase;border:2px solid #111;
-    cursor:pointer;transition:all .3s ease;
-  }
-  .pcb-gallery-btn:hover{background:#111;color:#fff}
-
-  /* Board fragment: bus routing, connector, passives */
-  /* temporarily hidden - delete this one line to bring the traces back */
-  .pcb-deco{display:none}
-  .pcb-deco{
-    position:absolute;left:-280px;top:-20px;z-index:1;
-    color:#d6c098;pointer-events:none;
-    transition:color .35s ease;
-  }
-  .pcb-deco .silk{
-    font-family:'Space Mono',monospace;font-size:7px;
-    letter-spacing:.5px;fill:currentColor;
-  }
-  .ic-module:hover .pcb-deco{color:#a3762f}
-  @media(max-width:1150px){.pcb-deco{display:none}}
-  @media(max-width:680px){.ic-module{position:static;margin:14px 0 20px}}
-
-  /* INTERNSHIP STRIP */
-  .internship-strip{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap}
-  .internship-item{display:flex;flex-direction:column;align-items:center;gap:6px}
-  .internship-chip{
-    width:64px;height:64px;border-radius:10px;background:#111;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-  }
-  .internship-chip.empty{background:none;border:2px dashed #ddd;box-shadow:none}
-  .internship-logo{width:68%;height:auto;display:block}
-  .internship-label{font-family:'Space Mono',monospace;font-size:9px;color:#888;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;height:11px}
-  @media(max-width:680px){.internship-chip{width:50px;height:50px;border-radius:8px}}
-
-  .name{
-    font-family:'Anton',sans-serif;font-size:clamp(48px,8vw,100px);
-    color:#F5C518;letter-spacing:4px;text-transform:uppercase;line-height:1;
-    text-shadow:2px 2px 0 rgba(0,0,0,.07);
-  }
-  .subtitle{font-size:clamp(11px,1.5vw,16px);color:#444;margin-top:8px;letter-spacing:1.5px;font-weight:700}
-
-  /* VINYL ROW - album sleeves with the record tucked inside */
-  .vinyl-section{display:flex;justify-content:center;padding:60px 20px 60px}
-  .vinyl-row{
-    --sleeve:250px;                    /* cover size */
-    --slide:150px;                     /* how far the record slides out on hover */
-    --disc:calc(var(--sleeve)*.9);
-    --cue:calc(var(--sleeve)*.12);   /* caption strip under each cover */
-    display:flex;gap:36px 34px;align-items:flex-start;justify-content:center;flex-wrap:wrap;
-    max-width:100%;
-    /* every row ends with one empty slide-out slot, so nudge the covers back to optical centre.
-       transform, not margin, so it cannot change wrapping or overflow */
-    transform:translateX(calc(var(--slide) / 2));
-  }
-  /* the wrap permanently reserves the slide-out room, so neighbours never shift or collide mid-animation */
-  .vinyl-wrap{position:relative;width:calc(var(--sleeve) + var(--slide));height:calc(var(--sleeve) + var(--cue));pointer-events:none}
-  .vinyl-wrap:hover{z-index:10}
-  .sleeve-box{position:absolute;left:0;top:0;width:var(--sleeve);height:var(--sleeve);z-index:3}
-
-  /* THE RECORD - slides out from behind the sleeve on hover, click it to open the project */
-  .disc-slide{
-    position:absolute;z-index:1;pointer-events:auto;cursor:pointer;
-    top:calc((var(--sleeve) - var(--disc))/2);left:calc((var(--sleeve) - var(--disc))/2);
-    width:var(--disc);height:var(--disc);
-    transform:translateX(0);
-    transition:transform 1.15s cubic-bezier(.22,.62,.28,1);
-  }
-  .vinyl-wrap:hover .disc-slide,.vinyl-wrap.is-hovered .disc-slide{transform:translateX(var(--slide))}
-  .disc-cue{
-    position:absolute;left:0;top:var(--sleeve);width:var(--sleeve);height:var(--cue);
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Space Mono',monospace;font-size:calc(var(--sleeve)*.038);letter-spacing:2px;
-    text-transform:uppercase;color:#a5a5a5;pointer-events:none;
-    transition:color .35s ease;
-  }
-  .vinyl-wrap:hover .disc-cue,.vinyl-wrap.is-hovered .disc-cue{color:#111}
-
-  /* SLEEVE - shared parts */
-  .sleeve{
-    position:absolute;inset:0;overflow:hidden;pointer-events:auto;cursor:pointer;
-    background:#EFE9DE;
-    box-shadow:0 10px 26px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.12),inset 0 0 0 1px rgba(0,0,0,.14);
-    transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease;
-  }
-  .vinyl-wrap:hover .sleeve,.vinyl-wrap.is-hovered .sleeve{transform:translateY(-7px);box-shadow:0 20px 42px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.16),inset 0 0 0 1px rgba(0,0,0,.16)}
-  .sleeve>*{position:absolute}
-  .sleeve-art{background-color:#141414;background-size:cover;background-position:center;z-index:1}
-  .sleeve-plate{display:flex;flex-direction:column;z-index:3}
-  .sleeve-title{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:.95;letter-spacing:.5px;font-size:calc(var(--sleeve)*.1)}
-  .sleeve-meta{display:flex;align-items:baseline;gap:.5em;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1.6px;font-size:calc(var(--sleeve)*.035)}
-  .sleeve-date{font-size:inherit;letter-spacing:inherit;white-space:nowrap}
-  .sleeve-cat{z-index:4;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:calc(var(--sleeve)*.031);letter-spacing:1.2px}
-  .sleeve-grain{inset:0;z-index:5;pointer-events:none;opacity:.3;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");background-size:150px 150px}
-  .sleeve-gloss{
-    inset:0;z-index:6;pointer-events:none;
-    background:
-      linear-gradient(90deg,rgba(0,0,0,.3) 0,rgba(0,0,0,.1) 2.5%,rgba(255,255,255,.07) 6%,rgba(0,0,0,0) 15%),
-      linear-gradient(270deg,rgba(0,0,0,.18) 0,rgba(0,0,0,0) 7%),
-      linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.07));
-  }
-
-  /* 1 - BLOCK: full-bleed art, solid title block bottom-left */
-  .sv-block{background:#111}
-  .sv-block .sleeve-art{inset:0}
-  .sv-block .sleeve-plate{left:0;bottom:0;max-width:80%;background:var(--c);padding:5.5% 7% 5.2%;gap:.5em}
-  .sv-block .sleeve-title{font-size:calc(var(--sleeve)*.112);color:#16130f}
-  .sv-block .sleeve-meta{color:rgba(0,0,0,.6)}
-  .sv-block .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;background:rgba(0,0,0,.45);padding:.35em .6em}
-
-  /* 2 - WINDOW: art framed inside a colour field, credits centred */
-  .sv-window{background:var(--c)}
-  .sv-window .sleeve-art{top:30%;left:11%;right:11%;bottom:23%;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.25)}
-  .sv-window .sleeve-plate{inset:0;padding:6.5% 8%;justify-content:space-between;align-items:center;text-align:center}
-  .sv-window .sleeve-title{font-size:calc(var(--sleeve)*.076);color:#16130f;letter-spacing:2px}
-  .sv-window .sleeve-meta{color:rgba(0,0,0,.58);font-size:calc(var(--sleeve)*.032)}
-  .sv-window .sleeve-cat{bottom:2.6%;left:6%;color:rgba(0,0,0,.42)}
-
-  /* 3 - SPLIT: art up top, colour block below */
-  .sv-split{background:#111}
-  .sv-split .sleeve-art{top:0;left:0;right:0;height:58%}
-  .sv-split .sleeve-plate{left:0;right:0;top:58%;bottom:0;background:var(--c);padding:0 6%;justify-content:center;gap:.55em}
-  .sv-split .sleeve-title{font-size:calc(var(--sleeve)*.1);color:#16130f}
-  .sv-split .sleeve-meta{color:rgba(0,0,0,.58)}
-  .sv-split .sleeve-cat{top:49%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-
-  /* 4 - BAND: full-bleed art with a title band struck across it */
-  .sv-band{background:#111}
-  .sv-band .sleeve-art{inset:0}
-  .sv-band .sleeve-plate{left:0;right:0;top:30%;background:#F4F1EA;border-top:3px solid var(--c);border-bottom:3px solid var(--c);padding:4% 6%;align-items:center;text-align:center;gap:.35em}
-  .sv-band .sleeve-title{font-size:calc(var(--sleeve)*.09);color:#141414}
-  .sv-band .sleeve-meta{color:rgba(0,0,0,.5);font-size:calc(var(--sleeve)*.031)}
-  .sv-band .sleeve-cat{bottom:5.5%;right:5.5%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-
-  /* 5 - FRAME: ruled swiss frame, art plate offset to the corner */
-  .sv-frame{background:#F0EAE0}
-  .sv-frame .sleeve-art{top:33%;left:40%;right:8%;bottom:9%}
-  .sv-frame .sleeve-plate{inset:5.5%;padding:6%;justify-content:space-between;align-items:flex-start;box-shadow:inset 0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
-  .sv-frame .sleeve-title{font-size:calc(var(--sleeve)*.098);color:#16130f;max-width:66%;border-left:calc(var(--sleeve)*.018) solid var(--c);padding-left:.26em}
-  .sv-frame .sleeve-meta{max-width:30%;color:rgba(0,0,0,.55);font-size:calc(var(--sleeve)*.031)}
-  .sv-frame .sleeve-cat{bottom:12%;right:10.5%;color:rgba(255,255,255,.85);text-shadow:0 1px 3px rgba(0,0,0,.55)}
-
-  /* 6 - STAMP: dark ground, circular art crop, boxed title */
-  .sv-stamp{background:#17171b}
-  .sv-stamp .sleeve-art{top:9%;left:50%;transform:translateX(-50%);width:54%;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 12px 28px rgba(0,0,0,.55)}
-  .sv-stamp .sleeve-plate{inset:0;padding:6%;justify-content:flex-end;align-items:center;text-align:center;gap:.55em}
-  .sv-stamp .sleeve-title{font-size:calc(var(--sleeve)*.082);color:#fff;border:1px solid rgba(255,255,255,.45);padding:.3em .6em}
-  .sv-stamp .sleeve-meta{color:var(--c);font-size:calc(var(--sleeve)*.031)}
-  .sv-stamp .sleeve-cat{bottom:5.5%;left:5.5%;color:rgba(255,255,255,.45)}
-
-  /* stand-in cover art, used until a photo is set on the project (proj.cover) */
-  .ph-block{background:radial-gradient(circle at 68% 30%,var(--c) 0 26%,transparent 26.5%),repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 14px),linear-gradient(150deg,#242428,#0f0f12)}
-  .ph-window{background:repeating-radial-gradient(circle at 50% 50%,var(--c) 0 3px,#16161a 3px 11px)}
-  .ph-split{background:linear-gradient(115deg,transparent 0 38%,var(--c) 38% 46%,transparent 46%),linear-gradient(115deg,transparent 0 58%,rgba(255,255,255,.14) 58% 62%,transparent 62%),linear-gradient(200deg,#1d1d22,#101014)}
-  .ph-band{background:radial-gradient(circle at 50% 64%,var(--c) 0 17%,transparent 17.5%),repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 9px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 9px),linear-gradient(180deg,#191920,#0d0d10)}
-  .ph-frame{background:linear-gradient(0deg,var(--c) 0 32%,transparent 32%),radial-gradient(circle at 3px 3px,rgba(255,255,255,.18) 0 2px,transparent 2.5px) 0 0/12px 12px,linear-gradient(160deg,#26262c,#131317)}
-  .ph-stamp{background:radial-gradient(circle at 50% 45%,var(--c) 0 12%,rgba(0,0,0,.8) 58%),repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.05) 0 6deg,transparent 6deg 12deg),#0c0c0f}
-
-  .wet-badge{
-    position:absolute;top:6px;right:8px;z-index:15;
-    background:#111;color:#fff;font-family:'Anton',sans-serif;
-    font-size:10px;letter-spacing:1.5px;padding:4px 10px;
-    border-radius:3px;transform:rotate(6deg);
-    box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none;
-  }
-
-  .wip-badge{
-    position:absolute;top:6px;left:8px;z-index:15;
-    background:#FF6B35;color:#fff;font-family:'Anton',sans-serif;
-    font-size:10px;letter-spacing:1.5px;padding:4px 10px;
-    border-radius:3px;transform:rotate(-6deg);
-    box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none;
-  }
-
-  /* LOCK GATE */
-  .lock-gate{text-align:center;padding:50px 20px 30px;max-width:420px;margin:0 auto}
-  .lock-gate-wip{font-family:'Anton',sans-serif;font-size:56px;letter-spacing:6px;color:#ddd;margin-bottom:28px}
-  .lock-gate-form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-  .lock-gate-input{
-    padding:10px 14px;background:transparent;border:2px solid #ccc;border-radius:0;
-    font-family:'Space Mono',monospace;font-size:13px;letter-spacing:1px;text-align:center;
-    outline:none;transition:border-color .2s;
-  }
-  .lock-gate-input:focus{border-color:#111}
-  .lock-gate-btn{
-    font-family:'Anton',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;
-    background:#111;color:#fff;border:none;padding:10px 24px;cursor:pointer;transition:background .3s;
-  }
-  .lock-gate-btn:hover{background:#333}
-  .lock-gate-error{margin-top:14px;font-size:11px;color:#e63946;opacity:0;transition:opacity .3s;letter-spacing:1px}
-  .lock-gate-error.show{opacity:1}
-
-  .feature-list p{margin-bottom:10px;font-size:12.5px}
-  .detail-body code{background:rgba(0,0,0,.06);padding:1px 6px;border-radius:4px;font-size:11.5px}
-  .nda-blur{filter:blur(7px) grayscale(.2);user-select:none}
-  .video-slot{
-    border:2px dashed #ddd;border-radius:12px;padding:70px 20px;margin-bottom:28px;
-    text-align:center;color:#aaa;font-family:'Space Mono',monospace;
-    font-size:12px;letter-spacing:2px;text-transform:uppercase;
-  }
-
-  /* PCB GALLERY */
-  #pcb-gallery{position:fixed;inset:0;background:#fff;z-index:1050;display:none;overflow-y:auto}
-  #pcb-gallery.open{display:block;animation:detailIn .5s ease forwards}
-  .pcb-gallery-content{max-width:760px;margin:0 auto;padding:60px 80px 100px}
-  .pcb-slide-title{font-family:'Anton',sans-serif;font-size:clamp(28px,5vw,48px);color:#111;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:8px;line-height:1.1}
-  .pcb-slide-date{font-family:'Space Mono',monospace;font-size:12px;color:#999;letter-spacing:1.5px;text-transform:uppercase;text-align:center;margin-bottom:28px}
-  .pcb-slide-desc{font-family:'Space Mono',monospace;font-size:13.5px;line-height:1.85;color:#333;text-align:center;max-width:600px;margin:0 auto 30px}
-  .pcb-slide-placeholder{font-family:'Anton',sans-serif;font-size:clamp(36px,7vw,64px);color:#ddd;letter-spacing:4px;text-transform:uppercase;text-align:center;padding:120px 20px}
-  .pcb-slide-fade{animation:pcbFadeIn .45s ease forwards}
-  @keyframes pcbFadeIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
-
-  .pcb-gallery-arrow{
-    position:fixed;top:50%;transform:translateY(-50%);z-index:1060;
-    width:56px;height:56px;border-radius:0;border:none;background:none;
-    color:#ccc;cursor:pointer;padding:0;
-    display:none;align-items:center;justify-content:center;
-    transition:color .25s ease,transform .25s ease;
-  }
-  .pcb-gallery-arrow:hover{color:#999;transform:translateY(-50%) scale(1.1)}
-  .pcb-gallery-arrow-left{left:24px}
-  .pcb-gallery-arrow-right{right:24px}
-
-  .pcb-gallery-dots{position:fixed;left:0;right:0;bottom:26px;z-index:1060;display:none;gap:8px;justify-content:center;pointer-events:none}
-  .pcb-gallery-dot{width:7px;height:7px;border-radius:50%;background:#ddd;transition:background .3s ease}
-  .pcb-gallery-dot.active{background:#111}
-
-  @media(max-width:680px){
-    .pcb-gallery-content{padding:50px 30px 80px}
-    .pcb-gallery-arrow{width:42px;height:42px}
-    .pcb-gallery-arrow svg{width:26px;height:26px}
-    .pcb-gallery-arrow-left{left:12px}
-    .pcb-gallery-arrow-right{right:12px}
-  }
-
-  .vinyl{
-    width:100%;height:100%;border-radius:50%;position:relative;
-    background:radial-gradient(circle,#2a2a2a 0%,#1a1a1a 20%,#222 21%,#1a1a1a 40%,#222 41%,#1a1a1a 60%,#252525 61%,#1a1a1a 80%,#222 81%,#1a1a1a 100%);
-    box-shadow:0 10px 28px rgba(0,0,0,.22),0 4px 20px rgba(0,0,0,.4),inset 0 0 80px rgba(0,0,0,.6),inset 0 0 4px rgba(255,255,255,.05);
-    overflow:hidden;transition:box-shadow .3s ease;will-change:transform;
-  }
-  .vinyl-wrap:hover .vinyl{box-shadow:0 14px 38px rgba(0,0,0,.35),0 4px 20px rgba(0,0,0,.4),inset 0 0 80px rgba(0,0,0,.6),inset 0 0 4px rgba(255,255,255,.05)}
-  .vinyl::before{content:'';position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at center,transparent 0px,transparent 1.5px,rgba(255,255,255,.035) 1.8px,transparent 2.2px);z-index:1}
-  .vinyl::after{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,255,255,.03) 15deg,rgba(255,255,255,.07) 30deg,transparent 45deg,transparent 150deg,rgba(255,255,255,.04) 165deg,rgba(255,255,255,.08) 180deg,transparent 195deg,transparent 360deg);z-index:2;pointer-events:none}
-  .vinyl-grain{position:absolute;inset:0;border-radius:50%;z-index:2;opacity:.4;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");background-size:128px 128px}
-  .vinyl-rim{position:absolute;inset:0;border-radius:50%;border:3px solid rgba(40,40,40,.8);box-shadow:inset 0 0 8px rgba(0,0,0,.5);z-index:3;pointer-events:none}
-  .vinyl-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42%;height:42%;border-radius:50%;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-  .vinyl-label-bg{position:absolute;inset:0;border-radius:50%}
-  .vinyl-label-grain{position:absolute;inset:0;border-radius:50%;opacity:.15;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");background-size:100px 100px}
-  .vinyl-label-ring{position:absolute;top:8%;left:8%;right:8%;bottom:8%;border-radius:50%;border:1px solid rgba(0,0,0,.12);pointer-events:none}
-  .vinyl-label-text{position:relative;z-index:5;font-family:'Anton',sans-serif;font-size:calc(var(--disc)*.068);color:#111;letter-spacing:2px;text-transform:uppercase;line-height:1.15}
-  .vinyl-label-sub{position:relative;z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.027);color:rgba(0,0,0,.5);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
-  .vinyl-label-top{position:absolute;top:calc(var(--disc)*.048);z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.023);color:rgba(0,0,0,.35);letter-spacing:2px;text-transform:uppercase}
-  .vinyl-label-bottom{position:absolute;bottom:calc(var(--disc)*.04);z-index:5;font-family:'Space Mono',monospace;font-size:calc(var(--disc)*.021);color:rgba(0,0,0,.3);letter-spacing:1px;text-transform:uppercase}
-  .vinyl-label-side{position:absolute;top:calc(var(--disc)*.048);right:calc(var(--disc)*.056);z-index:5;font-family:'Anton',sans-serif;font-size:calc(var(--disc)*.038);color:rgba(0,0,0,.22)}
-  .vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(var(--disc)*.045);height:calc(var(--disc)*.045);background:#fff;border-radius:50%;z-index:6;box-shadow:0 0 0 2px #444,0 0 3px rgba(0,0,0,.4)}
-
-  /* WHY VINYL */
-  .why-vinyl-section{text-align:center;padding:20px 40px 80px}
-  .why-vinyl-btn{font-family:'Anton',sans-serif;font-size:16px;letter-spacing:3px;color:#888;text-transform:uppercase;background:none;border:2px solid #ccc;padding:10px 28px;cursor:pointer;transition:all .3s ease;border-radius:0}
-  .why-vinyl-btn:hover{color:#111;border-color:#111}
-  .why-vinyl-content{max-width:640px;margin:30px auto 0;text-align:center;display:none;font-size:14px;line-height:1.9;color:#444}
-  .why-vinyl-content.open{display:block;animation:fadeUp .5s ease}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-
-  /* DETAIL */
-  #project-detail{position:fixed;inset:0;background:#fff;z-index:1000;display:none;overflow-y:auto}
-  #project-detail.open{display:block;animation:detailIn .5s ease forwards}
-  @keyframes detailIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-  .detail-groove-left,.detail-groove-right{position:fixed;top:0;bottom:0;width:34px;z-index:1200;overflow:hidden;background:#111}
-  .detail-groove-left{left:0}
-  .detail-groove-right{right:0}
-  .groove-strip{
-    width:100%;height:300%;
-    background:repeating-linear-gradient(180deg,
-      #111 0px, #111 3px,
-      #222 3px, #222 4.5px,
-      #111 4.5px, #111 6px,
-      #1a1a1a 6px, #1a1a1a 7px,
-      #111 7px, #111 9px,
-      #333 9px, #333 10px,
-      #111 10px, #111 12px
-    );
-  }
-  .detail-groove-left .groove-strip{animation:grooveDown 20s linear infinite}
-  .detail-groove-right .groove-strip{animation:grooveUp 20s linear infinite}
-  @keyframes grooveDown{from{transform:translateY(-66.66%)}to{transform:translateY(0)}}
-  @keyframes grooveUp{from{transform:translateY(0)}to{transform:translateY(-66.66%)}}
-
-  .detail-content{max-width:800px;margin:0 auto;padding:60px 80px 80px}
-  .detail-back{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:3px;color:#111;cursor:pointer;border:none;background:none;padding:8px 0;margin-bottom:30px;display:inline-block;text-transform:uppercase;position:relative}
-  .detail-back::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:2px;background:#111;transition:width .3s ease}
-  .detail-back:hover::after{width:35%}
-  .detail-title{font-family:'Anton',sans-serif;font-size:clamp(32px,5.5vw,60px);color:#111;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;line-height:1.05;text-align:center}
-  .detail-note{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:#888;font-style:italic;text-align:center;max-width:560px;margin:-14px auto 0}
-  .detail-body{font-family:'Space Mono',monospace;font-size:13px;line-height:1.85;color:#111}
-  .detail-body p{margin-bottom:16px}
-  .detail-body h3{font-family:'Anton',sans-serif;font-size:24px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:35px 0 14px;text-align:center}
-  .detail-body h4{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#666;margin:22px 0 10px;letter-spacing:1px}
-  .detail-body img{max-width:100%;border-radius:12px;margin:18px 0;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-  .detail-body iframe{width:100%;height:420px;border:none;border-radius:12px;margin:20px 0;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-  .detail-body video{width:100%;height:auto;display:block;border-radius:12px;margin:20px 0;box-shadow:0 8px 24px rgba(0,0,0,.12);background:#000}
-  .detail-body a{color:#FF6B35;text-decoration:underline}
-  .detail-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;justify-content:center}
-  .detail-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;padding:5px 14px;border:2px solid currentColor;text-transform:uppercase;color:inherit}
-  .detail-img-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0}
-  .detail-img-row img{width:calc(50% - 8px);min-width:240px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-  .detail-img-row-3{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:20px 0}
-  .detail-img-row-3 img{width:calc(33.333% - 10px);min-width:150px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-  .zoomable{cursor:zoom-in;transition:opacity .2s ease}
-  .zoomable:hover{opacity:.88}
-
-  /* LIGHTBOX */
-  #lightbox{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
-    z-index:5000;align-items:center;justify-content:center;cursor:zoom-out;padding:40px;
-  }
-  #lightbox.open{display:flex}
-  #lightbox-img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.5);cursor:default;display:block}
-  .subassembly-btn{display:inline-block;margin-top:20px;font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:#111;padding:12px 28px;cursor:pointer;border:none;transition:all .3s ease}
-  .subassembly-btn:hover{background:#333}
-  .subassembly-btn .btn-toggle-x{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:17px;height:17px;margin-left:11px;vertical-align:middle;
-    border:1px solid rgba(255,255,255,.45);border-radius:50%;
-    font-family:'Space Mono',monospace;font-size:11px;line-height:1;letter-spacing:0;
-    transition:background .3s ease,border-color .3s ease;
-  }
-  .subassembly-btn .btn-toggle-x::before{content:'+'}
-  .subassembly-btn.is-open .btn-toggle-x::before{content:'\2715'}
-  .subassembly-btn:hover .btn-toggle-x{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.8)}
-  .sub-section{margin:30px 0}
-  .sub-section h4{font-family:'Anton',sans-serif;font-size:18px;color:#111;letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px}
-
-  /* DECORATIONS */
-  .circuit-draw{stroke-dasharray:500;stroke-dashoffset:500;animation:drawLine 3s ease forwards}
-  .circuit-dot{opacity:0;animation:dotAppear .4s ease forwards;animation-delay:1.5s}
-  @keyframes drawLine{to{stroke-dashoffset:0}}
-  @keyframes dotAppear{to{opacity:1}}
-
-  .gear-spin{animation:gearCW 16s linear infinite}
-  .gear-spin-reverse{animation:gearCCW 10s linear infinite}
-  @keyframes gearCW{to{transform:rotate(360deg)}}
-  @keyframes gearCCW{to{transform:rotate(-360deg)}}
-
-  #gear-canvas{transition:opacity .3s ease}
-
-  .binary-fade{opacity:0;animation:binaryIn 1.5s ease forwards}
-  @keyframes binaryIn{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
-
-  @media(max-width:960px){.vinyl-row{--sleeve:212px;--slide:124px;gap:30px 26px}.deco-circuit,.deco-binary{display:none}#gear-container{display:none}}
-  @media(max-width:680px){.header{padding:25px 25px 10px}.vinyl-row{--sleeve:158px;--slide:86px;gap:26px 18px}.vinyl-label-sub,.vinyl-label-top,.vinyl-label-bottom{display:none}.detail-content{padding:50px 60px}.detail-groove-left,.detail-groove-right{width:22px}}
-  /* no hover on touch, so the record sits half out and stays tappable */
-  @media(hover:none){.disc-slide{transform:translateX(calc(var(--slide)*.62))}}
-</style>
 </head>
+
 <body>
 
 <!-- INTRO -->
@@ -632,20 +208,6 @@
   </section>
 </div>
 
-<!-- GROOVE BARS (outside scrollable containers so position:fixed works) -->
-<div id="groove-left" class="detail-groove-left" style="display:none"><div class="groove-strip"></div></div>
-<div id="groove-right" class="detail-groove-right" style="display:none"><div class="groove-strip"></div></div>
-
-<!-- DETAIL -->
-<div id="project-detail">
-  <div class="detail-content" id="detail-inner"></div>
-</div>
-
-<!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src="" alt="">
-</div>
-
 <!-- PCB GALLERY -->
 <div id="pcb-gallery">
   <button class="detail-back" style="margin:30px 0 0 60px" onclick="closePcbGallery()">← Back to Records</button>
@@ -658,79 +220,10 @@
   <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"></polyline></svg>
 </button>
 
-<!-- SUBASSEMBLIES SUBPAGE -->
-<div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
-  <div class="detail-content">
-    <button class="detail-back" onclick="closeSubpage()">← Back to Companion Robot</button>
-    <h2 class="detail-title">Subassemblies · In Depth</h2>
-    <div class="detail-body">
-      <p style="background:rgba(0,0,0,.03);border:1px solid #ddd;border-radius:10px;padding:10px 16px;font-size:12px;color:#888;font-style:italic;margin:20px 0">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</p>
 
-      <div class="sub-section">
-        <h3>Base</h3>
-        <div class="detail-img-row">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/6iodtGe.png" alt="Base 1">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/W1v8pqx.png" alt="Base 2">
-        </div>
-        <h4>Overview</h4>
-        <p>The base consists of two main features and their connectors: an electrical housing-framework, and the omniwheels.</p>
-        <h4>Omniwheel Design</h4>
-        <p>The omni-wheels were developed with three key features in mind: Functionality, quiet movement and a compact design. Since the robot is to serve as a soothing therapeutic companion, it is important that the movement of the robot does not disrupt the user during their interaction. The 55 millimeter diameter of the rim plate was judged to be appropriate such that the complete design could have a small stature as the entire robot was further scaled from that single decision.</p>
-        <p>Sixteen rollers were fitted into the omni-wheels to achieve quiet movement as they maximized the time a roller was in contact with the floor at a given moment. TPU was chosen as the material to manufacture the wheels due to its renowned elasticity compared to PLA, PETG, and other printable materials available at my University. A motor hub attaches to four rim plates on each side via interference fit with a tolerance fit to the motor shaft, and is pinned with a washer for the best long-term hold. An additional pin runs through holes between each "leg" of the rim plates, on which a roller is placed loosely. Due to gravity, the rollers make a strong contact with the ground whilst remaining disconnected from the plate itself, thus allowing for full rolling capability.</p>
-        <h4>Electrical Housing & Framework</h4>
-        <p>The rest of the base is structured to allow for proper electrical housing. An elevated interference fit accepts the standoffs of the Raspberry Pi, and a dedicated space fits a waffle-board for the Pi Pico and motor boards. Additionally, blocks printed separately sit above the motors and hold them down via the frictional force of the interlocking space, with an extrusion pressing against the omniwheel hub to keep each wheel firmly in place.</p>
-      </div>
-
-      <div class="sub-section">
-        <h3>Shell</h3>
-        <div class="detail-img-row">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/ng5JVDy.png" alt="Shell 1">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/pWKM7z6.png" alt="Shell 2">
-        </div>
-        <h4>Overview</h4>
-        <p>The shell is composed of arm housings, a speaker, four microphones and a camera. These components help accomplish the overall purpose of the robot.</p>
-        <h4>Assembly & Structure</h4>
-        <p>To aid in assembly, the shell is cut into four parts, each carrying holes for square-shaped and L-shaped mounting brackets. The square-shaped brackets are used to attach each of the parts to each other whilst the L-shaped brackets are used to attach the shell to the base.</p>
-        <h4>Microphones</h4>
-        <p>For the microphones, a grommet-insert sound decoupling system was created alongside a housing for further noise reduction from the inside of the shell.</p>
-        <h4>Speaker</h4>
-        <p>An angled extrude was designed from the inside of the shell, with four mounting holes for screws alongside a grille to allow for clean audio output from the speaker.</p>
-        <h4>Camera</h4>
-        <p>A simple extrusion below the intended hole of the camera module was made with holes allowing for a pin-in placement of a back-wall.</p>
-        <h4>Lessons Learned & Design Challenges</h4>
-        <p>In general, creating the shell taught many useful skills: different patterns (such as fill for the grille), how to create any angled plane, how to design for long-term stability, and most importantly how to optimize a design both aesthetically and space-wise.</p>
-        <p>As described in the base section, the wheels are approximately 55 mm. This led to a shell and head design that was far too large, requiring a full redesign: I was forced to move every component, introduce systems such as the grommet-insert above, and create novel solutions to accommodate for the reduced space.</p>
-      </div>
-
-      <div class="sub-section">
-        <h3>Head</h3>
-        <div class="detail-img-row">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/nPu71xb.png" alt="Head 1">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/OvQ3wHt.png" alt="Head 2">
-        </div>
-        <h4>Overview</h4>
-        <p>The head consists of three main components: a shell, an LCD screen, and a connector to the main body.</p>
-        <h4>Connection to Main Body</h4>
-        <p>The head is connected to the main body via a matching-fit which locks into place on the top of the body. This design choice allows for easy detachability and reliable securement of the head.</p>
-        <h4>The Redesign</h4>
-        <p>For reference, pictured below is the previous final design of the head.</p>
-        <img loading="lazy" decoding="async" src="https://i.imgur.com/9QjugDr.png" alt="Previous Head" style="max-width:500px">
-      </div>
-    </div>
-  </div>
-</div>
-
+<script src="/assets/projects.js"></script>
+<script src="/assets/site.js"></script>
 <script>
-// ============ VERCEL ANALYTICS ============
-const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|facebookexternalhit|twitterbot|linkedinbot|semrush|ahref/i.test(navigator.userAgent);
-function track(eventName, props) {
-  if (isBot) return;
-  if (typeof window.va === 'function') window.va('event', Object.assign({ name: eventName }, props || {}));
-}
-function trackPageView(pageName) {
-  if (isBot) return;
-  if (typeof window.va === 'function') window.va('pageview', { path: '/' + pageName });
-}
 document.addEventListener('DOMContentLoaded', function() {
   track('portfolio_loaded', {
     referrer: document.referrer || 'direct',
@@ -739,284 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   trackPageView('home');
 });
-
-// ============ PALETTES ============
-const palettes=[
-  ['#FF6B8A','#4ECDC4','#FFD93D','#7B61FF','#FF9F1C','#2EC4B6'],
-  ['#FF8A5C','#7DCEA0','#A78BFA','#FF6B6B','#4CC9F0','#FFD166'],
-  ['#FF69B4','#00CED1','#FFE066','#B983FF','#FF9F5C','#43AA8B'],
-  ['#F77F00','#06D6A0','#EF476F','#118AB2','#8338EC','#FFB4A2'],
-  ['#FF5E78','#36D6B6','#FFC947','#9D4EDD','#4EA8DE','#80FFDB'],
-  ['#E056A0','#56CBF9','#F5E960','#FF8FAB','#70E4EF','#B5E48C'],
-  ['#FF6F91','#67E8B4','#FFD166','#9D8CFF','#FF8C42','#4CC9A0'],
-];
-const palette=palettes[Math.floor(Math.random()*palettes.length)];
-
-// ============ PROJECTS ============
-const projects = [
-  {
-    name:'DMX\nTester',
-    displayName:'DMX Handheld Tester',
-    catalog:'AL-004',side:'A',year:'2026',
-    cover:'https://i.imgur.com/I25zgLJ.png',
-    sleeve:'block',
-    color:palette[0],
-    tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX, I<sup>2</sup>C, UART, and SPI Protocols'],
-    trackKey:'dmx',
-    wet:true,
-    wip:true,
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">DMX Handheld Tester</h2>
-      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">Raspberry Pi</span>
-        <span class="detail-tag">Altium Designer</span>
-        <span class="detail-tag">Python</span>
-        <span class="detail-tag">SolidWorks</span>
-        <span class="detail-tag">BMS</span>
-        <span class="detail-tag">DMX, I<sup>2</sup>C, UART, and SPI Protocols</span>
-      </div>
-      <div class="detail-body">
-        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
-          <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
-          <p style="margin:0">The DMX Light Tester is a handheld device meant to be used both in-house and sold commercially as a cheaper, voltage-protected, and modular DMX-rig testing device.</p>
-        </div>
-        <div class="video-slot">Video coming soon</div>
-        <h3>How It Works</h3>
-        <p>To use the device, you have 4 simple buttons and an encoder-button. These 4 buttons' features are shown on the PyGame UI. This UI, alongside the code for the DMX device, can be changed via injecting a script on the USB-A on the bottom of the device. This allows for a complete overhaul of the function of the DMX tester, and lots of modularity. The base version of the DMX tester has the following features:</p>
-        <div style="text-align:center;margin-bottom:28px">
-          <button class="subassembly-btn" onclick="toggleSection('dmx-features', this)">Show Features</button>
-        </div>
-        <div id="dmx-features" class="feature-list" style="display:none;margin-top:-6px;margin-bottom:28px">
-          <p><code>boolAll</code> - Selects all lights; once a color is set (R, G, B, W), all lights increase in that given color value.</p>
-          <p><code>boolMult</code> - All selected channels or lights (see <code>addToSelected</code> and <code>removeFromSelected</code>) will increase or decrease in sync.</p>
-          <p><code>cycleLights</code> - Move up or down a channel or light depending on your CH/L mode (see <code>setLIGHTMODE</code>).</p>
-          <p><code>up/downColorChann</code> - Scroll the encoder right to increase DMX value, or left to decrease.</p>
-          <p><code>turnOffController</code> - Turn off the controller via the power button.</p>
-          <p><code>addToSelected</code> - Add the current channel or light to your selected.</p>
-          <p><code>removeFromSelected</code> - Remove the current channel or light from your selected.</p>
-          <p><code>designateColor</code> - Designate r, g, b, or w as your current "set" color for <code>boolALL</code>/<code>tryColor</code>/<code>setLIGHTMODE</code>.</p>
-          <p><code>tryColor</code> - Depending on your "set" color, turn ALL light fixtures into that color at max brightness. Is a hold-down.</p>
-          <p><code>turnOffExcCurr</code> - Turn off all lights except the current light. Is reversible.</p>
-          <p><code>setLIGHTMODE</code> - Turn the CH/L to L, indicating that when using <code>up/downColorChann</code>, or <code>boolMult</code>, the changing of value will be dependent on <code>designateColor</code>, or your "selected" will be Lights instead of channels respectively.</p>
-          <p><code>switchFullscreen</code> - Instead of seeing only your "cursor's" DMX value, see all DMX channels' values in "selected".</p>
-          <p><code>goBack</code> - Undo.</p>
-          <p><code>redo</code> - Redo.</p>
-          <p><code>creativeMode</code> - See all your currently "selected" DMX channels OR Lights represented as circles, with either a dimness corresponding to channel strength or a color corresponding to the real-life light color.</p>
-          <p><code>reset</code> - Go back to the state the device would be in upon powering on (e.g. all lights off, no modes selected).</p>
-          <p><code>interpolationState</code> - Save two different distinct states of the light-rig you are testing, and once confirmed, gradient between the two states using the encoder.</p>
-        </div>
-        <p>Furthermore, the PCB for the DMX tester has a 5V USB-C charging port with voltage protection on all ports to ensure the device is not broken, alongside more safety features such as room for battery expansion, thickness on the device to ensure nothing breaks, and lots of pins/screws on the internals designed for reliability.</p>
-        <h3>Internals &amp; Communication</h3>
-        <p>The device communicates with its internals using I<sup>2</sup>C and SPI, communicating with the BMS and LCD screen respectively. Furthermore, it communicates with the in-house DMX port using UART protocols, and therefore communicates with the light fixtures via UART. The device has internal ventilation with a fan, and a buck-boost for proper power distribution from the BMS (3.2V-4.2V) to other devices (5V). The 3.3V rail is supplied via the Raspi CM4. Lastly, the device has side ridges for holdability.</p>
-        <p>The device was built from the ground up, starting with a Raspi CM4, a DMX Master Shield, UART, and some peripherals; the initial code was constructed to determine what functions would be necessary. This was done in Python, and tested with in-house DMX fixtures. This led to the core-level features listed above.</p>
-        <div style="text-align:center">
-          <button class="subassembly-btn is-open" data-static-label="1" aria-expanded="true" onclick="toggleSection('dmx-more', this)">Development · In Depth<span class="btn-toggle-x"></span></button>
-        </div>
-        <div id="dmx-more" style="display:block;margin-top:22px">
-          <div class="sub-section">
-            <h4>PyGame Interface</h4>
-            <p>After the features were approved, a very preliminary interface was constructed in PyGame, and eventually finalized into a macro-encoder style system. The final interface is also developed using PyGame.</p>
-          </div>
-          <div class="sub-section">
-            <h4>SolidWorks UI</h4>
-            <p>The second portion of the UI (physical) was developed in SolidWorks. The first preliminary design was eventually scrapped to make more space on the PCB.</p>
-            <img loading="lazy" decoding="async" src="https://i.imgur.com/OMblFu9.png" alt="DMX Tester SolidWorks Shell Design">
-          </div>
-          <div class="sub-section">
-            <h4>Altium Schematic</h4>
-            <p>The schematic was developed in Altium in sync with the SolidWorks UI, as UI choices directly influenced the parts needed and pins required (especially GPIO) on a schematic level. Below is the "main" schematic developed, combining "Brain," "Power," and "Interface" for this project.</p>
-            <img loading="lazy" decoding="async" class="nda-blur" src="https://i.imgur.com/2o2PfUw.png" alt="DMX Tester Altium Schematic">
-            <p style="text-align:center;font-size:11px;color:#999;font-style:italic;margin-top:-8px">Blurred for NDA reasons.</p>
-            <div class="detail-img-row-3">
-              <img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/I25zgLJ.png" alt="DMX Tester PCB 3D Render 1" onclick="openLightbox(this.src,this.alt)">
-              <img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/JUeLQiT.png" alt="DMX Tester PCB 3D Render 2" onclick="openLightbox(this.src,this.alt)">
-              <img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/ylxllao.png" alt="DMX Tester PCB 3D Render 3" onclick="openLightbox(this.src,this.alt)">
-            </div>
-            <p style="text-align:center;font-size:11px;color:#999;font-style:italic;margin-top:-8px">Note: the green, wide, opaque object is the screen.</p>
-          </div>
-          <div class="sub-section">
-            <h4>PCB</h4>
-            <p>The PCB was also developed in Altium, and led to a plethora of UI redesigns as realizations about spacing came to the forefront. This also led to a redesign of certain aspects of the internals of the SolidWorks assembly, as ports were shifted.</p>
-          </div>
-          <div class="sub-section">
-            <h4>Assembly</h4>
-            <p>The physical assembling is still in progress. <em>(TBD)</em></p>
-          </div>
-        </div>
-      </div>
-    `
-  },
-  {
-    name:'Companion\nRobot',
-    displayName:'Companion Robot',
-    catalog:'AL-001',side:'A',year:'2026',
-    cover:'https://i.imgur.com/41vTl4Z.png',
-    sleeve:'window',
-    color:palette[1],
-    tags:['SolidWorks','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
-    trackKey:'robot',
-    wip:true,
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Companion Robot</h2>
-      <p class="detail-note">* An unfinished project, but achieved the goal of teaching me how to be an engineer, and what engineering is like.</p>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">SolidWorks</span>
-        <span class="detail-tag">Raspberry Pi</span>
-        <span class="detail-tag">Electromechanical Assembly</span>
-        <span class="detail-tag">Python</span>
-        <span class="detail-tag">PID Controls</span>
-        <span class="detail-tag">Soldering</span>
-        <span class="detail-tag">3D Printing</span>
-      </div>
-      <div class="detail-body">
-        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
-          <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
-          <p style="margin:0">The purpose of this project is to develop an interactive therapeutic robotic companion. The neutral appearance of the small robot serves to adhere to its functional use by a wide demographic. Interactive software is implemented into the design including microphones, speakers, automated movement systems, and an LCD screen for emotive responses. This project is intended to help learn the fundamentals of being an engineer through mechanical, electrical, and software design.</p>
-        </div>
-        <h3>SolidWorks Assembly</h3>
-        <p>As the lead engineer responsible for the development of the mechanical design I was able to learn new skills experientially throughout this process. The design shown below is the first finished prototype. If you would like to see the individual sub-assemblies, how I developed them, as well as my thought process and obstacles I overcame, please click below.</p>
-        <iframe src="https://www.youtube.com/embed/D7X9jYpiPsQ?si=VZEJJJCJZ5qbOjga" title="SolidWorks Assembly" allowfullscreen></iframe>
-        <div style="text-align:center">
-          <button class="subassembly-btn" onclick="openSubpage()">Subassemblies · In Depth</button>
-        </div>
-        <h3>Demo:</h3>
-        <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
-        <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
-      </div>
-    `
-  },
-  {
-    name:'Biotron',
-    displayName:'Biotron',
-    catalog:'AL-003',side:'B',year:'2026',
-    cover:'https://i.imgur.com/8sH0tmw.png',
-    sleeve:'split',
-    color:palette[2],
-    tags:['Altium Designer','LTspice'],
-    trackKey:'biotron',
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Biotron</h2>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">Altium Designer</span>
-        <span class="detail-tag">LTspice</span>
-      </div>
-      <div class="detail-body">
-        <h3>UVLO</h3>
-        <h4>LTSpice · Schematic</h4>
-        <p>All electronic parts have a minimum threshold voltage. The exoskeleton is no different. The exoskeleton has a typical input voltage from the 7S battery power supply of 29.4V, although naturally batteries are not always consistent, and may fluctuate in voltage due to any variety of reasons. Due to this, an under-voltage lockout circuit is crucial, as any voltage too low flowing to various motors or other electronics may permanently damage the device. For my teams' purposes, 21V will fry the motors (3V each), so 24.1V is a safe voltage to cutoff the circuit, hence my circuit design.</p>
-        <p>For the UVLO, there are three crucial components: a Schmitt trigger, switch logic using MOSFETs, and voltage supply management using diodes, capacitors, and an LDO. For the Schmitt trigger, I used an op-amp comparator with a hysteresis switching from the positive rail (15V out) to the negative rail (0V) at an input voltage at the non-inverting input of ~12.4V. This allowed for proper identification of when the voltage input from the battery was too low. Of course, this was made possible through the use of an external LDO, connected with two capacitors, a ceramic and aluminum capacitor, decoupling the noise and creating a smooth signal to ensure a smooth output. Furthermore, a N-MOSFET is connected to the output voltage at the gate, and a zener at the drain, that is further connected to a dual-P-MOSFET switch system to control when the input voltage "can" flow to the output terminal.</p>
-        <p>Overall, designing this circuit taught me so much, even beyond the op-amp logic and transistor specifications, I learned about the applications of diodes, how to adjust a circuit to your specific needs, and most importantly how to debug and test a schematic.</p>
-        <img loading="lazy" decoding="async" src="https://i.imgur.com/8sH0tmw.png" alt="UVLO Schematic">
-        <h4>Altium · PCB</h4>
-        <p>I learned plenty from transforming my schematic into a manufacturable PCB board. Of course, I started with finding real, applicable parts matching the needs of my circuit board, although the challenge was not great, it was still useful to learn the quickest method of finding these parts, how to read a data-sheet, and how to balance cost with effectiveness. Then began the hard part, making the actual PCB. I had to learn many important lessons: First of all, calculate the wire thickness you need to carry the relatively large 5 Amps through the circuit. I did this using <a href="https://www.advancedpcb.com/en-us/tools/trace-width-calculator/" target="_blank">advancedPCB</a>. I learned this after thinking that routing with 10 mil would be trivial, but routing with 100 mil forced me to use more tools. Specifically, two layer-routing, and signal-efficient routing practices. Two-layer routing is self-explanatory, but very useful, and you can see below I used it a good bit. Signal-efficient routing is more complicated; I learned from my lead how 90 degree turns are bad for impedance, and the shorter the wire the better. Especially for capacitors. So I adapted, and eventually developed a solid routing scheme, that I am proud of.</p>
-        <p>In general, the hardest part of making the PCB was making it compact. The schematic is large, complicated, and full of wires going all over the place, but I managed to cut it down, and shorten the board to 5.5cm x 4cm. Additionally, for ease of installation, the output and input terminals are aligned.</p>
-        <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px;margin-top:30px;text-align:center">
-          <h3 style="margin-top:0;margin-bottom:20px">Overall Powerboard</h3>
-          <div class="detail-img-row">
-            <img loading="lazy" decoding="async" src="https://i.imgur.com/8sH0tmw.png" alt="Schematic">
-            <img loading="lazy" decoding="async" src="https://i.imgur.com/2eqVgzw.png" alt="PCB Board">
-          </div>
-        </div>
-      </div>
-    `
-  },
-  {
-    name:'AHDM',
-    displayName:'Autonomous Air Hockey Defense Machine',
-    catalog:'AL-002',side:'A',year:'2025',
-    cover:'https://i.imgur.com/yyUza6V.jpeg',
-    sleeve:'band',
-    color:palette[3],
-    tags:['C++','Actuators','Gantry'],
-    trackKey:'hockey',
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Autonomous Air Hockey Defense Machine</h2>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">C++</span>
-        <span class="detail-tag">Actuators</span>
-        <span class="detail-tag">Gantry</span>
-      </div>
-      <div class="detail-body">
-        <iframe src="https://www.youtube.com/embed/yuQoU-QTGQw?rel=0" title="AHDM Demo" allowfullscreen></iframe>
-        <p>The Air Hockey Defense Machine (AHDM for short) is an autonomous robot built upon a small scale air hockey table intended to block incoming pucks from the opposing human player. To do so, my team and I designed AHDM to have a single axis gantry system for widthwise movement alongside a linear actuator for "hitting" the puck, and one singular distance sensor for calculations and a prediction of what widthwise location to move AHDM's handle to.</p>
-        <div class="detail-img-row">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/8e4SU1C.png" alt="AHDM Diagram 1">
-          <img loading="lazy" decoding="async" src="https://i.imgur.com/U1498qC.png" alt="AHDM Diagram 2">
-        </div>
-        <p>Upon the pressing of the touch sensor, the robot calibrates to the exact center of the gantry, lifts the barrier, and signals the game may begin. Additionally, the optical sensor is now active to detect and prevent any cheating such as the human player crossing the foul line with their handle. Now, the robot waits for the first detection from the distance sensor.</p>
-        <p>Once the distance sensor picks up the first reading of the puck, and the final reading of the puck, using trigonometric principles and constants of the diameter of the puck, length of the table, and distance between the sensor and the gantry, the final x position upon crossing the AHDM's mallet's widthwise line is calculated. Additionally, the estimated time of arrival is calculated, which is important later.</p>
-        <p>As soon as the VEX IQ Brain processes this information, the gantry system consisting of a geared motor, grooved wheels, and a belt precisely and quickly (one rotation spans the width of the table) arrives at the location. Immediately following the arrival of the mallet, AHDM, using a motor and two gears attached to a rod, would spin the gear when appropriate to allow for a proper return of the puck back to the user.</p>
-        <p>Once the puck is returned, the system skips the data, returns back to the middle of the gantry, and restarts the sequence all over again infinitely. To account for error, every 5 detections and returns the barrier lowers, the gantry recalibrates and then the barrier lifts again for further gameplay.</p>
-        <p>Upon a foul or a touching of the touch sensor, the game ends, as seen in the video above.</p>
-      </div>
-    `
-  },
-  {
-    name:'Waterglo',
-    displayName:'Waterglo',
-    catalog:'AL-005',side:'B',year:'2026',
-    cover:'https://i.imgur.com/biTFGzA.jpeg',
-    sleeve:'frame',
-    color:palette[4],
-    tags:['SolidWorks','Flow/Fluid Design','Prototyping'],
-    trackKey:'waterglo',
-    wet:true,
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Waterglo</h2>
-      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">SolidWorks</span>
-        <span class="detail-tag">Flow/Fluid Design</span>
-        <span class="detail-tag">Prototyping</span>
-      </div>
-      <div class="detail-body">
-        <iframe src="https://www.youtube.com/embed/ykclXV86JBs?si=1M1KWLgjWS3AuFOz" title="Waterglo Demo" allowfullscreen></iframe>
-        <p>The Waterglo project is a consumer-level product that, using an air pump and water pump alongside a specialized nozzle that releases water at a high rate (7 GAL/min), creates "cool" effects. The work my fellow intern and I did on this project was the prototype/mock-up initial step.</p>
-        <p>SolidWorks was used to model potential interesting shapes to be used in the project, and a test rig was also modeled in SolidWorks and eventually semi-assembled in real life via the Wood Shop team. After approval, using Coke bottles and snap bottles (2L), the shapes were mocked up using a heat gun, a hot glue gun, and a piping/lighting setup that conformed to the given nozzle, introducing air and water to the system controlled by a DMX-converted power supply.</p>
-        <p>Eventually, after testing the "Coke bottle" shapes, the final "test" shape, which is significantly larger, was created by 3D printing the negative of the shape and vacuum forming acrylic over the shape, then using Weld-On to make the seal water-tight. See the video above for a demonstration.</p>
-      </div>
-    `
-  },
-  /* Weigl card temporarily disabled, uncomment to bring it back
-  {
-    name:'Weigl',
-    displayName:'Weigl ProCommander HXi',
-    catalog:'AL-006',side:'A',year:'2026',
-    cover:'',                 // <- cover art: point this at a project photo, e.g. 'images/dmx.jpg'
-    sleeve:'stamp',
-    color:palette[5],
-    tags:['HTML/CSS/JS','Claude Code','Technical Documentation'],
-    trackKey:'weigl',
-    wet:true,
-    wip:true,
-    locked:true,
-    html:`
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">Weigl ProCommander HXi</h2>
-      <p class="detail-note">* Developed during my internship at WET Designs (Summer 2026).</p>
-      <div class="detail-tags" style="margin-bottom:30px">
-        <span class="detail-tag">HTML/CSS/JS</span>
-        <span class="detail-tag">Claude Code</span>
-        <span class="detail-tag">Technical Documentation</span>
-      </div>
-      <div class="detail-body">
-        <h3>Interactive Presentation Tool</h3>
-        <p>Built an interactive website demonstrating how to use the Weigl ProCommander HXi and its partner software, Showforge. Using HTML and Claude Code, I built the presentation layer alongside sorting logic that determines device compatibility with the software, tracks electrical limitations, and monitors hardware port counts on the Weigl hardware. It's designed as a streamlined reference for non-technical users to accelerate testing and prototyping workflows, and was presented professionally to potential users.</p>
-        <div style="text-align:center">
-          <a class="subassembly-btn" href="https://alexander-code-wet-weigl-demo.vercel.app/" target="_blank" style="text-decoration:none;display:inline-block">View Presentation ↗</a>
-        </div>
-      </div>
-    `
-  },
-  */
-];
 
 // ============ BUILD VINYLS ============
 const rowEl = document.getElementById('vinyl-row');
@@ -1039,7 +254,7 @@ projects.forEach((proj,i) => {
   const wrap = document.createElement('div');
   wrap.className = 'vinyl-wrap';
   wrap.innerHTML = `
-    <div class="disc-slide">
+    <a class="disc-slide" href="/${proj.slug}" aria-label="${proj.displayName}">
       <div class="vinyl" id="vd-${i}" style="transform:rotate(${vinylStates[i].angle}deg)">
         <div class="vinyl-grain"></div>
         <div class="vinyl-rim"></div>
@@ -1055,9 +270,9 @@ projects.forEach((proj,i) => {
         </div>
         <div class="vinyl-hole"></div>
       </div>
-    </div>
+    </a>
     <div class="sleeve-box">
-      <div class="sleeve sv-${style}" style="--c:${proj.color}">
+      <a class="sleeve sv-${style}" href="/${proj.slug}" style="--c:${proj.color}">
         <div class="sleeve-art${proj.cover ? '' : ' ph-' + style}"${art}></div>
         <div class="sleeve-plate">
           <div class="sleeve-title">${proj.name.replace('\n','<br>')}</div>
@@ -1066,7 +281,7 @@ projects.forEach((proj,i) => {
         <div class="sleeve-cat">${proj.catalog}</div>
         <div class="sleeve-grain"></div>
         <div class="sleeve-gloss"></div>
-      </div>
+      </a>
       ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
       ${proj.wip ? '<div class="wip-badge">*WIP</div>' : ''}
     </div>
@@ -1083,7 +298,6 @@ projects.forEach((proj,i) => {
     wrap.classList.remove('is-hovered');
     vinylStates[i].hovering = false; vinylStates[i].mode = 'decelerating';
   });
-  wrap.querySelectorAll('.disc-slide,.sleeve').forEach(el => el.addEventListener('click', () => openDetail(i)));
   rowEl.appendChild(wrap);
 });
 
@@ -1099,13 +313,13 @@ function normalizeAngle(a) {
   return a;
 }
 
-let detailIsOpen = false;
+let galleryIsOpen = false;   // set by the PCB gallery, which covers the row
 let lastFrameTime = 0;
 const FRAME_INTERVAL = 1000 / 30; // throttle idle spin/wobble to ~30fps, plenty smooth, half the GPU cost on high-refresh monitors
 
 function animate(now) {
   requestAnimationFrame(animate);
-  if (detailIsOpen) return; // vinyl row is fully covered by the detail overlay, skip the work
+  if (galleryIsOpen) return; // row is fully covered by the gallery, skip the work
   if (now - lastFrameTime < FRAME_INTERVAL) return;
   lastFrameTime = now;
 
@@ -1157,101 +371,6 @@ setTimeout(() => {
   setTimeout(() => { overlay.classList.add('gone'); mainSite.classList.add('visible'); }, 1300);
   setTimeout(() => { overlay.style.display='none'; }, 2800);
 }, 1150);
-
-// ============ DETAIL ============
-const GATE_PASSWORD = '9724';
-function isUnlocked(key) {
-  return localStorage.getItem('unlocked_' + key) === '1';
-}
-
-function renderDetailInner(proj, i) {
-  const container = document.getElementById('detail-inner');
-  if (proj.locked && !isUnlocked(proj.trackKey)) {
-    const tagsHtml = proj.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
-    container.innerHTML = `
-      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
-      <h2 class="detail-title">${proj.displayName}</h2>
-      <div class="detail-tags" style="margin-bottom:30px">${tagsHtml}</div>
-      <div class="lock-gate">
-        <div class="lock-gate-wip">WIP</div>
-        <div class="lock-gate-form">
-          <input type="password" id="gate-pw" class="lock-gate-input" placeholder="password" onkeydown="if(event.key==='Enter') tryUnlock(${i})">
-          <button class="lock-gate-btn" onclick="tryUnlock(${i})">Unlock</button>
-        </div>
-        <div class="lock-gate-error" id="gate-err">incorrect password</div>
-      </div>
-    `;
-  } else {
-    container.innerHTML = proj.html;
-  }
-  // Color the tags, and feature code names, to match the vinyl
-  document.querySelectorAll('#detail-inner .detail-tags').forEach(el => {
-    el.style.color = proj.color;
-  });
-  document.querySelectorAll('#detail-inner .feature-list code').forEach(el => {
-    el.style.color = proj.color;
-  });
-}
-
-function tryUnlock(i) {
-  const proj = projects[i];
-  const input = document.getElementById('gate-pw');
-  if (input.value === GATE_PASSWORD) {
-    localStorage.setItem('unlocked_' + proj.trackKey, '1');
-    track('project_unlocked', { project: proj.displayName });
-    renderDetailInner(proj, i);
-  } else {
-    document.getElementById('gate-err').classList.add('show');
-    input.value = '';
-    track('project_unlock_failed', { project: proj.displayName });
-  }
-}
-
-function openDetail(i) {
-  const proj = projects[i];
-  renderDetailInner(proj, i);
-  document.getElementById('project-detail').classList.add('open');
-  document.getElementById('groove-left').style.display = 'block';
-  document.getElementById('groove-right').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  window.scrollTo(0,0);
-  document.getElementById('project-detail').scrollTop = 0;
-  detailIsOpen = true;
-  track('project_opened', { project: proj.displayName });
-  trackPageView('project/' + proj.trackKey);
-}
-
-function closeDetail() {
-  document.getElementById('project-detail').classList.remove('open');
-  document.getElementById('groove-left').style.display = 'none';
-  document.getElementById('groove-right').style.display = 'none';
-  document.body.style.overflow = '';
-  detailIsOpen = false;
-  track('back_to_home');
-  trackPageView('home');
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
-    else if (document.getElementById('pcb-gallery').classList.contains('open')) closePcbGallery();
-    else if (document.getElementById('subpage-detail').style.display === 'block') closeSubpage();
-    else closeDetail();
-  }
-});
-
-// ============ LIGHTBOX ============
-function openLightbox(src, alt) {
-  const img = document.getElementById('lightbox-img');
-  img.src = src;
-  img.alt = alt || '';
-  document.getElementById('lightbox').classList.add('open');
-  track('image_zoomed', { image: alt || src });
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-}
 
 // ============ PCB GALLERY ============
 const pcbSlides = [
@@ -1344,6 +463,7 @@ function openPcbGallery() {
   if (!document.querySelector('.pcb-gallery-dots')) buildPcbDots();
   renderPcbSlide(pcbIndex);
   document.getElementById('pcb-gallery').classList.add('open');
+  galleryIsOpen = true;
   document.getElementById('pcb-gallery-arrow-left').style.display = 'flex';
   document.getElementById('pcb-gallery-arrow-right').style.display = 'flex';
   document.querySelector('.pcb-gallery-dots').style.display = 'flex';
@@ -1355,6 +475,7 @@ function openPcbGallery() {
 
 function closePcbGallery() {
   document.getElementById('pcb-gallery').classList.remove('open');
+  galleryIsOpen = false;
   document.getElementById('pcb-gallery-arrow-left').style.display = 'none';
   document.getElementById('pcb-gallery-arrow-right').style.display = 'none';
   document.querySelector('.pcb-gallery-dots').style.display = 'none';
@@ -1377,36 +498,6 @@ function prevPcbSlide() {
   trackPageView('pcb-gallery/' + pcbIndex);
 }
 
-// ============ COLLAPSIBLE SECTIONS ============
-function toggleSection(id, btn) {
-  const el = document.getElementById(id);
-  const showing = el.style.display !== 'block';
-  el.style.display = showing ? 'block' : 'none';
-  if (btn) {
-    btn.classList.toggle('is-open', showing);
-    btn.setAttribute('aria-expanded', showing);
-    if (btn.dataset.staticLabel) return;   // label stays put, the x carries the open/closed state
-    if (!btn.dataset.showLabel) btn.dataset.showLabel = btn.textContent;
-    if (!btn.dataset.hideLabel) btn.dataset.hideLabel = 'Hide ' + btn.textContent.replace(/^Show\s+/i, '');
-    btn.textContent = showing ? btn.dataset.hideLabel : btn.dataset.showLabel;
-  }
-}
-
-// ============ SUBPAGE ============
-function openSubpage() {
-  const sp = document.getElementById('subpage-detail');
-  sp.style.display = 'block';
-  sp.style.animation = 'detailIn .5s ease forwards';
-  sp.scrollTop = 0;
-  track('subassemblies_opened');
-  trackPageView('project/robot/subassemblies');
-}
-
-function closeSubpage() {
-  document.getElementById('subpage-detail').style.display = 'none';
-  track('subassemblies_closed');
-}
-
 // ============ WHY VINYL ============
 function toggleWhyVinyl() {
   const el = document.getElementById('why-vinyl-content');
@@ -1416,14 +507,6 @@ function toggleWhyVinyl() {
     trackPageView('why-vinyl');
   }
 }
-
-/*
-// ============ SVG GEARS (commented out) ============
-const gearSvg = document.getElementById('gear-svg');
-let gearAngle = 0;
-const DECO_COLOR = '#4ECDC4';
-... gear code removed for brevity ...
-*/
 
 // ============ CRATE SPINES ============
 const spinesEl = document.getElementById('crate-spines');
@@ -1443,8 +526,6 @@ if (spinesEl) {
     spinesEl.appendChild(s);
   }
 }
-
-// ============ DECORATION COLOR (commented out - accessories disabled) ============
 
 </script>
 </body>
