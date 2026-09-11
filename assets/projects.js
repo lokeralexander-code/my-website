@@ -202,7 +202,6 @@ const projects = [
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Companion Robot</h2>
-      <p class="detail-note">* An unfinished project, but achieved the goal of teaching me how to be an engineer, and what engineering is like.</p>
       <div class="detail-tags" style="margin-bottom:30px">
         <span class="detail-tag">SolidWorks</span>
         <span class="detail-tag">Raspberry Pi</span>
