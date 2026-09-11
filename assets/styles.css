@@ -91,7 +91,16 @@
   @media(max-width:680px){.ic-module{position:static;margin:14px 0 20px}}
 
   /* INTERNSHIP STRIP */
-  .internship-strip{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  /* name on the left, internship chips alongside it on the right */
+  .header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px 36px}
+  .header-titles{flex:1 1 auto;min-width:0}
+  /* six across beside the name; a tidy 3 + 3 block once space runs short */
+  .internship-strip{display:grid;grid-template-columns:repeat(6,auto);gap:14px;margin:0;flex:0 0 auto;padding-top:4px}
+  @media(max-width:1360px){.internship-strip{grid-template-columns:repeat(3,auto)}}
+  @media(max-width:1000px){
+    .header-row{display:block}
+    .internship-strip{justify-content:start;padding-top:0;margin-top:20px}
+  }
   .internship-item{display:flex;flex-direction:column;align-items:center;gap:6px}
   .internship-chip{
     width:64px;height:64px;border-radius:10px;background:#111;
@@ -105,7 +114,7 @@
 
   .name{
     font-family:'Anton',sans-serif;font-size:clamp(48px,8vw,100px);
-    color:#F5C518;letter-spacing:4px;text-transform:uppercase;line-height:1;
+    color:#F5C518;letter-spacing:4px;text-transform:uppercase;line-height:1;white-space:nowrap;
     text-shadow:2px 2px 0 rgba(0,0,0,.07);
   }
   .subtitle{font-size:clamp(11px,1.5vw,16px);color:#444;margin-top:8px;letter-spacing:1.5px;font-weight:700}
