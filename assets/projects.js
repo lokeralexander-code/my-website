@@ -222,6 +222,23 @@ const projects = [
         <div style="text-align:center">
           <button class="subassembly-btn" onclick="openSubpage()">Subassemblies · In Depth</button>
         </div>
+        <h3>Custom BMS PCB</h3>
+        <p>Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.</p>
+        <div class="detail-img-row">
+          <img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/8A9O206.png" alt="Companion Robot PCB, 3D view" onclick="openLightbox(this.src,this.alt)">
+          <img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/mgEva7n.png" alt="Companion Robot PCB schematic" onclick="openLightbox(this.src,this.alt)">
+        </div>
+        <div style="text-align:center">
+          <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="toggleSection('robot-pcb-layers', this)">PCB Layers<span class="btn-toggle-x"></span></button>
+        </div>
+        <div id="robot-pcb-layers" style="display:none;margin-top:22px">
+          <div class="pcb-layer-grid">
+            <figure><img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/XmN199r.png" alt="Top layer" onclick="openLightbox(this.src,this.alt)"><figcaption>Top Layer</figcaption></figure>
+            <figure><img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/2yImrA4.png" alt="GND layer" onclick="openLightbox(this.src,this.alt)"><figcaption>GND Layer</figcaption></figure>
+            <figure><img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/KkrbtKV.png" alt="Power (SYS) layer" onclick="openLightbox(this.src,this.alt)"><figcaption>Power (SYS) Layer</figcaption></figure>
+            <figure><img loading="lazy" decoding="async" class="zoomable" src="https://i.imgur.com/hqRvEFm.png" alt="Bottom layer" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom Layer</figcaption></figure>
+          </div>
+        </div>
         <h3>Demo:</h3>
         <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
         <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
