@@ -27,7 +27,6 @@ const projects = [
     tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX, I<sup>2</sup>C, UART, and SPI Protocols'],
     trackKey:'dmx',
     wet:true,
-    wip:true,
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">DMX Handheld Tester</h2>

@@ -379,8 +379,21 @@ setTimeout(() => {
 // ============ PCB GALLERY ============
 const pcbSlides = [
   {
+    title: 'Companion Robot: Custom BMS PCB',
+    date: 'September, 2026',
+    description: "Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.",
+    images: [
+      { src: 'https://i.imgur.com/8A9O206.png', alt: 'Companion Robot BMS PCB 3D Render' },
+      { src: 'https://i.imgur.com/mgEva7n.png', alt: 'Companion Robot BMS Schematic' },
+      { src: 'https://i.imgur.com/XmN199r.png', alt: 'Top Layer' },
+      { src: 'https://i.imgur.com/2yImrA4.png', alt: 'GND Layer' },
+      { src: 'https://i.imgur.com/KkrbtKV.png', alt: 'Power (SYS) Layer' },
+      { src: 'https://i.imgur.com/hqRvEFm.png', alt: 'Bottom Layer' },
+    ],
+  },
+  {
     title: 'DMX Handheld Tester',
-    date: 'August, 2026 (ongoing)',
+    date: 'August, 2026',
     description: "This board is the brain of the DMX Handheld Tester: it runs a Raspberry Pi CM4 off a BQ25620 battery charger, talks I²C to the BMS and SPI to the onboard LCD, and drives DMX fixtures over UART so anybody can test a full lighting rig via the pre-programmed light fixture settings, or using a USB-A Python inject, can test their light rigs their own way.",
     images: [
       { src: 'https://i.imgur.com/I25zgLJ.png', alt: 'DMX Tester PCB 3D Render 1' },
@@ -405,19 +418,6 @@ const pcbSlides = [
     images: [
       { src: 'https://i.imgur.com/8sH0tmw.png', alt: 'UVLO Schematic' },
       { src: 'https://i.imgur.com/2eqVgzw.png', alt: 'UVLO PCB Board' },
-    ],
-  },
-  {
-    title: 'Companion Robot: Custom BMS PCB',
-    date: 'September, 2026',
-    description: "Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.",
-    images: [
-      { src: 'https://i.imgur.com/8A9O206.png', alt: 'Companion Robot BMS PCB 3D Render' },
-      { src: 'https://i.imgur.com/mgEva7n.png', alt: 'Companion Robot BMS Schematic' },
-      { src: 'https://i.imgur.com/XmN199r.png', alt: 'Top Layer' },
-      { src: 'https://i.imgur.com/2yImrA4.png', alt: 'GND Layer' },
-      { src: 'https://i.imgur.com/KkrbtKV.png', alt: 'Power (SYS) Layer' },
-      { src: 'https://i.imgur.com/hqRvEFm.png', alt: 'Bottom Layer' },
     ],
   },
   {
