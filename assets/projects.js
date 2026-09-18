@@ -116,8 +116,12 @@ const projects = [
             <p>The PCB was also developed in Altium, and led to a plethora of UI redesigns as realizations about spacing came to the forefront. This also led to a redesign of certain aspects of the internals of the SolidWorks assembly, as ports were shifted.</p>
           </div>
           <div class="sub-section">
+            <h4>Protocol Programming</h4>
+            <p>I wrote the software in Python, building DMX512 framing and timing on top of UART alongside I<sup>2</sup>C and SPI drivers for the BMS and LCD.</p>
+          </div>
+          <div class="sub-section">
             <h4>Assembly</h4>
-            <p>The physical assembling is still in progress. <em>(TBD)</em></p>
+            <p>I was not able to witness the assembly, as my co-op ended right as the board completed.</p>
           </div>
         </div>
       </div>
