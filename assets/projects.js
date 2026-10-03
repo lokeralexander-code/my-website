@@ -361,7 +361,7 @@ const projects = [
     cover:'https://i.imgur.com/41vTl4Z.png',
     sleeve:'window',
     color:palette[1],
-    tags:['SolidWorks','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
+    tags:['SolidWorks','Altium Designer','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
     wip:true,
     subpage:`
@@ -432,6 +432,7 @@ const projects = [
       <h2 class="detail-title">Companion Robot</h2>
       <div class="detail-tags" style="margin-bottom:30px">
         <span class="detail-tag">SolidWorks</span>
+        <span class="detail-tag">Altium Designer</span>
         <span class="detail-tag">Raspberry Pi</span>
         <span class="detail-tag">Electromechanical Assembly</span>
         <span class="detail-tag">Python</span>
