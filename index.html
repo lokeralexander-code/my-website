@@ -423,7 +423,7 @@ const pcbSlides = [
   {
     title: 'Digital Audio Player',
     date: 'October, 2026',
-    description: "Schematic Revision 1 is complete for a portable digital audio player designed from scratch: an ESP32-S3 reads FLAC / MP3 off a microSD card and streams I²S to an ES9038Q2M DAC, followed by a discrete OPA1612 I/V and summing stage and an OPA1622 headphone output, all fed by a low-noise ±3.3 V power tree. Layout is next.",
+    description: "The PCB for the Digital Audio Player project is now past the schematic phase. It uses an ESP32-S3 to read FLAC/MP3 files off a microSD card (uploaded via USB-C), which then communicates over I²S with an ES9038Q2M DAC. The DAC's output passes through an OPA1612 I/V conversion and summing stage, and is finally driven out by a low-impedance OPA1622 headphone output. The full power tree, audio chain and more can be seen on the <a href='/digital-audio-player'>project page</a>.",
     images: [
       { src: 'https://i.imgur.com/wXwPsML.png', alt: 'Power schematic' },
       { src: 'https://i.imgur.com/BfuNM9j.png', alt: 'Audio schematic' },

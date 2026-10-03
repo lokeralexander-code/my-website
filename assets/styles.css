@@ -621,3 +621,8 @@
     .ic-modal-body .ic-pane img{max-height:38vh}
     .ic-modal-btn{font-size:12.5px;padding:10px 12px}
   }
+
+  .pcb-slide-desc a{color:#FF6B35;text-decoration:underline}
+  /* part names inside an IC description that jump to that part */
+  .ic-link{font:inherit;color:#E8682E;font-weight:700;background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+  .ic-link:hover{color:#111}

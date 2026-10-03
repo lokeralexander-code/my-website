@@ -19,35 +19,35 @@ const palette=palettes[Math.floor(Math.random()*palettes.length)];
 const dapGroups = [
   { name:'Power', chain:'USB-C → BQ24250 → 3.9 V Buck-Boost → ±3V3 LDOs · 3V3 Digital', ics:[
     { title:'USB-C', part:'GCT USB4085-GF-A', img:'https://i.imgur.com/IZ56qZK.png',
-      desc:'USB 2.0 receptacle for charging and file transfer. 5.1 kΩ pull-downs on CC1/CC2 identify the device as a sink, a TVS diode clamps VBUS, a ferrite bead filters it, and a two-channel ESD array protects D+/D− on their way to the ESP32-S3.' },
+      desc:'USB 2.0, used for charging and file upload. ESD protection on all ports, alongside a ferrite-bead pi filter on the USB input. Verified in LTspice.' },
     { title:'Charger', part:'BQ24250RGET', img:'https://i.imgur.com/b8CL48O.png',
-      desc:'Single-cell Li-Po switching charger with power-path. Charges the 1850 mAh cell at 500 mA, uses the battery NTC for hardware JEITA temperature limits, and creates the SYS rail every other regulator runs from. Configured over I²C, with CE and INT on GPIOs and the 1 A input limit strapped.' },
+      desc:'The BQ24250 is a single-cell LiPo switching charger that charges the 1850 mAh battery at 500 mA and communicates over I²C, with very heavy output filtering to keep ripple downstream as low as possible. It has a 1 A input limit and powers the <button type="button" class="ic-link" data-ic="3.9 V Buck-Boost">3.9 V buck-boost</button>, the <button type="button" class="ic-link" data-ic="3V3 Buck-Boost (Digital)">3.3 V buck-boost</button> and the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>.' },
     { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/nhYSniC.png',
-      desc:'Buck-boost pre-regulator that turns SYS (3.0 to 4.2 V) into a steady 3.9 V at 1.2 MHz. It feeds the two positive LDOs and the inverter, sitting just above their dropout, and is switched off in standby.' },
+      desc:'This buck-boost turns the SYS rail (3.0 to 4.2 V) into a very steady 3.9 V with 7.7 mVpp of ripple, switching at 1.2 MHz. This rail feeds the two +3V3 LDOs and the inverter. The 3.9 V is intentionally set as close to the LDOs\' dropout as is safe, to minimize the thermal issues that come with LDOs. Verified in LTspice.' },
     { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/t1lmJsq.png',
-      desc:'Ultralow-noise, high-PSRR linear regulator that cleans the 3.9 V switcher rail down to +3V3_ANALOG, which powers the op-amps and the audio oscillators.' },
+      desc:'A very low-noise, high-PSRR LDO that drops the 3.9 V from the buck-boost to an extremely stable output rail, +3V3_ANALOG, which powers the op-amps cleanly; any noise on their supply would directly influence the audio path. Verified in LTspice.' },
     { title:'+3V3 LDO (DAC)', part:'LT3042', img:'https://i.imgur.com/dBMa8YU.png',
-      desc:'A second LT3042 dedicated to the DAC\'s AVCC / VCCA. The DAC\'s output scales with this supply, so it gets its own rail and no op-amp signal current ever flows through it.' },
+      desc:'The second LT3042 is dedicated specifically to the DAC\'s analog supply inputs, because the DAC\'s output scales with this supply and can potentially create noise on it. Keeping it separate avoids making the op-amp power supply noisy, as detailed previously.' },
     { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/Eht4xVd.png',
-      desc:'Dual-inductor inverting converter at 2.7 MHz that makes −3.9 V from the +3.9 V rail, giving the negative LDO the headroom it needs.' },
+      desc:'An inverting regulator running at 2.7 MHz turns +3.9 V into −3.9 V for the negative LDO, as the op-amps run off a ± supply. Verified in LTspice.' },
     { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/bjzDN6x.png',
-      desc:'Ultralow-noise negative linear regulator that turns −3.9 V into the −3V3 rail, so the op-amps run on a clean, symmetric ±3.3 V supply.' },
+      desc:'An ultralow-noise negative LDO that turns −3.9 V into the −3V3 rail, so the op-amps run on a clean, symmetric ±3.3 V supply. Verified in LTspice.' },
     { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/Uhp6qT1.png',
-      desc:'A separate, always-on LTC3440 branch from SYS at 600 kHz, producing +3V3_DIG for the MCU, flash, microSD and buttons, which keeps digital noise off the analog rails.' },
+      desc:'The other LTC3440 buck-boost takes the SYS rail and produces another 3.3 V rail, this time for the digital components, hence +3V3_DIG. It powers the MCU, microSD, buttons, LCD and the DAC\'s digital supply. Verified in LTspice.' },
   ]},
   { name:'Audio', chain:'DAC → I/V Conversion → Summing → Output', ics:[
     { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/Zem17qp.png',
-      desc:'32-bit stereo DAC with differential current outputs. It acts as the I²S master clocked from one of two local oscillators (22.5792 / 24.576 MHz), so playback timing comes from a clean clock instead of the MCU.' },
+      desc:'A 32-bit stereo DAC with differential current outputs. It is the I²S master, clocked from one of two oscillators: 22.5792 MHz or 24.576 MHz, for the 44.1 kHz and 48 kHz families of music sample rates. It runs as master because slave mode, which relies on its DPLL, produces more noise at the audio output, even though master mode is more difficult to implement. The DAC has four differential current outputs: L+, L−, R+ and R−.' },
     { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/x644Egq.png',
-      desc:'Four transimpedance channels (two OPA1612s) convert the DAC\'s four current outputs into voltages. 499 Ω / 1.5 nF feedback sets the gain and a 213 kHz first pole for filtering.' },
+      desc:'The DAC\'s four differential current outputs are converted into proportional differential voltages, alongside a basic filter.' },
     { title:'Summing Stage', part:'OPA1612', img:'https://i.imgur.com/IbGLV2r.png',
-      desc:'Differential-to-single-ended summing combined with a multiple-feedback Butterworth low-pass (69.4 kHz), which cancels common-mode noise and removes the DAC\'s out-of-band energy. Only 0.068 dB of loss at 20 kHz.' },
+      desc:'The summing stage (one OPA1612) takes the four differential voltages and sums the difference between each positive and negative pair to create two clean left and right audio channels. The OPA1612 also forms an MFB Butterworth low-pass filter with fc at 69.4 kHz. This cancels out potential external noise while keeping the loss to just 0.068 dB at the top of human hearing (20 kHz) when combined with the I/V stage. Verified in PSpice.' },
     { title:'Headphone Output', part:'OPA1622', img:'https://i.imgur.com/LMRFcrC.png',
-      desc:'Unity-gain follower that drives the 3.5 mm jack with an output impedance of about 0.44 Ω at 20 kHz, suited to low-impedance IEMs. ESD protection on tip and ring, and an enable pin lets firmware mute it on a rail fault.' },
+      desc:'The OPA1622 drives the 3.5 mm headphone jack with an output impedance of 0.44 Ω at 20 kHz, suited to low-impedance IEMs. There is ESD protection on the tip and ring of the jack, and the enable pin allows for muting. Verified in PSpice.' },
   ]},
   { name:'Peripherals', chain:'Screen → LED Driver → Buttons → Encoder → SD Card', ics:[
     { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/HXjbbiJ.png',
-      desc:'2.4 in 240 × 320 IPS display with an ST7789V controller, driven over SPI through a 50-pin, 0.5 mm FPC connector (Amphenol F32D).' },
+      desc:'A 2.4 in, 240 × 320 IPS TFT display with an ST7789V controller, driven over SPI and connected through a 50-pin, 0.5 mm FPC connector. Its LEDs are controlled by the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>, since the supply voltage is too low to push a meaningful current through them on its own.' },
     { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/LFQioOE.png',
       desc:'Inductor-free charge-pump backlight driver run from SYS with four LED sinks. A MOSFET switches the ISET resistor between two brightness levels, keeping the LED current DC so no PWM lands in the audio band.' },
     { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/5BSN1fx.png',
@@ -61,7 +61,7 @@ const dapGroups = [
   ]},
   { name:'MCU', chain:'ESP32-S3', ics:[
     { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/goo1cbN.png',
-      desc:'The brain of the player: a dual-core 240 MHz MCU that reads the microSD, decodes FLAC / MP3 to PCM, streams I²S to the DAC, runs the display and controls, talks to the charger over I²C, and provides USB. Paired with 8 MB of external quad-SPI flash.' },
+      desc:'The ESP32-S3 is the brain of the PCB. It decodes FLAC/MP3, talks over I²S to the DAC and, through software, drives the display, reads the external buttons and negotiates with USB. It is paired with 8 MB of flash, and does so much more.' },
   ]},
 ];
 
@@ -164,7 +164,11 @@ function icBrowserEl() {
         <button class="ic-modal-btn ic-modal-btn-next" id="ic-modal-next" onclick="stepIcBrowser(1)"><span id="ic-modal-next-name"></span> →</button>
       </div>
     </div>`;
-  el.addEventListener('click', e => { if (e.target === el) closeIcBrowser(); });
+  el.addEventListener('click', e => {
+    if (e.target === el) { closeIcBrowser(); return; }
+    const link = e.target.closest('.ic-link');   // part names in a description jump to that part
+    if (link) openIcBrowser(dapICs.findIndex(ic => ic.title === link.dataset.ic));
+  });
   // swipe left/right on touch screens
   let sx = null, sy = null;
   el.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
@@ -643,7 +647,7 @@ const projects = [
 <text class="arch-s" x="50.0" y="233.0">USB-C · 5 V</text>
 <rect class="arch-box" x="0" y="284" width="100" height="48" rx="7"/>
 <text class="arch-t" x="50.0" y="307.0">LP605060JU</text>
-<text class="arch-s" x="50.0" y="321.0">Li-Ion 1850 mAh</text>
+<text class="arch-s" x="50.0" y="321.0">LiPo 1850 mAh</text>
 <rect class="arch-box" x="130" y="232" width="100" height="58" rx="7"/>
 <text class="arch-t" x="180.0" y="260.0">BQ24250</text>
 <text class="arch-s" x="180.0" y="274.0">charger</text>
@@ -789,7 +793,7 @@ const projects = [
         </figure>
         <div class="arch-text">
           <p>In order to create a PCB to play clean digital audio, I implemented this very specific architecture. First, you need to understand the power layer.</p>
-          <p>The power layer consists of a Li-Ion rechargeable 1850mAh 3.7V nominal battery <span class="pn">(Jauch LP605060JU+PCM)</span>, charged by a BQ charger IC <span class="pn">(BQ24250RGET)</span> that is then fed by a USB-C <span class="pn">(GCT USB4085-GF-A)</span>. The SYS (system) rail outputted by the BQ is then given to two different buck-boost converters:</p>
+          <p>The power layer consists of a LiPo rechargeable 1850mAh 3.7V nominal battery <span class="pn">(Jauch LP605060JU+PCM)</span>, charged by a BQ charger IC <span class="pn">(BQ24250RGET)</span> that is then fed by a USB-C <span class="pn">(GCT USB4085-GF-A)</span>. The SYS (system) rail outputted by the BQ is then given to two different buck-boost converters:</p>
           <p>The analog (3.9V) buck-boost converter <span class="pn">(LTC3440)</span> takes the 3.0-4.2V output and properly regulates it to 3.9V. This is because of the low-noise requirement for the audio devices' power rails, which I will get to shortly. This 3.9V is intentionally an odd number because it safely creates headroom, verified in LTspice, for the +3V3 and -3V3 analog LDO output rails that are translated via the 3.9V rail, while also not being so high that the naturally low efficiency of the LDO creates dangerous levels of heat within the board. The 3.9V is then given to two +3V3 LDOs <span class="pn">(LT3042)</span>, which give power rail #1, +3V3_ANALOG, and #2, +3V3_DAC, and is also fed to an inverted regulator <span class="pn">(LT3462A)</span>, which reverses the sign of the 3.9V to -3.9V, which is then fed to an LDO <span class="pn">(LT3093)</span> that outputs -3V3_ANALOG. This will be important later.</p>
           <p>Next, the other buck-boost <span class="pn">(LTC3440)</span> is for the digital parts (less sensitive) of the circuit, whether it be the MCU, screen, LED driver, SD card <span class="pn">(Same Sky MSD-1-A)</span>, etcetera. This buck-boost outputs a clean 3.3V.</p>
           <p>Now, onto the Audio.</p>
