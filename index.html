@@ -276,8 +276,8 @@ projects.forEach((proj,i) => {
       </div>
     </a>
     <div class="sleeve-box">
-      <a class="sleeve sv-${style} tone-${proj.tone || 'dark'}" href="/${proj.slug}" style="--c:${proj.color}">
-        <div class="sleeve-art${proj.cover ? '' : ' ph-' + style}"${art}></div>
+      <a class="sleeve sv-${style} tone-${proj.tone || 'dark'}${proj.art ? ' art-' + proj.art : ''}" href="/${proj.slug}" style="--c:${proj.color}">
+        <div class="sleeve-art${proj.cover ? '' : ' ph-' + (proj.art || style)}"${art}></div>
         <div class="sleeve-plate">
           <div class="sleeve-title">${proj.name.replace('\n','<br>')}</div>
           <div class="sleeve-meta"><span class="sleeve-date">${proj.year}</span></div>
@@ -421,6 +421,17 @@ const pcbSlides = [
     ],
   },
   {
+    title: 'Digital Audio Player',
+    date: 'October, 2026',
+    description: "Schematic Revision 1 is complete for a portable digital audio player designed from scratch: an ESP32-S3 reads FLAC / MP3 off a microSD card and streams I²S to an ES9038Q2M DAC, followed by a discrete OPA1612 I/V and summing stage and an OPA1622 headphone output, all fed by a low-noise ±3.3 V power tree. Layout is next.",
+    images: [
+      { src: 'https://i.imgur.com/wXwPsML.png', alt: 'Power schematic' },
+      { src: 'https://i.imgur.com/BfuNM9j.png', alt: 'Audio schematic' },
+      { src: 'https://i.imgur.com/7MRcLC7.png', alt: 'Peripherals schematic' },
+      { src: 'https://i.imgur.com/goo1cbN.png', alt: 'MCU schematic' },
+    ],
+  },
+  {
     title: 'More to Come',
     date: '',
     description: '',
@@ -438,7 +449,7 @@ function renderPcbSlide(i) {
   if (slide.placeholder) {
     el.innerHTML = `<div class="pcb-slide-placeholder">${slide.title}</div>`;
   } else {
-    const rowClass = slide.images.length >= 3 ? 'detail-img-row-3' : 'detail-img-row';
+    const rowClass = slide.images.length === 4 ? 'dap-quad' : slide.images.length >= 3 ? 'detail-img-row-3' : 'detail-img-row';
     const imagesHtml = slide.images.map(img =>
       `<img class="zoomable" src="${img.src}" alt="${img.alt}" onclick="openLightbox(this.src,this.alt)">`
     ).join('');

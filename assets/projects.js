@@ -13,6 +13,227 @@ const palettes=[
 ];
 const palette=palettes[Math.floor(Math.random()*palettes.length)];
 
+// ============ DIGITAL AUDIO PLAYER: IC CARDS ============
+// One card per block of the schematic, grouped and ordered by the architecture
+// (Power -> Audio -> Peripherals -> MCU). Add a `footprint` image to replace the placeholder.
+const dapGroups = [
+  { name:'Power', chain:'USB-C → BQ24250 → 3.9 V Buck-Boost → ±3V3 LDOs · 3V3 Digital', ics:[
+    { title:'USB-C', part:'GCT USB4085-GF-A', img:'https://i.imgur.com/IZ56qZK.png',
+      desc:'USB 2.0 receptacle for charging and file transfer. 5.1 kΩ pull-downs on CC1/CC2 identify the device as a sink, a TVS diode clamps VBUS, a ferrite bead filters it, and a two-channel ESD array protects D+/D− on their way to the ESP32-S3.' },
+    { title:'Charger', part:'BQ24250RGET', img:'https://i.imgur.com/b8CL48O.png',
+      desc:'Single-cell Li-Po switching charger with power-path. Charges the 1850 mAh cell at 500 mA, uses the battery NTC for hardware JEITA temperature limits, and creates the SYS rail every other regulator runs from. Configured over I²C, with CE and INT on GPIOs and the 1 A input limit strapped.' },
+    { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/nhYSniC.png',
+      desc:'Buck-boost pre-regulator that turns SYS (3.0 to 4.2 V) into a steady 3.9 V at 1.2 MHz. It feeds the two positive LDOs and the inverter, sitting just above their dropout, and is switched off in standby.' },
+    { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/t1lmJsq.png',
+      desc:'Ultralow-noise, high-PSRR linear regulator that cleans the 3.9 V switcher rail down to +3V3_ANALOG, which powers the op-amps and the audio oscillators.' },
+    { title:'+3V3 LDO (DAC)', part:'LT3042', img:'https://i.imgur.com/dBMa8YU.png',
+      desc:'A second LT3042 dedicated to the DAC\'s AVCC / VCCA. The DAC\'s output scales with this supply, so it gets its own rail and no op-amp signal current ever flows through it.' },
+    { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/Eht4xVd.png',
+      desc:'Dual-inductor inverting converter at 2.7 MHz that makes −3.9 V from the +3.9 V rail, giving the negative LDO the headroom it needs.' },
+    { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/bjzDN6x.png',
+      desc:'Ultralow-noise negative linear regulator that turns −3.9 V into the −3V3 rail, so the op-amps run on a clean, symmetric ±3.3 V supply.' },
+    { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/Uhp6qT1.png',
+      desc:'A separate, always-on LTC3440 branch from SYS at 600 kHz, producing +3V3_DIG for the MCU, flash, microSD and buttons, which keeps digital noise off the analog rails.' },
+  ]},
+  { name:'Audio', chain:'DAC → I/V Conversion → Summing → Output', ics:[
+    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/Zem17qp.png',
+      desc:'32-bit stereo DAC with differential current outputs. It acts as the I²S master clocked from one of two local oscillators (22.5792 / 24.576 MHz), so playback timing comes from a clean clock instead of the MCU.' },
+    { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/x644Egq.png',
+      desc:'Four transimpedance channels (two OPA1612s) convert the DAC\'s four current outputs into voltages. 499 Ω / 1.5 nF feedback sets the gain and a 213 kHz first pole for filtering.' },
+    { title:'Summing Stage', part:'OPA1612', img:'https://i.imgur.com/IbGLV2r.png',
+      desc:'Differential-to-single-ended summing combined with a multiple-feedback Butterworth low-pass (69.4 kHz), which cancels common-mode noise and removes the DAC\'s out-of-band energy. Only 0.068 dB of loss at 20 kHz.' },
+    { title:'Headphone Output', part:'OPA1622', img:'https://i.imgur.com/LMRFcrC.png',
+      desc:'Unity-gain follower that drives the 3.5 mm jack with an output impedance of about 0.44 Ω at 20 kHz, suited to low-impedance IEMs. ESD protection on tip and ring, and an enable pin lets firmware mute it on a rail fault.' },
+  ]},
+  { name:'Peripherals', chain:'Screen → LED Driver → Buttons → Encoder → SD Card', ics:[
+    { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/HXjbbiJ.png',
+      desc:'2.4 in 240 × 320 IPS display with an ST7789V controller, driven over SPI through a 50-pin, 0.5 mm FPC connector (Amphenol F32D).' },
+    { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/LFQioOE.png',
+      desc:'Inductor-free charge-pump backlight driver run from SYS with four LED sinks. A MOSFET switches the ISET resistor between two brightness levels, keeping the LED current DC so no PWM lands in the audio band.' },
+    { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/5BSN1fx.png',
+      desc:'Three side-actuated switches for power, volume up and volume down, each with a pull-down and decoupling to the MCU.' },
+    { title:'Interface Buttons', part:'PTS810', img:'https://i.imgur.com/u84roTX.png',
+      desc:'Top-actuated tactile switches for menu up and down, active high with pull-downs, debounced in firmware.' },
+    { title:'Encoder', part:'Alps EC12D', img:'https://i.imgur.com/Wd6vhPV.png',
+      desc:'Rotary encoder with a push switch used for scrolling and select. RC filtering on each line and an ESD array protect the MCU inputs.' },
+    { title:'SD Card', part:'Same Sky MSD-1-A', img:'https://i.imgur.com/GhaD7z9.png',
+      desc:'microSD socket with card detect running 1-bit SDMMC. It holds the music library and is exposed to a computer over USB as a mass-storage drive. Pull-ups on the bus and an ESD array at the socket.' },
+  ]},
+  { name:'MCU', chain:'ESP32-S3', ics:[
+    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/goo1cbN.png',
+      desc:'The brain of the player: a dual-core 240 MHz MCU that reads the microSD, decodes FLAC / MP3 to PCM, streams I²S to the DAC, runs the display and controls, talks to the charger over I²C, and provides USB. Paired with 8 MB of external quad-SPI flash.' },
+  ]},
+];
+
+// pixel sizes of the schematic crops, so each image reserves its aspect ratio before it loads
+const dapDims = {
+  'IZ56qZK':[1697,1062],
+  'b8CL48O':[1842,1042],
+  'nhYSniC':[1212,720],
+  't1lmJsq':[1205,717],
+  'dBMa8YU':[1325,785],
+  'Eht4xVd':[1330,792],
+  'bjzDN6x':[1330,782],
+  'Uhp6qT1':[1652,630],
+  'Zem17qp':[817,787],
+  'x644Egq':[2135,1435],
+  'IbGLV2r':[842,857],
+  'LMRFcrC':[825,585],
+  'HXjbbiJ':[1160,1575],
+  'LFQioOE':[1160,1092],
+  '5BSN1fx':[1160,720],
+  'u84roTX':[1592,997],
+  'Wd6vhPV':[1377,977],
+  'GhaD7z9':[1385,987],
+  'goo1cbN':[2495,1440],
+  'wXwPsML':[2002,1495],
+  'BfuNM9j':[2087,1557],
+  '7MRcLC7':[2360,1515],
+};
+const dapSize = src => { const d = dapDims[(src.match(/imgur\.com\/(\w+)\./) || [])[1]]; return d ? ` width="${d[0]}" height="${d[1]}"` : ''; };
+
+// Every IC in architecture order, each tagged with its group
+const dapICs = dapGroups.flatMap((g, gi) => g.ics.map(ic => Object.assign({ group: g, gi }, ic)));
+
+// The page shows a launcher; the cards themselves live in a pop-up you click through.
+function dapICLauncherHtml() {
+  return `
+    <div class="ic-launch">
+      <p class="ic-launch-sub">${dapICs.length} parts · ${dapGroups.map(g => g.name).join(' → ')}</p>
+      <div class="ic-launch-groups">
+        ${dapGroups.map((g, gi) => {
+          const first = dapICs.findIndex(ic => ic.gi === gi);
+          return `
+          <button class="ic-launch-group" onclick="openIcBrowser(${first})">
+            <span class="ic-launch-num">0${gi + 1}</span>
+            <span class="ic-launch-name">${g.name}</span>
+            <span class="ic-launch-count">${g.ics.length} ${g.ics.length === 1 ? 'part' : 'parts'}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <div style="text-align:center">
+        <button class="subassembly-btn" onclick="openIcBrowser(0)">Browse Each IC →</button>
+      </div>
+    </div>`;
+}
+
+function dapCardHtml(ic) {
+  return `
+    <article class="ic-card">
+      <h5 class="ic-card-title">${ic.title} <span class="ic-card-part">- ${ic.part}</span></h5>
+      <div class="ic-card-panes">
+        <figure class="ic-pane">
+          <img decoding="async" class="zoomable" src="${ic.img}"${dapSize(ic.img)} alt="${ic.title} - ${ic.part} schematic" onclick="openLightbox(this.src,this.alt)">
+          <figcaption>Schematic</figcaption>
+        </figure>
+        <figure class="ic-pane">
+          ${ic.footprint
+            ? `<img decoding="async" class="zoomable" src="${ic.footprint}" alt="${ic.title} - ${ic.part} footprint" onclick="openLightbox(this.src,this.alt)">`
+            : `<div class="ic-pane-empty">Footprint<br>coming soon</div>`}
+          <figcaption>Footprint</figcaption>
+        </figure>
+      </div>
+      <p class="ic-card-desc">${ic.desc}</p>
+    </article>`;
+}
+
+// ============ IC BROWSER (pop-up) ============
+let icIndex = 0;
+
+function icBrowserEl() {
+  let el = document.getElementById('ic-modal');
+  if (el) return el;
+  el = document.createElement('div');
+  el.id = 'ic-modal';
+  el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-modal', 'true');
+  el.setAttribute('aria-label', 'See each IC');
+  el.innerHTML = `
+    <div class="ic-modal-panel">
+      <div class="ic-modal-top">
+        <div class="ic-modal-tabs">
+          ${dapGroups.map((g, gi) => `<button class="ic-modal-tab" data-gi="${gi}" onclick="openIcBrowser(${dapICs.findIndex(ic => ic.gi === gi)})">${g.name}</button>`).join('')}
+        </div>
+        <span class="ic-modal-count" id="ic-modal-count"></span>
+        <button class="ic-modal-close" onclick="closeIcBrowser()" aria-label="Close">✕</button>
+      </div>
+      <div class="ic-modal-steps" id="ic-modal-steps"></div>
+      <div class="ic-modal-body" id="ic-modal-body"></div>
+      <div class="ic-modal-nav">
+        <button class="ic-modal-btn" id="ic-modal-prev" onclick="stepIcBrowser(-1)">← <span id="ic-modal-prev-name"></span></button>
+        <button class="ic-modal-btn ic-modal-btn-next" id="ic-modal-next" onclick="stepIcBrowser(1)"><span id="ic-modal-next-name"></span> →</button>
+      </div>
+    </div>`;
+  el.addEventListener('click', e => { if (e.target === el) closeIcBrowser(); });
+  // swipe left/right on touch screens
+  let sx = null, sy = null;
+  el.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  el.addEventListener('touchend', e => {
+    if (sx === null) return;
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) stepIcBrowser(dx < 0 ? 1 : -1);
+    sx = null;
+  });
+  document.body.appendChild(el);
+  return el;
+}
+
+function renderIcBrowser() {
+  const ic = dapICs[icIndex];
+  const body = document.getElementById('ic-modal-body');
+  body.innerHTML = dapCardHtml(ic);
+  body.scrollTop = 0;
+  body.classList.remove('ic-fade'); void body.offsetWidth; body.classList.add('ic-fade');
+  document.getElementById('ic-modal-count').textContent = `${icIndex + 1} / ${dapICs.length}`;
+  document.querySelectorAll('.ic-modal-tab').forEach(t => t.classList.toggle('active', +t.dataset.gi === ic.gi));
+  // this group's parts in architecture order, current one highlighted
+  document.getElementById('ic-modal-steps').innerHTML = dapICs
+    .map((x, i) => x.gi === ic.gi
+      ? `<button class="ic-step${i === icIndex ? ' active' : ''}" onclick="openIcBrowser(${i})">${x.title}</button>` : '')
+    .filter(Boolean).join('<span class="ic-step-arrow">→</span>');
+  const prev = dapICs[icIndex - 1], next = dapICs[icIndex + 1];
+  document.getElementById('ic-modal-prev').disabled = !prev;
+  document.getElementById('ic-modal-next').disabled = !next;
+  document.getElementById('ic-modal-prev-name').textContent = prev ? prev.title : 'Start';
+  document.getElementById('ic-modal-next-name').textContent = next ? next.title : 'End';
+  // warm the neighbours so clicking through feels instant
+  [prev, next].forEach(n => { if (n) new Image().src = n.img; });
+}
+
+function openIcBrowser(i) {
+  const el = icBrowserEl();
+  const wasOpen = el.classList.contains('open');
+  icIndex = Math.max(0, Math.min(dapICs.length - 1, i));
+  renderIcBrowser();
+  if (!wasOpen) {
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    track('ic_browser_opened', { ic: dapICs[icIndex].title });
+  }
+}
+
+function stepIcBrowser(d) {
+  const n = icIndex + d;
+  if (n < 0 || n >= dapICs.length) return;
+  icIndex = n;
+  renderIcBrowser();
+}
+
+function closeIcBrowser() {
+  const el = document.getElementById('ic-modal');
+  if (!el) return;
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  const el = document.getElementById('ic-modal');
+  const lb = document.getElementById('lightbox');
+  if (!el || !el.classList.contains('open') || (lb && lb.classList.contains('open'))) return;
+  if (e.key === 'ArrowRight') stepIcBrowser(1);
+  else if (e.key === 'ArrowLeft') stepIcBrowser(-1);
+});
+
 // ============ PROJECTS ============
 const projects = [
   {
@@ -347,6 +568,245 @@ const projects = [
         <p>The Waterglo project is a consumer-level product that, using an air pump and water pump alongside a specialized nozzle that releases water at a high rate (7 GAL/min), creates "cool" effects. The work my fellow intern and I did on this project was the prototype/mock-up initial step.</p>
         <p>SolidWorks was used to model potential interesting shapes to be used in the project, and a test rig was also modeled in SolidWorks and eventually semi-assembled in real life via the Wood Shop team. After approval, using Coke bottles and snap bottles (2L), the shapes were mocked up using a heat gun, a hot glue gun, and a piping/lighting setup that conformed to the given nozzle, introducing air and water to the system controlled by a DMX-converted power supply.</p>
         <p>Eventually, after testing the "Coke bottle" shapes, the final "test" shape, which is significantly larger, was created by 3D printing the negative of the shape and vacuum forming acrylic over the shape, then using Weld-On to make the seal water-tight. See the video above for a demonstration.</p>
+      </div>
+    `
+  },
+  {
+    name:'Digital\nAudio Player',
+    displayName:'Digital Audio Player',
+    catalog:'AL-007',side:'B',year:'2026',
+    slug:'digital-audio-player',
+    tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
+    cover:'',
+    art:'wip',               // plain grey "W.I.P" cover until there's a board to photograph
+    sleeve:'stamp',
+    color:palette[5],
+    tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
+    trackKey:'dap',
+    html:`
+      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
+      <h2 class="detail-title">Digital Audio Player</h2>
+      <div class="detail-tags" style="margin-bottom:30px">
+        <span class="detail-tag">Altium Designer</span>
+        <span class="detail-tag">PCB Design</span>
+        <span class="detail-tag">Mixed-Signal Design</span>
+        <span class="detail-tag">Analog Audio Design</span>
+        <span class="detail-tag">LTspice</span>
+        <span class="detail-tag">PSpice</span>
+        <span class="detail-tag">ESP32-S3</span>
+      </div>
+      <div class="detail-body">
+        <h3>Schematic Revision 1 Complete</h3>
+        <div class="dap-quad">
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/wXwPsML.png" width="2002" height="1495" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/BfuNM9j.png" width="2087" height="1557" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/7MRcLC7.png" width="2360" height="1515" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/goo1cbN.png" width="2495" height="1440" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+        </div>
+
+        <h3>Architecture</h3>
+        <figure class="arch-diagram">
+          <div class="arch-scroll">
+<svg class="arch-svg" viewBox="-2 -2 644 712" role="img" aria-labelledby="arch-title">
+<title id="arch-title">Digital Audio Player architecture: power tree, signal chain and controls</title>
+<defs>
+<marker id="ah-8E44AD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8E44AD"/></marker>
+<marker id="ahs-8E44AD" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#8E44AD"/></marker>
+<marker id="ah-2E9A63" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2E9A63"/></marker>
+<marker id="ahs-2E9A63" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#2E9A63"/></marker>
+<marker id="ah-2F6FB3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2F6FB3"/></marker>
+<marker id="ahs-2F6FB3" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#2F6FB3"/></marker>
+<marker id="ah-444" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker>
+<marker id="ahs-444" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#444"/></marker>
+<marker id="ah-8a8a8a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a8a8a"/></marker>
+<marker id="ahs-8a8a8a" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#8a8a8a"/></marker>
+<marker id="ah-E8682E" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E8682E"/></marker>
+<marker id="ahs-E8682E" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#E8682E"/></marker>
+<marker id="ah-111" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#111"/></marker>
+<marker id="ahs-111" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0L0 5L10 10z" fill="#111"/></marker>
+</defs>
+<rect x="0" y="0" width="34.3" height="18" rx="9.0" fill="#8a8a8a"/>
+<text class="arch-pill" x="17.15" y="12.2">SYS</text>
+<rect x="42.3" y="0" width="83.1" height="18" rx="9.0" fill="#E8682E"/>
+<text class="arch-pill" x="83.85" y="12.2">+3V3_ANALOG</text>
+<rect x="133.39999999999998" y="0" width="83.1" height="18" rx="9.0" fill="#2F6FB3"/>
+<text class="arch-pill" x="174.95" y="12.2">−3V3_ANALOG</text>
+<rect x="224.49999999999997" y="0" width="64.8" height="18" rx="9.0" fill="#8E44AD"/>
+<text class="arch-pill" x="256.9" y="12.2">+3V3_DAC</text>
+<rect x="297.29999999999995" y="0" width="64.8" height="18" rx="9.0" fill="#2E9A63"/>
+<text class="arch-pill" x="329.69999999999993" y="12.2">+3V3_DIG</text>
+<text class="arch-num" x="0" y="52">01</text>
+<text class="arch-h" x="22" y="52">Power</text>
+<line x1="0" y1="60" x2="640" y2="60" stroke="#111" stroke-width="1.5"/>
+<rect class="arch-box" x="0" y="196" width="100" height="48" rx="7"/>
+<text class="arch-t" x="50.0" y="219.0">USB4085</text>
+<text class="arch-s" x="50.0" y="233.0">USB-C · 5 V</text>
+<rect class="arch-box" x="0" y="284" width="100" height="48" rx="7"/>
+<text class="arch-t" x="50.0" y="307.0">LP605060JU</text>
+<text class="arch-s" x="50.0" y="321.0">Li-Ion 1850 mAh</text>
+<rect class="arch-box" x="130" y="232" width="100" height="58" rx="7"/>
+<text class="arch-t" x="180.0" y="260.0">BQ24250</text>
+<text class="arch-s" x="180.0" y="274.0">charger</text>
+<path d="M100 220 H114 V250 H128" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<path d="M100 308 H114 V272 H128" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)" marker-start="url(#ahs-111)"/>
+<path d="M230 261 H250" fill="none" stroke="#8a8a8a" stroke-width="2.2" stroke-linejoin="round"/>
+<path d="M250 158 V342" fill="none" stroke="#8a8a8a" stroke-width="2.2" stroke-linejoin="round"/>
+<path d="M250 158 H268" fill="none" stroke="#8a8a8a" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#ah-8a8a8a)"/>
+<path d="M250 342 H268" fill="none" stroke="#8a8a8a" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#ah-8a8a8a)"/>
+<text class="arch-lbl" x="256" y="294" fill="#8a8a8a" style="text-anchor:start">SYS</text>
+<text class="arch-lbl" x="256" y="306" fill="#8a8a8a" style="text-anchor:start">3.0–4.2 V</text>
+<rect class="arch-box" x="270" y="136" width="100" height="44" rx="7"/>
+<text class="arch-t" x="320.0" y="157.0">LTC3440</text>
+<text class="arch-s" x="320.0" y="171.0">buck-boost → 3.9 V</text>
+<rect class="arch-box" x="270" y="320" width="100" height="44" rx="7"/>
+<text class="arch-t" x="320.0" y="341.0">LTC3440</text>
+<text class="arch-s" x="320.0" y="355.0">buck-boost → 3.3 V</text>
+<path d="M370 158 H385" fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round"/>
+<path d="M385 102 V214" fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round"/>
+<path d="M385 102 H398" fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round" marker-end="url(#ah-444)"/>
+<path d="M385 158 H398" fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round" marker-end="url(#ah-444)"/>
+<path d="M385 214 H398" fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round" marker-end="url(#ah-444)"/>
+<rect class="arch-box" x="400" y="80" width="100" height="44" rx="7"/>
+<text class="arch-t" x="450.0" y="101.0">LT3042</text>
+<text class="arch-s" x="450.0" y="115.0">+3V3 LDO</text>
+<rect class="arch-box" x="400" y="136" width="100" height="44" rx="7"/>
+<text class="arch-t" x="450.0" y="157.0">LT3042</text>
+<text class="arch-s" x="450.0" y="171.0">+3V3 LDO</text>
+<rect class="arch-box" x="400" y="192" width="100" height="44" rx="7"/>
+<text class="arch-t" x="450.0" y="213.0">LT3462A</text>
+<text class="arch-s" x="450.0" y="227.0">inverter → −3.9 V</text>
+<rect class="arch-box" x="400" y="256" width="100" height="44" rx="7"/>
+<text class="arch-t" x="450.0" y="277.0">LT3093</text>
+<text class="arch-s" x="450.0" y="291.0">−3V3 LDO</text>
+<path d="M450 236 V254" fill="none" stroke="#2F6FB3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#ah-2F6FB3)"/>
+<path d="M500 102 H512" fill="none" stroke="#E8682E" stroke-width="2" stroke-linejoin="round"/>
+<rect x="512" y="93" width="128" height="18" rx="9.0" fill="#E8682E"/>
+<text class="arch-pill" x="576.0" y="105.2">+3V3_ANALOG</text>
+<path d="M500 158 H512" fill="none" stroke="#8E44AD" stroke-width="2" stroke-linejoin="round"/>
+<rect x="512" y="149" width="128" height="18" rx="9.0" fill="#8E44AD"/>
+<text class="arch-pill" x="576.0" y="161.2">+3V3_DAC</text>
+<path d="M500 278 H512" fill="none" stroke="#2F6FB3" stroke-width="2" stroke-linejoin="round"/>
+<rect x="512" y="269" width="128" height="18" rx="9.0" fill="#2F6FB3"/>
+<text class="arch-pill" x="576.0" y="281.2">−3V3_ANALOG</text>
+<path d="M370 342 H512" fill="none" stroke="#2E9A63" stroke-width="2" stroke-linejoin="round"/>
+<rect x="512" y="333" width="128" height="18" rx="9.0" fill="#2E9A63"/>
+<text class="arch-pill" x="576.0" y="345.2">+3V3_DIG</text>
+<text class="arch-n" x="441" y="358">MCU · screen · SD · buttons</text>
+<text class="arch-num" x="0" y="412">02</text>
+<text class="arch-h" x="22" y="412">Audio</text>
+<line x1="0" y1="420" x2="640" y2="420" stroke="#111" stroke-width="1.5"/>
+<rect class="arch-box" x="0" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="45.0" y="489.0">ESP32-S3</text>
+<text class="arch-s" x="45.0" y="503.0">MCU · decode</text>
+<rect class="arch-box" x="110" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="155.0" y="489.0">ES9038Q2M</text>
+<text class="arch-s" x="155.0" y="503.0">DAC</text>
+<rect class="arch-box" x="220" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="265.0" y="489.0">OPA1612</text>
+<text class="arch-s" x="265.0" y="503.0">I/V ×4</text>
+<rect class="arch-box" x="330" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="375.0" y="489.0">OPA1612</text>
+<text class="arch-s" x="375.0" y="503.0">sum + LPF</text>
+<rect class="arch-box" x="440" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="485.0" y="489.0">OPA1622</text>
+<text class="arch-s" x="485.0" y="503.0">LPF · low-Z</text>
+<rect class="arch-box arch-box-jack" x="550" y="462" width="90" height="56" rx="7"/>
+<text class="arch-t" x="595.0" y="489.0">3.5 mm</text>
+<text class="arch-s" x="595.0" y="503.0">headphones</text>
+<rect x="0" y="438" width="90" height="15" rx="7.5" fill="#2E9A63"/>
+<text class="arch-pill" x="45.0" y="448.7">+3V3_DIG</text>
+<rect x="110" y="438" width="90" height="15" rx="7.5" fill="#8E44AD"/>
+<text class="arch-pill" x="155.0" y="448.7">+3V3_DAC</text>
+<rect x="220" y="438" width="43" height="15" rx="7.5" fill="#E8682E"/>
+<text class="arch-pill" x="241.5" y="448.7">+3V3</text>
+<rect x="267" y="438" width="43" height="15" rx="7.5" fill="#2F6FB3"/>
+<text class="arch-pill" x="288.5" y="448.7">−3V3</text>
+<rect x="330" y="438" width="43" height="15" rx="7.5" fill="#E8682E"/>
+<text class="arch-pill" x="351.5" y="448.7">+3V3</text>
+<rect x="377" y="438" width="43" height="15" rx="7.5" fill="#2F6FB3"/>
+<text class="arch-pill" x="398.5" y="448.7">−3V3</text>
+<rect x="440" y="438" width="43" height="15" rx="7.5" fill="#E8682E"/>
+<text class="arch-pill" x="461.5" y="448.7">+3V3</text>
+<rect x="487" y="438" width="43" height="15" rx="7.5" fill="#2F6FB3"/>
+<text class="arch-pill" x="508.5" y="448.7">−3V3</text>
+<path d="M90 490.0 H108" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<text class="arch-lbl" x="100" y="532">I²S</text>
+<line x1="200" y1="482.5" x2="220" y2="482.5" stroke="#111" stroke-width="1.3"/>
+<line x1="200" y1="487.5" x2="220" y2="487.5" stroke="#111" stroke-width="1.3"/>
+<line x1="200" y1="492.5" x2="220" y2="492.5" stroke="#111" stroke-width="1.3"/>
+<line x1="200" y1="497.5" x2="220" y2="497.5" stroke="#111" stroke-width="1.3"/>
+<text class="arch-lbl" x="210" y="532">L± R±</text>
+<line x1="310" y1="482.5" x2="330" y2="482.5" stroke="#111" stroke-width="1.3"/>
+<line x1="310" y1="487.5" x2="330" y2="487.5" stroke="#111" stroke-width="1.3"/>
+<line x1="310" y1="492.5" x2="330" y2="492.5" stroke="#111" stroke-width="1.3"/>
+<line x1="310" y1="497.5" x2="330" y2="497.5" stroke="#111" stroke-width="1.3"/>
+<text class="arch-lbl" x="320" y="532">L± R±</text>
+<line x1="420" y1="487.0" x2="440" y2="487.0" stroke="#111" stroke-width="1.3"/>
+<line x1="420" y1="493.0" x2="440" y2="493.0" stroke="#111" stroke-width="1.3"/>
+<text class="arch-lbl" x="430" y="532">L R</text>
+<line x1="530" y1="487.0" x2="550" y2="487.0" stroke="#111" stroke-width="1.3"/>
+<line x1="530" y1="493.0" x2="550" y2="493.0" stroke="#111" stroke-width="1.3"/>
+<text class="arch-lbl" x="540" y="532">L R</text>
+<rect x="0.75" y="578" width="638.5" height="108" rx="12" fill="none" stroke="#bbb" stroke-width="1.2" stroke-dasharray="5 4"/>
+<rect x="430" y="570" width="196" height="16" fill="#fff"/>
+<text class="arch-num" x="436" y="583" style="text-anchor:start">03</text>
+<text class="arch-h arch-h-sm" x="456" y="583">Control, Storage &amp; UI</text>
+<path d="M45 518 V600" fill="none" stroke="#111" stroke-width="1.5"/>
+<path d="M45 600 H586.0" fill="none" stroke="#111" stroke-width="1.5"/>
+<path d="M58.0 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="12.0" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="58.0" y="637">Screen</text>
+<text class="arch-s" x="58.0" y="650">ER-TFT024IPS-3</text>
+<text class="arch-n" x="58.0" y="662">SPI · 2.4 in</text>
+<path d="M163.6 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="117.6" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="163.6" y="637">LED Driver</text>
+<text class="arch-s" x="163.6" y="650">BD1604MUV</text>
+<text class="arch-n" x="163.6" y="662">backlight · SYS</text>
+<path d="M269.2 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="223.2" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="269.2" y="637">Buttons</text>
+<text class="arch-s" x="269.2" y="650">TL1014BF220QG</text>
+<text class="arch-n" x="269.2" y="662">power · vol ±</text>
+<path d="M374.79999999999995 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="328.79999999999995" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="374.79999999999995" y="637">Encoder</text>
+<text class="arch-s" x="374.79999999999995" y="650">Alps EC12D</text>
+<text class="arch-n" x="374.79999999999995" y="662">scroll · select</text>
+<path d="M480.4 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="434.4" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="480.4" y="637">SD Card</text>
+<text class="arch-s" x="480.4" y="650">MSD-1-A</text>
+<text class="arch-n" x="480.4" y="662">music library</text>
+<path d="M586.0 600 V616" fill="none" stroke="#111" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ah-111)"/>
+<rect class="arch-box" x="540.0" y="618" width="92" height="54" rx="7"/>
+<text class="arch-t" x="586.0" y="637">USB-C</text>
+<text class="arch-s" x="586.0" y="650">USB4085</text>
+<text class="arch-n" x="586.0" y="662">import to SD</text>
+<text class="arch-n" x="320" y="704">all on +3V3_DIG except the LED driver, which runs from SYS for LED headroom</text>
+</svg>
+          </div>
+        </figure>
+        <div class="arch-text">
+          <p>In order to create a PCB to play clean digital audio, I implemented this very specific architecture. First, you need to understand the power layer.</p>
+          <p>The power layer consists of a Li-Ion rechargeable 1850mAh 3.7V nominal battery <span class="pn">(Jauch LP605060JU+PCM)</span>, charged by a BQ charger IC <span class="pn">(BQ24250RGET)</span> that is then fed by a USB-C <span class="pn">(GCT USB4085-GF-A)</span>. The SYS (system) rail outputted by the BQ is then given to two different buck-boost converters:</p>
+          <p>The analog (3.9V) buck-boost converter <span class="pn">(LTC3440)</span> takes the 3.0-4.2V output and properly regulates it to 3.9V. This is because of the low-noise requirement for the audio devices' power rails, which I will get to shortly. This 3.9V is intentionally an odd number because it safely creates headroom, verified in LTspice, for the +3V3 and -3V3 analog LDO output rails that are translated via the 3.9V rail, while also not being so high that the naturally low efficiency of the LDO creates dangerous levels of heat within the board. The 3.9V is then given to two +3V3 LDOs <span class="pn">(LT3042)</span>, which give power rail #1, +3V3_ANALOG, and #2, +3V3_DAC, and is also fed to an inverted regulator <span class="pn">(LT3462A)</span>, which reverses the sign of the 3.9V to -3.9V, which is then fed to an LDO <span class="pn">(LT3093)</span> that outputs -3V3_ANALOG. This will be important later.</p>
+          <p>Next, the other buck-boost <span class="pn">(LTC3440)</span> is for the digital parts (less sensitive) of the circuit, whether it be the MCU, screen, LED driver, SD card <span class="pn">(Same Sky MSD-1-A)</span>, etcetera. This buck-boost outputs a clean 3.3V.</p>
+          <p>Now, onto the Audio.</p>
+          <p>The digital-to-analog converter (DAC) <span class="pn">(ES9038Q2M)</span> is fed +3V3_DAC, as well as information from the ESP32-S3, to translate digital audio into an analog current-varying output. This output is then fed to an I/V op-amp <span class="pn">(OPA1612)</span>, which translates the varying current to a varying voltage, powered with +3V3_ANALOG and -3V3_ANALOG. After this stage, the audio is then fed to a summing op-amp stage <span class="pn">(OPA1612)</span>, powered with +3V3_ANALOG and -3V3_ANALOG, as the DAC outputs four audio rails, L-, L+, R-, R+ (right and left neg/pos). These four rails are then summed into Left and Right, alongside a low-pass filter, and then given to the final headphone output <span class="pn">(OPA1622)</span>, powered with +3V3_ANALOG and -3V3_ANALOG, with another low-pass filter, with a low impedance output to ensure proper audio crispness is delivered.</p>
+          <p>The helping hands in this process in terms of UI and compute are of course the microcontroller, the ESP32-S3, which takes data from the SD card <span class="pn">(Same Sky MSD-1-A)</span> and is then fed to the DAC, as well as a screen <span class="pn">(ER-TFT024IPS-3)</span> for the user to understand what is occurring, power, volume+/- <span class="pn">(TL1014BF220QG)</span>, select, and encoder <span class="pn">(Alps EC12D)</span> for user control, and an LED driver <span class="pn">(BD1604MUV)</span> for the screen due to the fact that 3V3 is not enough headroom for the LEDs on its own. Lastly, the USB-C will import into the SD card if not in charging mode.</p>
+        </div>
+
+        <a class="dap-github" href="https://github.com/lokeralexander-code/DAP_PCB/tree/main" target="_blank" rel="noopener" onclick="track('github_opened',{project:'Digital Audio Player'})">
+          <svg viewBox="0 0 16 16" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span class="dap-github-text">
+            <span class="dap-github-title">View on GitHub ↗</span>
+            <span class="dap-github-sub">For further detail on version history and documentation.</span>
+          </span>
+        </a>
+
+        <h3>See Each IC</h3>
+        ${dapICLauncherHtml()}
       </div>
     `
   },
