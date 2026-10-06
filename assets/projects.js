@@ -18,77 +18,74 @@ const palette=palettes[Math.floor(Math.random()*palettes.length)];
 // (Power -> Audio -> Peripherals -> MCU). Add a `footprint` image to replace the placeholder.
 const dapGroups = [
   { name:'Power', chain:'USB-C → BQ24250 → 3.9 V Buck-Boost → ±3V3 LDOs · 3V3 Digital', ics:[
-    { title:'USB-C', part:'GCT USB4085-GF-A', img:'https://i.imgur.com/IZ56qZK.png',
+    { title:'USB-C', part:'GCT USB4085-GF-A', img:'https://i.imgur.com/VYv6Hqc.png',
       desc:'USB 2.0, used for charging and file upload. ESD protection on all ports, alongside a ferrite-bead pi filter on the USB input. Verified in LTspice.' },
-    { title:'Charger', part:'BQ24250RGET', img:'https://i.imgur.com/b8CL48O.png',
+    { title:'Charger', part:'BQ24250RGET', img:'https://i.imgur.com/XAhwgGJ.png',
       desc:'The BQ24250 is a single-cell LiPo switching charger that charges the 1850 mAh battery at 500 mA and communicates over I²C, with very heavy output filtering to keep ripple downstream as low as possible. It has a 1 A input limit and powers the <button type="button" class="ic-link" data-ic="3.9 V Buck-Boost">3.9 V buck-boost</button>, the <button type="button" class="ic-link" data-ic="3V3 Buck-Boost (Digital)">3.3 V buck-boost</button> and the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>.' },
-    { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/nhYSniC.png',
+    { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/bl4oz3n.png',
       desc:'This buck-boost turns the SYS rail (3.0 to 4.2 V) into a very steady 3.9 V with 7.7 mVpp of ripple, switching at 1.2 MHz. This rail feeds the two +3V3 LDOs and the inverter. The 3.9 V is intentionally set as close to the LDOs\' dropout as is safe, to minimize the thermal issues that come with LDOs. Verified in LTspice.' },
-    { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/t1lmJsq.png',
+    { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/cyzvwPZ.png',
       desc:'A very low-noise, high-PSRR LDO that drops the 3.9 V from the buck-boost to an extremely stable output rail, +3V3_ANALOG, which powers the op-amps cleanly; any noise on their supply would directly influence the audio path. Verified in LTspice.' },
-    { title:'+3V3 LDO (DAC)', part:'LT3042', img:'https://i.imgur.com/dBMa8YU.png',
+    { title:'+3V3 LDO (DAC)', part:'LT3042', img:'https://i.imgur.com/zA0fEQr.png',
       desc:'The second LT3042 is dedicated specifically to the DAC\'s analog supply inputs, because the DAC\'s output scales with this supply and can potentially create noise on it. Keeping it separate avoids making the op-amp power supply noisy, as detailed previously.' },
-    { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/Eht4xVd.png',
+    { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/VnGrxME.png',
       desc:'An inverting regulator running at 2.7 MHz turns +3.9 V into −3.9 V for the negative LDO, as the op-amps run off a ± supply. Verified in LTspice.' },
-    { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/bjzDN6x.png',
+    { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/k3DBvRV.png',
       desc:'An ultralow-noise negative LDO that turns −3.9 V into the −3V3 rail, so the op-amps run on a clean, symmetric ±3.3 V supply. Verified in LTspice.' },
-    { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/Uhp6qT1.png',
+    { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/a5zvvVG.png',
       desc:'The other LTC3440 buck-boost takes the SYS rail and produces another 3.3 V rail, this time for the digital components, hence +3V3_DIG. It powers the MCU, microSD, buttons, LCD and the DAC\'s digital supply. Verified in LTspice.' },
   ]},
   { name:'Audio', chain:'DAC → I/V Conversion → Summing → Output', ics:[
-    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/Zem17qp.png',
+    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/hY5AZuC.png',
       desc:'A 32-bit stereo DAC with differential current outputs. It is the I²S master, clocked from one of two oscillators: 22.5792 MHz or 24.576 MHz, for the 44.1 kHz and 48 kHz families of music sample rates. It runs as master because slave mode, which relies on its DPLL, produces more noise at the audio output, even though master mode is more difficult to implement. The DAC has four differential current outputs: L+, L−, R+ and R−.' },
-    { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/x644Egq.png',
+    { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/pBAYwzZ.png',
       desc:'The DAC\'s four differential current outputs are converted into proportional differential voltages, alongside a basic filter.' },
-    { title:'Summing Stage', part:'OPA1612', img:'https://i.imgur.com/IbGLV2r.png',
+    { title:'Summing Stage', part:'OPA1612', img:'https://i.imgur.com/diww6IE.png',
       desc:'The summing stage (one OPA1612) takes the four differential voltages and sums the difference between each positive and negative pair to create two clean left and right audio channels. The OPA1612 also forms an MFB Butterworth low-pass filter with fc at 69.4 kHz. This cancels out potential external noise while keeping the loss to just 0.068 dB at the top of human hearing (20 kHz) when combined with the I/V stage. Verified in PSpice.' },
-    { title:'Headphone Output', part:'OPA1622', img:'https://i.imgur.com/LMRFcrC.png',
+    { title:'Headphone Output', part:'OPA1622', img:'https://i.imgur.com/RuZJSol.png',
       desc:'The OPA1622 drives the 3.5 mm headphone jack with an output impedance of 0.44 Ω at 20 kHz, suited to low-impedance IEMs. There is ESD protection on the tip and ring of the jack, and the enable pin allows for muting. Verified in PSpice.' },
   ]},
   { name:'Peripherals', chain:'Screen → LED Driver → Buttons → Encoder → SD Card', ics:[
-    { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/HXjbbiJ.png',
+    { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/dMlBKds.png',
       desc:'A 2.4 in, 240 × 320 IPS TFT display with an ST7789V controller, driven over SPI and connected through a 50-pin, 0.5 mm FPC connector. Its LEDs are controlled by the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>, since the supply voltage is too low to push a meaningful current through them on its own.' },
-    { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/LFQioOE.png',
+    { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/oPQiai7.png',
       desc:'Inductor-free charge-pump backlight driver run from SYS with four LED sinks. A MOSFET switches the ISET resistor between two brightness levels, keeping the LED current DC so no PWM lands in the audio band.' },
-    { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/5BSN1fx.png',
+    { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/kxB6l3l.png',
       desc:'Three side-actuated switches for power, volume up and volume down, each with a pull-down and decoupling to the MCU.' },
-    { title:'Interface Buttons', part:'PTS810', img:'https://i.imgur.com/u84roTX.png',
-      desc:'Top-actuated tactile switches for menu up and down, active high with pull-downs, debounced in firmware.' },
-    { title:'Encoder', part:'Alps EC12D', img:'https://i.imgur.com/Wd6vhPV.png',
+    { title:'Encoder', part:'Alps EC12D', img:'https://i.imgur.com/MyAjGaO.png',
       desc:'Rotary encoder with a push switch used for scrolling and select. RC filtering on each line and an ESD array protect the MCU inputs.' },
-    { title:'SD Card', part:'Same Sky MSD-1-A', img:'https://i.imgur.com/GhaD7z9.png',
+    { title:'SD Card', part:'Same Sky MSD-1-A', img:'https://i.imgur.com/loSLMgX.png',
       desc:'microSD socket with card detect running 1-bit SDMMC. It holds the music library and is exposed to a computer over USB as a mass-storage drive. Pull-ups on the bus and an ESD array at the socket.' },
   ]},
   { name:'MCU', chain:'ESP32-S3', ics:[
-    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/goo1cbN.png',
+    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/zCdBbGT.png',
       desc:'The ESP32-S3 is the brain of the PCB. It decodes FLAC/MP3, talks over I²S to the DAC and, through software, drives the display, reads the external buttons and negotiates with USB. It is paired with 8 MB of flash, and does so much more.' },
   ]},
 ];
 
 // pixel sizes of the schematic crops, so each image reserves its aspect ratio before it loads
 const dapDims = {
-  'IZ56qZK':[1697,1062],
-  'b8CL48O':[1842,1042],
-  'nhYSniC':[1212,720],
-  't1lmJsq':[1205,717],
-  'dBMa8YU':[1325,785],
-  'Eht4xVd':[1330,792],
-  'bjzDN6x':[1330,782],
-  'Uhp6qT1':[1652,630],
-  'Zem17qp':[817,787],
-  'x644Egq':[2135,1435],
-  'IbGLV2r':[842,857],
-  'LMRFcrC':[825,585],
-  'HXjbbiJ':[1160,1575],
-  'LFQioOE':[1160,1092],
-  '5BSN1fx':[1160,720],
-  'u84roTX':[1592,997],
-  'Wd6vhPV':[1377,977],
-  'GhaD7z9':[1385,987],
-  'goo1cbN':[2495,1440],
-  'wXwPsML':[2002,1495],
-  'BfuNM9j':[2087,1557],
-  '7MRcLC7':[2360,1515],
+  'VYv6Hqc':[1040,655],
+  'XAhwgGJ':[1545,867],
+  'bl4oz3n':[1245,737],
+  'cyzvwPZ':[1250,742],
+  'zA0fEQr':[1362,807],
+  'VnGrxME':[1362,802],
+  'k3DBvRV':[1355,797],
+  'a5zvvVG':[1700,645],
+  'hY5AZuC':[1507,1440],
+  'pBAYwzZ':[1707,1150],
+  'diww6IE':[1455,1475],
+  'RuZJSol':[1710,1192],
+  'dMlBKds':[975,1337],
+  'oPQiai7':[890,847],
+  'kxB6l3l':[890,562],
+  'MyAjGaO':[957,675],
+  'loSLMgX':[1170,835],
+  'zCdBbGT':[2395,1307],
+  'VQUsPY6':[2230,1570],
+  'PGQ47Zk':[2145,1582],
+  'YDPhXR5':[2190,1355],
 };
 const dapSize = src => { const d = dapDims[(src.match(/imgur\.com\/(\w+)\./) || [])[1]]; return d ? ` width="${d[0]}" height="${d[1]}"` : ''; };
 
@@ -603,10 +600,10 @@ const projects = [
       <div class="detail-body">
         <h3>Schematic Revision 1 Complete</h3>
         <div class="dap-quad">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/wXwPsML.png" width="2002" height="1495" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/BfuNM9j.png" width="2087" height="1557" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/7MRcLC7.png" width="2360" height="1515" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/goo1cbN.png" width="2495" height="1440" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/VQUsPY6.png" width="2230" height="1570" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/PGQ47Zk.png" width="2145" height="1582" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/YDPhXR5.png" width="2190" height="1355" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/zCdBbGT.png" width="2395" height="1307" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
         </div>
 
         <h3>Architecture</h3>
