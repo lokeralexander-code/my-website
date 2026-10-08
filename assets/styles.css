@@ -629,3 +629,11 @@
   /* part names inside an IC description that jump to that part */
   .ic-link{font:inherit;color:#E8682E;font-weight:700;background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
   .ic-link:hover{color:#111}
+
+  /* DAP: PCB Rev 2 renders and the in-progress note above them */
+  .detail-body .dap-note{
+    background:rgba(255,107,53,.06);border:1px solid rgba(255,107,53,.35);border-radius:10px;
+    padding:10px 16px;margin:0 auto 6px;max-width:560px;text-align:center;
+    font-size:12px;color:#B5491F;font-style:italic;
+  }
+  .dap-pcb figure img{background:#e9ebe8;border-color:#e2e4e1}

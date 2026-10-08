@@ -582,8 +582,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'',
-    art:'wip',               // plain grey "W.I.P" cover until there's a board to photograph
+    cover:'https://i.imgur.com/ppxJ8ec.png',   // PCB Rev 2 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -607,6 +606,13 @@ const projects = [
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/PGQ47Zk.png" width="2145" height="1582" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/YDPhXR5.png" width="2190" height="1355" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/zCdBbGT.png" width="2395" height="1307" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+        </div>
+
+        <h3>PCB Revision 2</h3>
+        <p class="dap-note">PCB still in progress, IC pictures, explanation, and further refining coming soon!</p>
+        <div class="dap-quad dap-pcb">
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Iz8a0Nm.png" width="1510" height="1382" alt="PCB Revision 2, front" onclick="openLightbox(this.src,this.alt)"><figcaption>Front</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ppxJ8ec.png" width="1545" height="1522" alt="PCB Revision 2, back" onclick="openLightbox(this.src,this.alt)"><figcaption>Back</figcaption></figure>
         </div>
 
         <h3>Architecture</h3>
