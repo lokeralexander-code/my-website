@@ -202,6 +202,13 @@
     <div class="vinyl-row" id="vinyl-row"></div>
   </section>
 
+  <section class="archive-section">
+    <button class="why-vinyl-btn" aria-expanded="false" aria-controls="archive-content" onclick="toggleArchive(this)">Archived (Older &amp; Smaller) Projects</button>
+    <div class="archive-content" id="archive-content">
+      <div class="vinyl-row" id="vinyl-row-archived"></div>
+    </div>
+  </section>
+
   <section class="why-vinyl-section">
     <button class="why-vinyl-btn" onclick="toggleWhyVinyl()">Why Vinyl?</button>
     <div class="why-vinyl-content" id="why-vinyl-content">
@@ -239,6 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ============ BUILD VINYLS ============
 const rowEl = document.getElementById('vinyl-row');
+const archiveRowEl = document.getElementById('vinyl-row-archived');   // older projects, behind the Archived button
+let archiveOpen = false;
 const restAngles = projects.map(() => -6 + Math.random()*12);
 const vinylStates = projects.map((_,i) => ({
   angle: restAngles[i],
@@ -302,7 +311,7 @@ projects.forEach((proj,i) => {
     wrap.classList.remove('is-hovered');
     vinylStates[i].hovering = false; vinylStates[i].mode = 'decelerating';
   });
-  rowEl.appendChild(wrap);
+  (proj.archived ? archiveRowEl : rowEl).appendChild(wrap);
 });
 
 const vinylEls = projects.map((_,i) => document.getElementById(`vd-${i}`));
@@ -328,6 +337,7 @@ function animate(now) {
   lastFrameTime = now;
 
   vinylStates.forEach((s,i) => {
+    if (projects[i].archived && !archiveOpen) return;   // hidden, skip the work
     const d = vinylEls[i];
     const rest = restAngles[i];
     if (s.mode === 'spinning') {
@@ -393,7 +403,7 @@ const pcbSlides = [
   },
   {
     title: 'DMX Handheld Tester',
-    date: 'August, 2026',
+    date: 'June – August, 2026',
     description: "This board is the brain of the DMX Handheld Tester: it runs a Raspberry Pi CM4 off a BQ25620 battery charger, talks I²C to the BMS and SPI to the onboard LCD, and drives DMX fixtures over UART so anybody can test a full lighting rig via the pre-programmed light fixture settings, or using a USB-A Python inject, can test their light rigs their own way.",
     images: [
       { src: 'https://i.imgur.com/I25zgLJ.png', alt: 'DMX Tester PCB 3D Render 1' },
@@ -422,7 +432,7 @@ const pcbSlides = [
   },
   {
     title: 'Digital Audio Player',
-    date: 'October, 2026',
+    date: 'September, 2026 – Present',
     description: "The PCB for the Digital Audio Player project is now past the schematic phase. It uses an ESP32-S3 to read FLAC/MP3 files off a microSD card (uploaded via USB-C), which then communicates over I²S with an ES9038Q2M DAC. The DAC's output passes through an OPA1612 I/V conversion and summing stage, and is finally driven out by a low-impedance OPA1622 headphone output. The full power tree, audio chain and more can be seen on the <a href='/digital-audio-player'>project page</a>.",
     images: [
       { src: 'https://i.imgur.com/VQUsPY6.png', alt: 'Power schematic' },
@@ -524,6 +534,17 @@ function prevPcbSlide() {
   renderPcbSlide(pcbIndex);
   track('pcb_gallery_prev', { slide: pcbSlides[pcbIndex].title });
   trackPageView('pcb-gallery/' + pcbIndex);
+}
+
+// ============ ARCHIVED PROJECTS ============
+function toggleArchive(btn) {
+  const el = document.getElementById('archive-content');
+  archiveOpen = el.classList.toggle('open');
+  btn.setAttribute('aria-expanded', archiveOpen);
+  if (archiveOpen) {
+    track('archive_opened');
+    trackPageView('archive');
+  }
 }
 
 // ============ WHY VINYL ============

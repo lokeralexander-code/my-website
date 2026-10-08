@@ -339,6 +339,9 @@
   .vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(var(--disc)*.045);height:calc(var(--disc)*.045);background:#fff;border-radius:50%;z-index:6;box-shadow:0 0 0 2px #444,0 0 3px rgba(0,0,0,.4)}
 
   /* WHY VINYL */
+  .archive-section{text-align:center;padding:0 20px 10px}
+  .archive-content{display:none;justify-content:center;padding:44px 0 20px}
+  .archive-content.open{display:flex;animation:fadeUp .5s ease}
   .why-vinyl-section{text-align:center;padding:20px 40px 80px}
   .why-vinyl-btn{font-family:'Anton',sans-serif;font-size:16px;letter-spacing:3px;color:#888;text-transform:uppercase;background:none;border:2px solid #ccc;padding:10px 28px;cursor:pointer;transition:all .3s ease;border-radius:0}
   .why-vinyl-btn:hover{color:#111;border-color:#111}

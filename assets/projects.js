@@ -483,6 +483,7 @@ const projects = [
     color:palette[2],
     tags:['Altium Designer','LTspice'],
     trackKey:'biotron',
+    archived:true,          // shown under the Archived button on the home page
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Biotron</h2>
@@ -521,6 +522,7 @@ const projects = [
     color:palette[3],
     tags:['C++','Actuators','Gantry'],
     trackKey:'hockey',
+    archived:true,          // shown under the Archived button on the home page
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Autonomous Air Hockey Defense Machine</h2>
@@ -555,6 +557,7 @@ const projects = [
     color:palette[4],
     tags:['SolidWorks','Flow/Fluid Design','Prototyping'],
     trackKey:'waterglo',
+    archived:true,          // shown under the Archived button on the home page
     wet:true,
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
