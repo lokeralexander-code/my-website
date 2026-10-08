@@ -611,8 +611,8 @@ const projects = [
         <h3>PCB Revision 2</h3>
         <p class="dap-note">PCB still in progress, IC pictures, explanation, and further refining coming soon!</p>
         <div class="dap-quad dap-pcb">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Iz8a0Nm.png" width="1510" height="1382" alt="PCB Revision 2, front" onclick="openLightbox(this.src,this.alt)"><figcaption>Front</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ppxJ8ec.png" width="1545" height="1522" alt="PCB Revision 2, back" onclick="openLightbox(this.src,this.alt)"><figcaption>Back</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ppxJ8ec.png" width="1545" height="1522" alt="PCB Revision 2, front" onclick="openLightbox(this.src,this.alt)"><figcaption>Front</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Iz8a0Nm.png" width="1510" height="1382" alt="PCB Revision 2, back" onclick="openLightbox(this.src,this.alt)"><figcaption>Back</figcaption></figure>
         </div>
 
         <h3>Architecture</h3>
