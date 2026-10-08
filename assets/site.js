@@ -190,6 +190,8 @@ function renderProjectPage(slug) {
     `;
   } else {
     container.innerHTML = proj.html;
+    const title = container.querySelector('.detail-title');
+    if (proj.dates && title) title.insertAdjacentHTML('afterend', `<p class="detail-dates">${proj.dates}</p>`);
     if (proj.subpage && !document.getElementById('subpage-detail')) {
       document.body.insertAdjacentHTML('beforeend', proj.subpage);
     }

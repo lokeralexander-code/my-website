@@ -389,6 +389,20 @@ setTimeout(() => {
 // ============ PCB GALLERY ============
 const pcbSlides = [
   {
+    title: 'Digital Audio Player',
+    date: 'September, 2026 – Present',
+    description: "The PCB for the Digital Audio Player project is now past the schematic phase. It uses an ESP32-S3 to read FLAC/MP3 files off a microSD card (uploaded via USB-C), which then communicates over I²S with an ES9038Q2M DAC. The DAC's output passes through an OPA1612 I/V conversion and summing stage, and is finally driven out by a low-impedance OPA1622 headphone output. The full power tree, audio chain and more can be seen on the <a href='/digital-audio-player'>project page</a>.",
+    grid: 'dap-quad',   // two columns: the board renders, then the four sheets
+    images: [
+      { src: 'https://i.imgur.com/ppxJ8ec.png', alt: 'PCB Revision 2, front' },
+      { src: 'https://i.imgur.com/Iz8a0Nm.png', alt: 'PCB Revision 2, back' },
+      { src: 'https://i.imgur.com/VQUsPY6.png', alt: 'Power schematic' },
+      { src: 'https://i.imgur.com/PGQ47Zk.png', alt: 'Audio schematic' },
+      { src: 'https://i.imgur.com/YDPhXR5.png', alt: 'Peripherals schematic' },
+      { src: 'https://i.imgur.com/zCdBbGT.png', alt: 'MCU schematic' },
+    ],
+  },
+  {
     title: 'Companion Robot: Custom BMS PCB',
     date: 'September, 2026',
     description: "Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.",
@@ -431,17 +445,6 @@ const pcbSlides = [
     ],
   },
   {
-    title: 'Digital Audio Player',
-    date: 'September, 2026 – Present',
-    description: "The PCB for the Digital Audio Player project is now past the schematic phase. It uses an ESP32-S3 to read FLAC/MP3 files off a microSD card (uploaded via USB-C), which then communicates over I²S with an ES9038Q2M DAC. The DAC's output passes through an OPA1612 I/V conversion and summing stage, and is finally driven out by a low-impedance OPA1622 headphone output. The full power tree, audio chain and more can be seen on the <a href='/digital-audio-player'>project page</a>.",
-    images: [
-      { src: 'https://i.imgur.com/VQUsPY6.png', alt: 'Power schematic' },
-      { src: 'https://i.imgur.com/PGQ47Zk.png', alt: 'Audio schematic' },
-      { src: 'https://i.imgur.com/YDPhXR5.png', alt: 'Peripherals schematic' },
-      { src: 'https://i.imgur.com/zCdBbGT.png', alt: 'MCU schematic' },
-    ],
-  },
-  {
     title: 'More to Come',
     date: '',
     description: '',
@@ -459,7 +462,7 @@ function renderPcbSlide(i) {
   if (slide.placeholder) {
     el.innerHTML = `<div class="pcb-slide-placeholder">${slide.title}</div>`;
   } else {
-    const rowClass = slide.images.length === 4 ? 'dap-quad' : slide.images.length >= 3 ? 'detail-img-row-3' : 'detail-img-row';
+    const rowClass = slide.grid || (slide.images.length >= 3 ? 'detail-img-row-3' : 'detail-img-row');
     const imagesHtml = slide.images.map(img =>
       `<img class="zoomable" src="${img.src}" alt="${img.alt}" onclick="openLightbox(this.src,this.alt)">`
     ).join('');

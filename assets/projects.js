@@ -248,6 +248,7 @@ const projects = [
     color:palette[0],
     tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX, I<sup>2</sup>C, UART, and SPI Protocols'],
     trackKey:'dmx',
+    dates:"Jun – Aug '26",       // shown under the title on the project page
     wet:true,
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
@@ -360,6 +361,7 @@ const projects = [
     color:palette[1],
     tags:['SolidWorks','Altium Designer','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
+    dates:"Jan – Apr, Sep '26",       // shown under the title on the project page
     wip:true,
     subpage:`
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
@@ -587,6 +589,8 @@ const projects = [
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
     trackKey:'dap',
+    wip:true,
+    dates:"Sep '26 – Present",       // shown under the title on the project page
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Digital Audio Player</h2>
