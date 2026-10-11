@@ -22,21 +22,21 @@ const dapGroups = [
       desc:'USB 2.0, used for charging and file upload. ESD protection on all ports, alongside a ferrite-bead pi filter on the USB input. Verified in LTspice.' },
     { title:'Charger', part:'BQ24250RGET', img:'https://i.imgur.com/XAhwgGJ.png',
       desc:'The BQ24250 is a single-cell LiPo switching charger that charges the 1850 mAh battery at 500 mA and communicates over I²C, with very heavy output filtering to keep ripple downstream as low as possible. It has a 1 A input limit and powers the <button type="button" class="ic-link" data-ic="3.9 V Buck-Boost">3.9 V buck-boost</button>, the <button type="button" class="ic-link" data-ic="3V3 Buck-Boost (Digital)">3.3 V buck-boost</button> and the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>.' },
-    { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/bl4oz3n.png',
+    { title:'3.9 V Buck-Boost', part:'LTC3440', img:'https://i.imgur.com/LqYsJR2.png',
       desc:'This buck-boost turns the SYS rail (3.0 to 4.2 V) into a very steady 3.9 V with 7.7 mVpp of ripple, switching at 1.2 MHz. This rail feeds the two +3V3 LDOs and the inverter. The 3.9 V is intentionally set as close to the LDOs\' dropout as is safe, to minimize the thermal issues that come with LDOs. Verified in LTspice.' },
-    { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/cyzvwPZ.png',
+    { title:'+3V3 LDO (Analog)', part:'LT3042', img:'https://i.imgur.com/RFfMKo8.png',
       desc:'A very low-noise, high-PSRR LDO that drops the 3.9 V from the buck-boost to an extremely stable output rail, +3V3_ANALOG, which powers the op-amps cleanly; any noise on their supply would directly influence the audio path. Verified in LTspice.' },
     { title:'+3V3 LDO (DAC)', part:'LT3042', img:'https://i.imgur.com/zA0fEQr.png',
       desc:'The second LT3042 is dedicated specifically to the DAC\'s analog supply inputs, because the DAC\'s output scales with this supply and can potentially create noise on it. Keeping it separate avoids making the op-amp power supply noisy, as detailed previously.' },
-    { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/VnGrxME.png',
+    { title:'Inverted Regulator (−3.9 V)', part:'LT3462A', img:'https://i.imgur.com/40DVReI.png',
       desc:'An inverting regulator running at 2.7 MHz turns +3.9 V into −3.9 V for the negative LDO, as the op-amps run off a ± supply. Verified in LTspice.' },
-    { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/k3DBvRV.png',
+    { title:'−3V3 LDO', part:'LT3093', img:'https://i.imgur.com/b6InNF4.png',
       desc:'An ultralow-noise negative LDO that turns −3.9 V into the −3V3 rail, so the op-amps run on a clean, symmetric ±3.3 V supply. Verified in LTspice.' },
-    { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/a5zvvVG.png',
+    { title:'3V3 Buck-Boost (Digital)', part:'LTC3440', img:'https://i.imgur.com/RYtU5Es.png',
       desc:'The other LTC3440 buck-boost takes the SYS rail and produces another 3.3 V rail, this time for the digital components, hence +3V3_DIG. It powers the MCU, microSD, buttons, LCD and the DAC\'s digital supply. Verified in LTspice.' },
   ]},
   { name:'Audio', chain:'DAC → I/V Conversion → Summing → Output', ics:[
-    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/hY5AZuC.png',
+    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/CRYmDzN.png',
       desc:'A 32-bit stereo DAC with differential current outputs. It is the I²S master, clocked from one of two oscillators: 22.5792 MHz or 24.576 MHz, for the 44.1 kHz and 48 kHz families of music sample rates. It runs as master because slave mode, which relies on its DPLL, produces more noise at the audio output, even though master mode is more difficult to implement. The DAC has four differential current outputs: L+, L−, R+ and R−.' },
     { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/pBAYwzZ.png',
       desc:'The DAC\'s four differential current outputs are converted into proportional differential voltages, alongside a basic filter.' },
@@ -58,7 +58,7 @@ const dapGroups = [
       desc:'microSD socket with card detect running 1-bit SDMMC. It holds the music library and is exposed to a computer over USB as a mass-storage drive. Pull-ups on the bus and an ESD array at the socket.' },
   ]},
   { name:'MCU', chain:'ESP32-S3', ics:[
-    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/zCdBbGT.png',
+    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/lxdDRHW.png',
       desc:'The ESP32-S3 is the brain of the PCB. It decodes FLAC/MP3, talks over I²S to the DAC and, through software, drives the display, reads the external buttons and negotiates with USB. It is paired with 8 MB of flash, and does so much more.' },
   ]},
 ];
@@ -67,13 +67,13 @@ const dapGroups = [
 const dapDims = {
   'VYv6Hqc':[1040,655],
   'XAhwgGJ':[1545,867],
-  'bl4oz3n':[1245,737],
-  'cyzvwPZ':[1250,742],
+  'LqYsJR2':[1580,922],
+  'RFfMKo8':[1575,930],
   'zA0fEQr':[1362,807],
-  'VnGrxME':[1362,802],
-  'k3DBvRV':[1355,797],
-  'a5zvvVG':[1700,645],
-  'hY5AZuC':[1507,1440],
+  '40DVReI':[1570,922],
+  'b6InNF4':[1577,925],
+  'RYtU5Es':[1965,735],
+  'CRYmDzN':[1420,1347],
   'pBAYwzZ':[1707,1150],
   'diww6IE':[1455,1475],
   'RuZJSol':[1710,1192],
@@ -82,9 +82,9 @@ const dapDims = {
   'kxB6l3l':[890,562],
   'MyAjGaO':[957,675],
   'loSLMgX':[1170,835],
-  'zCdBbGT':[2395,1307],
-  'VQUsPY6':[2230,1570],
-  'PGQ47Zk':[2145,1582],
+  'lxdDRHW':[1725,960],
+  'ZP8IUSm':[2120,1582],
+  'dWvGlhF':[1982,1477],
   'YDPhXR5':[2190,1355],
 };
 const dapSize = src => { const d = dapDims[(src.match(/imgur\.com\/(\w+)\./) || [])[1]]; return d ? ` width="${d[0]}" height="${d[1]}"` : ''; };
@@ -235,6 +235,74 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowLeft') stepIcBrowser(-1);
 });
 
+// ============ 3D PCB VIEWER ============
+// Interactive board model (<model-viewer>), used on the project page and in the PCB gallery.
+// The opening angle is the "Default" view saved in the Altium 3D PDF.
+const MODEL_VIEWER_SRC = 'https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js';
+const PCB_DEFAULT_ORBIT = '-45deg 45deg auto';
+
+function loadModelViewer() {
+  if (window.customElements && customElements.get('model-viewer')) return;
+  if (document.querySelector('script[data-model-viewer]')) return;
+  const sc = document.createElement('script');
+  sc.type = 'module'; sc.src = MODEL_VIEWER_SRC; sc.dataset.modelViewer = '1';
+  document.head.appendChild(sc);
+}
+
+function resetPcbView(btn) {
+  const mv = btn.closest('.pcb-3d').querySelector('model-viewer');
+  mv.cameraOrbit = PCB_DEFAULT_ORBIT; mv.cameraTarget = 'auto auto auto'; mv.fieldOfView = '19deg';
+  mv.jumpCameraToGoal();
+}
+
+function pcb3dHtml(model) {
+  return `
+    <figure class="pcb-3d">
+      <model-viewer src="${model.src}" poster="${model.poster}" alt="${model.alt}"
+        camera-controls touch-action="pan-y" camera-orbit="${PCB_DEFAULT_ORBIT}" field-of-view="19deg"
+        min-camera-orbit="auto auto 20%" interaction-prompt="auto" environment-image="neutral"
+        exposure="1.05" shadow-intensity="0.6" shadow-softness="0.9"></model-viewer>
+      <figcaption>
+        <span class="pcb-3d-label">${model.label}</span>
+        <span class="pcb-3d-hint">Drag to rotate · scroll or pinch to zoom</span>
+        <span class="pcb-3d-actions">
+          <button type="button" class="pcb-3d-btn" onclick="resetPcbView(this)">Reset view</button>
+        </span>
+      </figcaption>
+    </figure>`;
+}
+
+const DAP_PCB_MODEL = {
+  src: '/assets/dap-pcb.glb',
+  poster: '/assets/dap-cover.jpg',
+  alt: 'Interactive 3D model of the Digital Audio Player PCB, Revision 3',
+  label: 'PCB Revision 3 · Interactive 3D',
+};
+const PCB_MODELS = { dap: DAP_PCB_MODEL };
+
+// A button that reveals the viewer; the viewer library and model are only fetched on first open
+function pcb3dToggleHtml(key) {
+  return `
+    <div class="pcb-3d-toggle">
+      <div style="text-align:center">
+        <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcb3d(this,'${key}')">Interactable 3D Model<span class="btn-toggle-x"></span></button>
+      </div>
+      <div class="pcb-3d-slot" hidden></div>
+    </div>`;
+}
+
+function togglePcb3d(btn, key) {
+  const slot = btn.closest('.pcb-3d-toggle').querySelector('.pcb-3d-slot');
+  if (!slot.firstElementChild) {
+    loadModelViewer();
+    slot.innerHTML = pcb3dHtml(PCB_MODELS[key]);
+  }
+  slot.hidden = !slot.hidden;
+  btn.classList.toggle('is-open', !slot.hidden);
+  btn.setAttribute('aria-expanded', !slot.hidden);
+  if (!slot.hidden) track('pcb_3d_opened', { model: key });
+}
+
 // ============ PROJECTS ============
 const projects = [
   {
@@ -246,7 +314,7 @@ const projects = [
     cover:'https://i.imgur.com/I25zgLJ.png',
     sleeve:'block',
     color:palette[0],
-    tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX, I<sup>2</sup>C, UART, and SPI Protocols'],
+    tags:['Raspberry Pi','Altium Designer','Python','SolidWorks','BMS','DMX and UART Protocols'],
     trackKey:'dmx',
     dates:"Jun – Aug '26",       // shown under the title on the project page
     wet:true,
@@ -260,7 +328,7 @@ const projects = [
         <span class="detail-tag">Python</span>
         <span class="detail-tag">SolidWorks</span>
         <span class="detail-tag">BMS</span>
-        <span class="detail-tag">DMX, I<sup>2</sup>C, UART, and SPI Protocols</span>
+        <span class="detail-tag">DMX and UART Protocols</span>
       </div>
       <div class="detail-body">
         <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
@@ -340,7 +408,7 @@ const projects = [
           </div>
           <div class="sub-section">
             <h4>Protocol Programming</h4>
-            <p>I wrote the software in Python, building DMX512 framing and timing on top of UART alongside I<sup>2</sup>C and SPI drivers for the BMS and LCD.</p>
+            <p>I wrote the software in Python, building DMX512 framing and timing on top of UART.</p>
           </div>
           <div class="sub-section">
             <h4>Assembly</h4>
@@ -584,7 +652,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'https://i.imgur.com/ppxJ8ec.png',   // PCB Rev 2 render
+    cover:'https://i.imgur.com/FmOvqSK.png',   // PCB Rev 3 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -606,18 +674,21 @@ const projects = [
       <div class="detail-body">
         <h3>Schematic Revision 1 Complete</h3>
         <div class="dap-quad">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/VQUsPY6.png" width="2230" height="1570" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/PGQ47Zk.png" width="2145" height="1582" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ZP8IUSm.png" width="2120" height="1582" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/dWvGlhF.png" width="1982" height="1477" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/YDPhXR5.png" width="2190" height="1355" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/zCdBbGT.png" width="2395" height="1307" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/lxdDRHW.png" width="1725" height="960" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
         </div>
 
-        <h3>PCB Revision 2</h3>
-        <p class="dap-note">PCB still in progress, IC pictures, explanation, and further refining coming soon!</p>
-        <div class="dap-quad dap-pcb">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ppxJ8ec.png" width="1545" height="1522" alt="PCB Revision 2, front" onclick="openLightbox(this.src,this.alt)"><figcaption>Front</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Iz8a0Nm.png" width="1510" height="1382" alt="PCB Revision 2, back" onclick="openLightbox(this.src,this.alt)"><figcaption>Back</figcaption></figure>
+        <h3>PCB Revision 3</h3>
+        <div class="dap-quad dap-pcb3">
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Gpdoho6.png" width="1157" height="910" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/snKiD0m.png" width="1150" height="890" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
+        ${pcb3dToggleHtml('dap')}
+
+        <h3>Assembly</h3>
+        <div class="dap-placeholder dap-placeholder-text">Ordering PCB in progress, TBD.</div>
 
         <h3>Architecture</h3>
         <figure class="arch-diagram">
