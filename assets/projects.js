@@ -336,7 +336,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'https://i.imgur.com/CWnLuuk.png',   // PCB Rev 3 render, top
+    cover:'https://i.imgur.com/FmOvqSK.png',   // PCB Rev 3 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -366,7 +366,7 @@ const projects = [
 
         <h3>PCB Revision 3</h3>
         <div class="dap-quad dap-pcb3">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Gpdoho6.png" width="1157" height="910" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/CWnLuuk.png" width="1190" height="920" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/snKiD0m.png" width="1150" height="890" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
         ${pcb3dToggleHtml('dap')}
