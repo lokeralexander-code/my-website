@@ -666,3 +666,36 @@
   .pcb-3d-slot{margin-top:22px}
   .pcb-3d-slot .pcb-3d{margin:0}
   #pcb-gallery-content .pcb-3d-toggle{margin:0 0 10px}
+  /* 3D model + 2D stackup buttons side by side, and the six copper layers */
+  .pcb-extra-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:0 12px}
+  .pcb-stackup-slot{margin-top:22px}
+  .pcb-stackup{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .pcb-stackup img{height:auto;aspect-ratio:1/1;object-fit:contain;margin:0}
+  @media(max-width:680px){.pcb-stackup{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  /* ============ WIDER LAYOUT: 1.5in side margins ============ */
+  /* project pages and the PCB gallery use the full width minus 1.5in a side, so images grow with it */
+  .detail-content{max-width:none;padding:60px 1.5in 80px}
+  .pcb-gallery-content{max-width:none;padding:60px 1.5in 100px}
+  .detail-body iframe{height:auto;aspect-ratio:16/9}
+  .pcb-3d model-viewer{max-height:78vh}
+  .ic-modal-panel{max-width:1180px}
+  .ic-modal-body .ic-pane img{max-height:60vh}
+  @media(max-width:860px){.detail-content{padding:56px 64px 80px}.pcb-gallery-content{padding:56px 64px 90px}}
+  @media(max-width:680px){.detail-content{padding:50px 60px}.pcb-gallery-content{padding:50px 30px 80px}}
+
+  /* image captions: bigger and darker */
+  .dap-quad figcaption, .pcb-layer-grid figcaption, .ic-pane figcaption, .detail-img-trio figcaption{
+    font-size:13px;font-weight:700;letter-spacing:1.8px;color:#333;padding-top:10px;
+  }
+  .pcb-3d-label{font-size:12.5px}
+
+  /* hover expansion on every content image */
+  .detail-body img, .pcb-gallery-content img, .ic-modal-body img, #subpage-detail img{
+    transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,opacity .2s ease;
+  }
+  .detail-body img:hover, .pcb-gallery-content img:hover, .ic-modal-body img:hover, #subpage-detail img:hover{
+    transform:scale(1.04);position:relative;z-index:3;box-shadow:0 16px 40px rgba(0,0,0,.22);
+  }
+  .zoomable:hover{opacity:1}
+  @media(hover:none){.detail-body img:hover, .pcb-gallery-content img:hover, .ic-modal-body img:hover, #subpage-detail img:hover{transform:none}}

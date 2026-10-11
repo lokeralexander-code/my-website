@@ -277,18 +277,43 @@ const DAP_PCB_MODEL = {
   poster: '/assets/dap-cover.jpg',
   alt: 'Interactive 3D model of the Digital Audio Player PCB, Revision 3',
   label: 'PCB Revision 3 · Interactive 3D',
+  // copper layers, top to bottom, shown by the PCB 2D Stackup button
+  stackup: [
+    { src: 'https://i.imgur.com/sBBSZa8.png', label: 'Top Layer', w: 1527, h: 1527 },
+    { src: 'https://i.imgur.com/O8Lxhjn.png', label: 'Layer 2 (GND)', w: 1515, h: 1515 },
+    { src: 'https://i.imgur.com/XhwAUMG.png', label: 'Layer 3 (SIG)', w: 1530, h: 1560 },
+    { src: 'https://i.imgur.com/qbAZq5y.png', label: 'Layer 4 (PWR)', w: 1525, h: 1535 },
+    { src: 'https://i.imgur.com/UBxAO5o.png', label: 'Layer 5 (GND)', w: 1555, h: 1552 },
+    { src: 'https://i.imgur.com/h8zG4VC.png', label: 'Bottom Layer', w: 1565, h: 1560 },
+  ],
 };
 const PCB_MODELS = { dap: DAP_PCB_MODEL };
 
-// A button that reveals the viewer; the viewer library and model are only fetched on first open
+// Buttons that reveal the 3D viewer and the 2D layer stackup; each only fetches its content on first open
 function pcb3dToggleHtml(key) {
+  const m = PCB_MODELS[key];
   return `
     <div class="pcb-3d-toggle">
-      <div style="text-align:center">
+      <div class="pcb-extra-btns">
         <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcb3d(this,'${key}')">Interactable 3D Model<span class="btn-toggle-x"></span></button>
+        ${m.stackup ? `<button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcbStackup(this,'${key}')">PCB 2D Stackup<span class="btn-toggle-x"></span></button>` : ''}
       </div>
       <div class="pcb-3d-slot" hidden></div>
+      <div class="pcb-stackup-slot" hidden></div>
     </div>`;
+}
+
+function togglePcbStackup(btn, key) {
+  const slot = btn.closest('.pcb-3d-toggle').querySelector('.pcb-stackup-slot');
+  if (!slot.firstElementChild) {
+    slot.innerHTML = `<div class="pcb-layer-grid pcb-stackup">${PCB_MODELS[key].stackup.map(l => `
+      <figure><img decoding="async" class="zoomable" src="${l.src}" width="${l.w}" height="${l.h}" alt="${l.label}" onclick="openLightbox(this.src,this.alt)"><figcaption>${l.label}</figcaption></figure>`).join('')}
+    </div>`;
+  }
+  slot.hidden = !slot.hidden;
+  btn.classList.toggle('is-open', !slot.hidden);
+  btn.setAttribute('aria-expanded', !slot.hidden);
+  if (!slot.hidden) track('pcb_stackup_opened', { model: key });
 }
 
 function togglePcb3d(btn, key) {
