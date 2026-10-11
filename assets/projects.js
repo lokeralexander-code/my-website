@@ -58,7 +58,7 @@ const dapGroups = [
       desc:'microSD socket with card detect running 1-bit SDMMC. It holds the music library and is exposed to a computer over USB as a mass-storage drive. Pull-ups on the bus and an ESD array at the socket.' },
   ]},
   { name:'MCU', chain:'ESP32-S3', ics:[
-    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/lxdDRHW.png',
+    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/yN1iyg8.png',
       desc:'The ESP32-S3 is the brain of the PCB. It decodes FLAC/MP3, talks over I²S to the DAC and, through software, drives the display, reads the external buttons and negotiates with USB. It is paired with 8 MB of flash, and does so much more.' },
   ]},
 ];
@@ -82,7 +82,7 @@ const dapDims = {
   'kxB6l3l':[890,562],
   'MyAjGaO':[957,675],
   'loSLMgX':[1170,835],
-  'lxdDRHW':[1725,960],
+  'yN1iyg8':[2295,1270],
   'ZP8IUSm':[2120,1582],
   'dWvGlhF':[1982,1477],
   'YDPhXR5':[2190,1355],
@@ -356,12 +356,12 @@ const projects = [
         <span class="detail-tag">ESP32-S3</span>
       </div>
       <div class="detail-body">
-        <h3>Schematic Revision 1 Complete</h3>
+        <h3>Schematic</h3>
         <div class="dap-quad">
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/ZP8IUSm.png" width="2120" height="1582" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/dWvGlhF.png" width="1982" height="1477" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/YDPhXR5.png" width="2190" height="1355" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/lxdDRHW.png" width="1725" height="960" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/yN1iyg8.png" width="2295" height="1270" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
         </div>
 
         <h3>PCB Revision 3</h3>
