@@ -392,7 +392,7 @@ const pcbSlides = [
     title: 'Digital Audio Player',
     date: 'September, 2026 – Present',
     description: "The PCB for the Digital Audio Player project is now past the schematic phase. It uses an ESP32-S3 to read FLAC/MP3 files off a microSD card (uploaded via USB-C), which then communicates over I²S with an ES9038Q2M DAC. The DAC's output passes through an OPA1612 I/V conversion and summing stage, and is finally driven out by a low-impedance OPA1622 headphone output. The full power tree, audio chain and more can be seen on the <a href='/digital-audio-player'>project page</a>.",
-    model: 'dap',   // adds the Interactable 3D Model button under the images
+    stackup: 'dap',   // adds the PCB 2D Stackup button under the images
     grid: 'dap-quad',   // two columns: the board renders, then the four sheets
     images: [
       { src: 'https://i.imgur.com/15DHnYF.png', alt: 'PCB Revision 3, top' },
@@ -472,7 +472,7 @@ function renderPcbSlide(i) {
       <p class="pcb-slide-date">${slide.date}</p>
       <p class="pcb-slide-desc">${slide.description}</p>
       <div class="${rowClass}">${imagesHtml}</div>
-      ${slide.model ? pcb3dToggleHtml(slide.model) : ''}
+      ${slide.stackup ? pcbStackupHtml(slide.stackup) : ''}
     `;
   }
 

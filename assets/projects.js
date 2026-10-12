@@ -235,50 +235,10 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowLeft') stepIcBrowser(-1);
 });
 
-// ============ 3D PCB VIEWER ============
-// Interactive board model (<model-viewer>), used on the project page and in the PCB gallery.
-// The opening angle is the "Default" view saved in the Altium 3D PDF.
-const MODEL_VIEWER_SRC = 'https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js';
-const PCB_DEFAULT_ORBIT = '-45deg 45deg auto';
-
-function loadModelViewer() {
-  if (window.customElements && customElements.get('model-viewer')) return;
-  if (document.querySelector('script[data-model-viewer]')) return;
-  const sc = document.createElement('script');
-  sc.type = 'module'; sc.src = MODEL_VIEWER_SRC; sc.dataset.modelViewer = '1';
-  document.head.appendChild(sc);
-}
-
-function resetPcbView(btn) {
-  const mv = btn.closest('.pcb-3d').querySelector('model-viewer');
-  mv.cameraOrbit = PCB_DEFAULT_ORBIT; mv.cameraTarget = 'auto auto auto'; mv.fieldOfView = '19deg';
-  mv.jumpCameraToGoal();
-}
-
-function pcb3dHtml(model) {
-  return `
-    <figure class="pcb-3d">
-      <model-viewer src="${model.src}" poster="${model.poster}" alt="${model.alt}"
-        camera-controls touch-action="pan-y" camera-orbit="${PCB_DEFAULT_ORBIT}" field-of-view="19deg"
-        min-camera-orbit="auto auto 20%" interaction-prompt="auto" environment-image="neutral"
-        exposure="1.05" shadow-intensity="0.6" shadow-softness="0.9"></model-viewer>
-      <figcaption>
-        <span class="pcb-3d-label">${model.label}</span>
-        <span class="pcb-3d-hint">Drag to rotate · scroll or pinch to zoom</span>
-        <span class="pcb-3d-actions">
-          <button type="button" class="pcb-3d-btn" onclick="resetPcbView(this)">Reset view</button>
-        </span>
-      </figcaption>
-    </figure>`;
-}
-
-const DAP_PCB_MODEL = {
-  src: '/assets/dap-pcb.glb',
-  poster: '/assets/dap-cover.jpg',
-  alt: 'Interactive 3D model of the Digital Audio Player PCB, Revision 3',
-  label: 'PCB Revision 3 · Interactive 3D',
-  // copper layers, top to bottom, shown by the PCB 2D Stackup button
-  stackup: [
+// ============ PCB 2D STACKUP ============
+// Copper layers, top to bottom, revealed by the "PCB 2D Stackup" button (project page and PCB gallery)
+const PCB_STACKUPS = {
+  dap: [
     { src: 'https://i.imgur.com/8aLrlYJ.png', label: 'Top Layer', w: 1495, h: 1482 },
     { src: 'https://i.imgur.com/qIm5zAb.png', label: 'Layer 2 (GND)', w: 1480, h: 1477 },
     { src: 'https://i.imgur.com/1gVgx2Z.png', label: 'Layer 3 (SIG)', w: 1485, h: 1475 },
@@ -287,45 +247,29 @@ const DAP_PCB_MODEL = {
     { src: 'https://i.imgur.com/7kqU5v9.png', label: 'Bottom Layer', w: 1485, h: 1477 },
   ],
 };
-const PCB_MODELS = { dap: DAP_PCB_MODEL };
 
-// Buttons that reveal the 3D viewer and the 2D layer stackup; each only fetches its content on first open
-function pcb3dToggleHtml(key) {
-  const m = PCB_MODELS[key];
+// The layer images are only inserted (and fetched) on first open
+function pcbStackupHtml(key) {
   return `
-    <div class="pcb-3d-toggle">
+    <div class="pcb-stackup-wrap">
       <div class="pcb-extra-btns">
-        <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcb3d(this,'${key}')">Interactable 3D Model<span class="btn-toggle-x"></span></button>
-        ${m.stackup ? `<button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcbStackup(this,'${key}')">PCB 2D Stackup<span class="btn-toggle-x"></span></button>` : ''}
+        <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="togglePcbStackup(this,'${key}')">PCB 2D Stackup<span class="btn-toggle-x"></span></button>
       </div>
-      <div class="pcb-3d-slot" hidden></div>
       <div class="pcb-stackup-slot" hidden></div>
     </div>`;
 }
 
 function togglePcbStackup(btn, key) {
-  const slot = btn.closest('.pcb-3d-toggle').querySelector('.pcb-stackup-slot');
+  const slot = btn.closest('.pcb-stackup-wrap').querySelector('.pcb-stackup-slot');
   if (!slot.firstElementChild) {
-    slot.innerHTML = `<div class="pcb-layer-grid pcb-stackup">${PCB_MODELS[key].stackup.map(l => `
+    slot.innerHTML = `<div class="pcb-layer-grid pcb-stackup">${PCB_STACKUPS[key].map(l => `
       <figure><img decoding="async" class="zoomable" src="${l.src}" width="${l.w}" height="${l.h}" alt="${l.label}" onclick="openLightbox(this.src,this.alt)"><figcaption>${l.label}</figcaption></figure>`).join('')}
     </div>`;
   }
   slot.hidden = !slot.hidden;
   btn.classList.toggle('is-open', !slot.hidden);
   btn.setAttribute('aria-expanded', !slot.hidden);
-  if (!slot.hidden) track('pcb_stackup_opened', { model: key });
-}
-
-function togglePcb3d(btn, key) {
-  const slot = btn.closest('.pcb-3d-toggle').querySelector('.pcb-3d-slot');
-  if (!slot.firstElementChild) {
-    loadModelViewer();
-    slot.innerHTML = pcb3dHtml(PCB_MODELS[key]);
-  }
-  slot.hidden = !slot.hidden;
-  btn.classList.toggle('is-open', !slot.hidden);
-  btn.setAttribute('aria-expanded', !slot.hidden);
-  if (!slot.hidden) track('pcb_3d_opened', { model: key });
+  if (!slot.hidden) track('pcb_stackup_opened', { stackup: key });
 }
 
 // ============ PROJECTS ============
@@ -369,7 +313,7 @@ const projects = [
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/15DHnYF.png" width="1697" height="1480" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/k93Uo2K.png" width="1690" height="1477" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
-        ${pcb3dToggleHtml('dap')}
+        ${pcbStackupHtml('dap')}
 
         <h3>Assembly</h3>
         <div class="dap-placeholder dap-placeholder-text">Ordering PCB in progress, TBD.</div>

@@ -644,29 +644,9 @@
   .dap-quad > img{height:100%}   /* gallery: images sit straight in the grid, so match heights per row */
   .dap-placeholder-text{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.5px;text-transform:none;color:#999;padding:28px 20px}
 
-  /* Interactive 3D board (model-viewer) */
-  .pcb-3d{margin:16px 0 26px}
-  .pcb-3d model-viewer{
-    display:block;width:100%;height:auto;aspect-ratio:4/3;border-radius:14px;
-    background:linear-gradient(#fafafa,#dfdfdf);border:1px solid #e2e2e2;box-shadow:0 8px 24px rgba(0,0,0,.1);
-    --poster-color:transparent;--progress-bar-color:#E8682E;
-  }
-  .pcb-3d figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;padding-top:10px;font-family:'Space Mono',monospace;font-size:11px;color:#888}
-  .pcb-3d-label{font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#111}
-  .pcb-3d-hint{flex:1;min-width:160px}
-  .pcb-3d-actions{display:flex;gap:8px}
-  .pcb-3d-btn, .detail-body a.pcb-3d-btn, .pcb-slide-desc ~ .pcb-3d a.pcb-3d-btn{
-    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#111;text-decoration:none;
-    background:#fff;border:1px solid #d6d6d6;border-radius:999px;padding:5px 12px;cursor:pointer;transition:all .2s ease;
-  }
-  .pcb-3d-btn:hover, .detail-body a.pcb-3d-btn:hover{background:#111;color:#fff;border-color:#111}
-  #pcb-gallery-content .pcb-3d{margin:0 0 18px}
-  @media(max-width:560px){.pcb-3d model-viewer{aspect-ratio:1/1}}
-  .pcb-3d-toggle{margin:4px 0 8px}
-  .pcb-3d-slot{margin-top:22px}
-  .pcb-3d-slot .pcb-3d{margin:0}
-  #pcb-gallery-content .pcb-3d-toggle{margin:0 0 10px}
-  /* 3D model + 2D stackup buttons side by side, and the six copper layers */
+  .pcb-stackup-wrap{margin:4px 0 8px}
+  #pcb-gallery-content .pcb-stackup-wrap{margin:0 0 10px}
+  /* PCB 2D Stackup button and the six copper layers */
   .pcb-extra-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:0 12px}
   .pcb-stackup-slot{margin-top:22px}
   .pcb-stackup{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
@@ -678,7 +658,6 @@
   .detail-content{max-width:none;padding:60px 1.5in 80px}
   .pcb-gallery-content{max-width:none;padding:60px 1.5in 100px}
   .detail-body iframe{height:auto;aspect-ratio:16/9}
-  .pcb-3d model-viewer{max-height:78vh}
   .ic-modal-panel{max-width:1180px}
   .ic-modal-body .ic-pane img{max-height:60vh}
   @media(max-width:860px){.detail-content{padding:56px 64px 80px}.pcb-gallery-content{padding:56px 64px 90px}}
@@ -688,7 +667,6 @@
   .dap-quad figcaption, .pcb-layer-grid figcaption, .ic-pane figcaption, .detail-img-trio figcaption{
     font-size:13px;font-weight:700;letter-spacing:1.8px;color:#333;padding-top:10px;
   }
-  .pcb-3d-label{font-size:12.5px}
 
   /* hover expansion on every content image */
   .detail-body img, .pcb-gallery-content img, .ic-modal-body img, #subpage-detail img{
