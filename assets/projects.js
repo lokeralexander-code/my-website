@@ -36,7 +36,7 @@ const dapGroups = [
       desc:'The other LTC3440 buck-boost takes the SYS rail and produces another 3.3 V rail, this time for the digital components, hence +3V3_DIG. It powers the MCU, microSD, buttons, LCD and the DAC\'s digital supply. Verified in LTspice.' },
   ]},
   { name:'Audio', chain:'DAC → I/V Conversion → Summing → Output', ics:[
-    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/CRYmDzN.png',
+    { title:'DAC', part:'ES9038Q2M', img:'https://i.imgur.com/3S6nflF.png',
       desc:'A 32-bit stereo DAC with differential current outputs. It is the I²S master, clocked from one of two oscillators: 22.5792 MHz or 24.576 MHz, for the 44.1 kHz and 48 kHz families of music sample rates. It runs as master because slave mode, which relies on its DPLL, produces more noise at the audio output, even though master mode is more difficult to implement. The DAC has four differential current outputs: L+, L−, R+ and R−.' },
     { title:'I/V Conversion', part:'OPA1612', img:'https://i.imgur.com/pBAYwzZ.png',
       desc:'The DAC\'s four differential current outputs are converted into proportional differential voltages, alongside a basic filter.' },
@@ -46,19 +46,19 @@ const dapGroups = [
       desc:'The OPA1622 drives the 3.5 mm headphone jack with an output impedance of 0.44 Ω at 20 kHz, suited to low-impedance IEMs. There is ESD protection on the tip and ring of the jack, and the enable pin allows for muting. Verified in PSpice.' },
   ]},
   { name:'Peripherals', chain:'Screen → LED Driver → Buttons → Encoder → SD Card', ics:[
-    { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/dMlBKds.png',
+    { title:'Screen', part:'ER-TFT024IPS-3', img:'https://i.imgur.com/IJrAQDD.png',
       desc:'A 2.4 in, 240 × 320 IPS TFT display with an ST7789V controller, driven over SPI and connected through a 50-pin, 0.5 mm FPC connector. Its LEDs are controlled by the <button type="button" class="ic-link" data-ic="LED Driver">LED driver</button>, since the supply voltage is too low to push a meaningful current through them on its own.' },
-    { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/oPQiai7.png',
+    { title:'LED Driver', part:'BD1604MUV', img:'https://i.imgur.com/jhOrqyD.png',
       desc:'Inductor-free charge-pump backlight driver run from SYS with four LED sinks. A MOSFET switches the ISET resistor between two brightness levels, keeping the LED current DC so no PWM lands in the audio band.' },
-    { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/kxB6l3l.png',
+    { title:'Power / Volume', part:'TL1014BF220QG', img:'https://i.imgur.com/XmnovHv.png',
       desc:'Three side-actuated switches for power, volume up and volume down, each with a pull-down and decoupling to the MCU.' },
-    { title:'Encoder', part:'Alps EC12D', img:'https://i.imgur.com/MyAjGaO.png',
+    { title:'Encoder', part:'Alps EC12D', img:'https://i.imgur.com/XIgi2uX.png',
       desc:'Rotary encoder with a push switch used for scrolling and select. RC filtering on each line and an ESD array protect the MCU inputs.' },
     { title:'SD Card', part:'Same Sky MSD-1-A', img:'https://i.imgur.com/loSLMgX.png',
       desc:'microSD socket with card detect running 1-bit SDMMC. It holds the music library and is exposed to a computer over USB as a mass-storage drive. Pull-ups on the bus and an ESD array at the socket.' },
   ]},
   { name:'MCU', chain:'ESP32-S3', ics:[
-    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/fGM2o5F.png',
+    { title:'MCU', part:'ESP32-S3', img:'https://i.imgur.com/SRKAkpJ.png',
       desc:'The ESP32-S3 is the brain of the PCB. It decodes FLAC/MP3, talks over I²S to the DAC and, through software, drives the display, reads the external buttons and negotiates with USB. It is paired with 8 MB of flash, and does so much more.' },
   ]},
 ];
@@ -73,19 +73,19 @@ const dapDims = {
   '40DVReI':[1570,922],
   'b6InNF4':[1577,925],
   'dGfQ3tM':[2397,910],
-  'CRYmDzN':[1420,1347],
+  '3S6nflF':[1240,1190],
   'pBAYwzZ':[1707,1150],
   'diww6IE':[1455,1475],
   'RuZJSol':[1710,1192],
-  'dMlBKds':[975,1337],
-  'oPQiai7':[890,847],
-  'kxB6l3l':[890,562],
-  'MyAjGaO':[957,675],
+  'IJrAQDD':[955,1292],
+  'jhOrqyD':[1160,1032],
+  'XmnovHv':[1410,995],
+  'XIgi2uX':[1882,1327],
   'loSLMgX':[1170,835],
-  'fGM2o5F':[2470,1377],
-  'WUGKAdm':[2285,1600],
-  'dWvGlhF':[1982,1477],
-  'YDPhXR5':[2190,1355],
+  'SRKAkpJ':[2507,1575],
+  'djtqerV':[1995,1395],
+  'Na6Sjk3':[1970,1472],
+  '4qVMUG0':[2357,1255],
 };
 const dapSize = src => { const d = dapDims[(src.match(/imgur\.com\/(\w+)\./) || [])[1]]; return d ? ` width="${d[0]}" height="${d[1]}"` : ''; };
 
@@ -239,12 +239,12 @@ document.addEventListener('keydown', e => {
 // Copper layers, top to bottom, revealed by the "PCB 2D Stackup" button (project page and PCB gallery)
 const PCB_STACKUPS = {
   dap: [
-    { src: 'https://i.imgur.com/8aLrlYJ.png', label: 'Top Layer', w: 1495, h: 1482 },
-    { src: 'https://i.imgur.com/qIm5zAb.png', label: 'Layer 2 (GND)', w: 1480, h: 1477 },
-    { src: 'https://i.imgur.com/1gVgx2Z.png', label: 'Layer 3 (SIG)', w: 1485, h: 1475 },
-    { src: 'https://i.imgur.com/6zCQklO.png', label: 'Layer 4 (PWR)', w: 1480, h: 1485 },
-    { src: 'https://i.imgur.com/xnvy6nA.png', label: 'Layer 5 (GND)', w: 1495, h: 1472 },
-    { src: 'https://i.imgur.com/7kqU5v9.png', label: 'Bottom Layer', w: 1485, h: 1477 },
+    { src: 'https://i.imgur.com/lizGtPg.png', label: 'Top Layer', w: 1540, h: 1537 },
+    { src: 'https://i.imgur.com/LOYSFCx.png', label: 'Layer 2 (GND)', w: 1550, h: 1552 },
+    { src: 'https://i.imgur.com/Uq8lWLV.png', label: 'Layer 3 (SIG)', w: 1590, h: 1560 },
+    { src: 'https://i.imgur.com/Y3t3JlZ.png', label: 'Layer 4 (PWR)', w: 1572, h: 1567 },
+    { src: 'https://i.imgur.com/3CSul4S.png', label: 'Layer 5 (GND)', w: 1590, h: 1577 },
+    { src: 'https://i.imgur.com/hogBZpZ.png', label: 'Bottom Layer', w: 1530, h: 1510 },
   ],
 };
 
@@ -280,7 +280,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'https://i.imgur.com/SHtXdkz.png',   // PCB Rev 3 render
+    cover:'https://i.imgur.com/INPihjo.png',   // PCB Rev 3 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -302,16 +302,16 @@ const projects = [
       <div class="detail-body">
         <h3>Schematic</h3>
         <div class="dap-quad">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/WUGKAdm.png" width="2285" height="1600" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/dWvGlhF.png" width="1982" height="1477" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/YDPhXR5.png" width="2190" height="1355" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/fGM2o5F.png" width="2470" height="1377" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/djtqerV.png" width="1995" height="1395" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Na6Sjk3.png" width="1970" height="1472" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/4qVMUG0.png" width="2357" height="1255" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/SRKAkpJ.png" width="2507" height="1575" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
         </div>
 
         <h3>PCB Revision 3</h3>
         <div class="dap-quad dap-pcb3">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/15DHnYF.png" width="1697" height="1480" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/k93Uo2K.png" width="1690" height="1477" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/QQJMGFV.png" width="1390" height="1237" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/VVmxmR3.png" width="1300" height="1240" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
         ${pcbStackupHtml('dap')}
 
