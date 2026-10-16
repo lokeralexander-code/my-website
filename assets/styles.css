@@ -677,3 +677,8 @@
   }
   .zoomable:hover{opacity:1}
   @media(hover:none){.detail-body img:hover, .pcb-gallery-content img:hover, .ic-modal-body img:hover, #subpage-detail img:hover{transform:none}}
+
+  /* real board photo with a caption (Companion Robot BMS) */
+  .pcb-photo{margin:6px auto 26px;max-width:760px}
+  .detail-body .pcb-photo img, .pcb-gallery-content .pcb-photo img{width:100%;height:auto;display:block;margin:0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .pcb-photo figcaption{font-size:12.5px;line-height:1.6;color:#444;text-align:center;font-style:italic;margin-top:10px}

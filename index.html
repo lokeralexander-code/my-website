@@ -407,6 +407,7 @@ const pcbSlides = [
     title: 'Companion Robot: Custom BMS PCB',
     date: 'September, 2026',
     description: "Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.",
+    hero: { src: '/assets/robot-bms-assembled.jpg', alt: 'Assembled Companion Robot BMS PCB', caption: 'Hand soldered 0402 through 1210 components onto the custom PCB, was missing some parts so will be finished later.' },
     images: [
       { src: 'https://i.imgur.com/8A9O206.png', alt: 'Companion Robot BMS PCB 3D Render' },
       { src: 'https://i.imgur.com/mgEva7n.png', alt: 'Companion Robot BMS Schematic' },
@@ -471,6 +472,7 @@ function renderPcbSlide(i) {
       <h2 class="pcb-slide-title">${slide.title}</h2>
       <p class="pcb-slide-date">${slide.date}</p>
       <p class="pcb-slide-desc">${slide.description}</p>
+      ${slide.hero ? `<figure class="pcb-photo"><img class="zoomable" src="${slide.hero.src}" alt="${slide.hero.alt}" onclick="openLightbox(this.src,this.alt)"><figcaption>${slide.hero.caption}</figcaption></figure>` : ''}
       <div class="${rowClass}">${imagesHtml}</div>
       ${slide.stackup ? pcbStackupHtml(slide.stackup) : ''}
     `;
