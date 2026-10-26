@@ -83,7 +83,7 @@ const dapDims = {
   'sXHne5H':[1557,1097],
   'E65M1Md':[1560,1117],
   '4RgcvhO':[2130,1330],
-  'djtqerV':[1995,1395],
+  'mnr3Pr6':[2085,1545],
   'jClROfQ':[2080,1545],
   'yXlSFoK':[2340,1202],
 };
@@ -302,7 +302,7 @@ const projects = [
       <div class="detail-body">
         <h3>Schematic</h3>
         <div class="dap-quad">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/djtqerV.png" width="1995" height="1395" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/mnr3Pr6.png" width="2085" height="1545" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/jClROfQ.png" width="2080" height="1545" alt="Audio schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Audio</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/yXlSFoK.png" width="2340" height="1202" alt="Peripherals schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Peripherals</figcaption></figure>
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/4RgcvhO.png" width="2130" height="1330" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
