@@ -15,7 +15,7 @@ const palette=palettes[Math.floor(Math.random()*palettes.length)];
 
 // ============ DIGITAL AUDIO PLAYER: IC CARDS ============
 // One card per block of the schematic, grouped and ordered by the architecture
-// (Power -> Audio -> Peripherals -> MCU). Add a `footprint` image to replace the placeholder.
+// (Power -> Audio -> Peripherals -> MCU).
 const dapGroups = [
   { name:'Power', chain:'USB-C → BQ24250 → 3.9 V Buck-Boost → ±3V3 LDOs · 3V3 Digital', ics:[
     { title:'USB-C', part:'GCT USB4085-GF-A', img:'https://i.imgur.com/49658ZV.png',
@@ -122,12 +122,6 @@ function dapCardHtml(ic) {
         <figure class="ic-pane">
           <img decoding="async" class="zoomable" src="${ic.img}"${dapSize(ic.img)} alt="${ic.title} - ${ic.part} schematic" onclick="openLightbox(this.src,this.alt)">
           <figcaption>Schematic</figcaption>
-        </figure>
-        <figure class="ic-pane">
-          ${ic.footprint
-            ? `<img decoding="async" class="zoomable" src="${ic.footprint}" alt="${ic.title} - ${ic.part} footprint" onclick="openLightbox(this.src,this.alt)">`
-            : `<div class="ic-pane-empty">Footprint<br>coming soon</div>`}
-          <figcaption>Footprint</figcaption>
         </figure>
       </div>
       <p class="ic-card-desc">${ic.desc}</p>
@@ -280,7 +274,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'https://i.imgur.com/zYfTDID.png',   // PCB Rev 3 render
+    cover:'https://i.imgur.com/zYfTDID.png',   // PCB Rev 4 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -308,15 +302,15 @@ const projects = [
           <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/4RgcvhO.png" width="2130" height="1330" alt="MCU schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>MCU</figcaption></figure>
         </div>
 
-        <h3>PCB Revision 3</h3>
+        <h3>PCB Revision 4</h3>
         <div class="dap-quad dap-pcb3">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/8Voxyw5.png" width="1380" height="1232" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Kyft4jB.png" width="1340" height="1232" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/8Voxyw5.png" width="1380" height="1232" alt="PCB Revision 4, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Kyft4jB.png" width="1340" height="1232" alt="PCB Revision 4, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
         ${pcbStackupHtml('dap')}
 
-        <h3>Assembly</h3>
-        <div class="dap-placeholder dap-placeholder-text">Ordering PCB in progress, TBD.</div>
+        <h3>Assembly and Testing</h3>
+        <div class="dap-placeholder dap-placeholder-text">JLCPCB order is in progress.</div>
 
         <h3>Architecture</h3>
         <figure class="arch-diagram">

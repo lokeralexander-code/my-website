@@ -503,7 +503,7 @@
   .ic-card-part{color:#999}
   /* two panes side by side: the schematic sets the row height from its own aspect ratio,
      the footprint pane stretches to match */
-  .ic-card-panes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .ic-card-panes{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
   .ic-pane{margin:0;display:flex;flex-direction:column}
   .ic-pane img, .ic-pane-empty{
     flex:1;width:100%;display:block;margin:0;min-height:150px;
