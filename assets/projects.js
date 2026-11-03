@@ -239,12 +239,12 @@ document.addEventListener('keydown', e => {
 // Copper layers, top to bottom, revealed by the "PCB 2D Stackup" button (project page and PCB gallery)
 const PCB_STACKUPS = {
   dap: [
-    { src: 'https://i.imgur.com/DeZiAbW.png', label: 'Top Layer', w: 1510, h: 1510 },
-    { src: 'https://i.imgur.com/8rM40sn.png', label: 'Layer 2 (GND)', w: 1485, h: 1470 },
-    { src: 'https://i.imgur.com/UbYfxlA.png', label: 'Layer 3 (SIG)', w: 1492, h: 1527 },
-    { src: 'https://i.imgur.com/IRIkuqs.png', label: 'Layer 4 (PWR)', w: 1547, h: 1540 },
-    { src: 'https://i.imgur.com/Hf1Iahc.png', label: 'Layer 5 (GND)', w: 1500, h: 1502 },
-    { src: 'https://i.imgur.com/YxJCbpl.png', label: 'Bottom Layer', w: 1517, h: 1490 },
+    { src: 'https://i.imgur.com/hUNXtQe.png', label: 'Top Layer', w: 1625, h: 1620 },
+    { src: 'https://i.imgur.com/W9gBFt1.png', label: 'Layer 2 (GND)', w: 1610, h: 1617 },
+    { src: 'https://i.imgur.com/TF1zggB.png', label: 'Layer 3 (SIG)', w: 1610, h: 1610 },
+    { src: 'https://i.imgur.com/S1c7LHM.png', label: 'Layer 4 (PWR)', w: 1635, h: 1617 },
+    { src: 'https://i.imgur.com/iFqMLca.png', label: 'Layer 5 (GND)', w: 1630, h: 1615 },
+    { src: 'https://i.imgur.com/pFsHyJD.png', label: 'Bottom Layer', w: 1632, h: 1615 },
   ],
 };
 
@@ -280,7 +280,7 @@ const projects = [
     catalog:'AL-007',side:'B',year:'2026',
     slug:'digital-audio-player',
     tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
-    cover:'https://i.imgur.com/0z7OYuD.png',   // PCB Rev 3 render
+    cover:'https://i.imgur.com/zYfTDID.png',   // PCB Rev 3 render
     sleeve:'stamp',
     color:palette[5],
     tags:['Altium Designer','PCB Design','Mixed-Signal Design','Analog Audio Design','LTspice','PSpice','ESP32-S3'],
@@ -310,8 +310,8 @@ const projects = [
 
         <h3>PCB Revision 3</h3>
         <div class="dap-quad dap-pcb3">
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/51gdpjr.png" width="1320" height="1167" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
-          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/9yLwV7f.png" width="1300" height="1162" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/8Voxyw5.png" width="1380" height="1232" alt="PCB Revision 3, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/Kyft4jB.png" width="1340" height="1232" alt="PCB Revision 3, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
         </div>
         ${pcbStackupHtml('dap')}
 
