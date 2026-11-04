@@ -643,15 +643,12 @@ const projects = [
     tags:['SolidWorks','Altium Designer','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
     dates:"Jan – Apr, Sep '26",       // shown under the title on the project page
-    wip:true,
     subpage:`
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
   <div class="detail-content">
     <button class="detail-back" onclick="closeSubpage()">← Back to Companion Robot</button>
     <h2 class="detail-title">Subassemblies · In Depth</h2>
     <div class="detail-body">
-      <p style="background:rgba(0,0,0,.03);border:1px solid #ddd;border-radius:10px;padding:10px 16px;font-size:12px;color:#888;font-style:italic;margin:20px 0">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</p>
-
       <div class="sub-section">
         <h3>Base</h3>
         <div class="detail-img-row">
@@ -710,6 +707,7 @@ const projects = [
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Companion Robot</h2>
+      <p style="font-style:italic;margin:0 0 20px">This project taught me a great deal about engineering. Although it is now closed due to insufficient funding to keep going after a PCB mishap, I am grateful for everything I learned from aRTy.</p>
       <div class="detail-tags" style="margin-bottom:30px">
         <span class="detail-tag">SolidWorks</span>
         <span class="detail-tag">Altium Designer</span>
