@@ -737,7 +737,7 @@ const projects = [
         </div>
         <figure class="pcb-photo">
           <img loading="lazy" decoding="async" class="zoomable" src="/assets/robot-bms-assembled.jpg" width="1600" height="1200" alt="Assembled Companion Robot BMS PCB" onclick="openLightbox(this.src,this.alt)">
-          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB, was missing some parts so will be finished later.</figcaption>
+          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB.</figcaption>
         </figure>
         <div style="text-align:center">
           <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="toggleSection('robot-pcb-layers', this)">PCB Layers<span class="btn-toggle-x"></span></button>
@@ -751,7 +751,7 @@ const projects = [
           </div>
         </div>
         <h3>Demo:</h3>
-        <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
+        <p>Below are the movement demo from February and the arm demo from April.</p>
         <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
       </div>
