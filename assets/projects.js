@@ -739,7 +739,7 @@ const projects = [
         </div>
         <figure class="pcb-photo">
           <img loading="lazy" decoding="async" class="zoomable" src="/assets/robot-bms-assembled.jpg" width="1600" height="1200" alt="Assembled Companion Robot BMS PCB" onclick="openLightbox(this.src,this.alt)">
-          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB, was missing some parts so will be finished later.</figcaption>
+          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB, now fully assembled.</figcaption>
         </figure>
         <div style="text-align:center">
           <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="toggleSection('robot-pcb-layers', this)">PCB Layers<span class="btn-toggle-x"></span></button>
