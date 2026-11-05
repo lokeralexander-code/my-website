@@ -707,7 +707,6 @@ const projects = [
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">Companion Robot</h2>
-      <p style="font-style:italic;margin:0 0 20px">This project taught me a great deal about engineering. Although it is now closed due to insufficient funding to keep going after a PCB mishap, I am grateful for everything I learned from aRTy.</p>
       <div class="detail-tags" style="margin-bottom:30px">
         <span class="detail-tag">SolidWorks</span>
         <span class="detail-tag">Altium Designer</span>
@@ -719,6 +718,7 @@ const projects = [
         <span class="detail-tag">3D Printing</span>
       </div>
       <div class="detail-body">
+        <p style="text-align:center;margin-bottom:28px">This project taught me a great deal about engineering. Although it is now closed due to insufficient funding to keep going after a PCB mishap, I am grateful for everything I learned from aRTy.</p>
         <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
           <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
           <p style="margin:0">The purpose of this project is to develop an interactive therapeutic robotic companion. The neutral appearance of the small robot serves to adhere to its functional use by a wide demographic. Interactive software is implemented into the design including microphones, speakers, automated movement systems, and an LCD screen for emotive responses. This project is intended to help learn the fundamentals of being an engineer through mechanical, electrical, and software design.</p>
