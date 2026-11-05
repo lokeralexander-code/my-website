@@ -643,12 +643,15 @@ const projects = [
     tags:['SolidWorks','Altium Designer','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
     dates:"Jan – Apr, Sep '26",       // shown under the title on the project page
+    wip:true,
     subpage:`
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
   <div class="detail-content">
     <button class="detail-back" onclick="closeSubpage()">← Back to Companion Robot</button>
     <h2 class="detail-title">Subassemblies · In Depth</h2>
     <div class="detail-body">
+      <p style="background:rgba(0,0,0,.03);border:1px solid #ddd;border-radius:10px;padding:10px 16px;font-size:12px;color:#888;font-style:italic;margin:20px 0">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</p>
+
       <div class="sub-section">
         <h3>Base</h3>
         <div class="detail-img-row">
@@ -718,7 +721,6 @@ const projects = [
         <span class="detail-tag">3D Printing</span>
       </div>
       <div class="detail-body">
-        <p style="text-align:center;margin-bottom:28px">This project taught me a great deal about engineering. Although it is now closed due to insufficient funding to keep going after a PCB mishap, I am grateful for everything I learned from aRTy.</p>
         <div style="background:rgba(0,0,0,.03);border:2px solid #eee;border-radius:16px;padding:24px 30px;margin-bottom:28px;text-align:center">
           <h3 style="margin-top:0;margin-bottom:14px">Project Goal</h3>
           <p style="margin:0">The purpose of this project is to develop an interactive therapeutic robotic companion. The neutral appearance of the small robot serves to adhere to its functional use by a wide demographic. Interactive software is implemented into the design including microphones, speakers, automated movement systems, and an LCD screen for emotive responses. This project is intended to help learn the fundamentals of being an engineer through mechanical, electrical, and software design.</p>
@@ -737,7 +739,7 @@ const projects = [
         </div>
         <figure class="pcb-photo">
           <img loading="lazy" decoding="async" class="zoomable" src="/assets/robot-bms-assembled.jpg" width="1600" height="1200" alt="Assembled Companion Robot BMS PCB" onclick="openLightbox(this.src,this.alt)">
-          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB.</figcaption>
+          <figcaption>Hand soldered 0402 through 1210 components onto the custom PCB, was missing some parts so will be finished later.</figcaption>
         </figure>
         <div style="text-align:center">
           <button class="subassembly-btn" data-static-label="1" aria-expanded="false" onclick="toggleSection('robot-pcb-layers', this)">PCB Layers<span class="btn-toggle-x"></span></button>
@@ -751,7 +753,7 @@ const projects = [
           </div>
         </div>
         <h3>Demo:</h3>
-        <p>Below are the movement demo from February and the arm demo from April.</p>
+        <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
         <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
       </div>
