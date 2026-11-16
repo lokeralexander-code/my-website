@@ -302,7 +302,7 @@ projects.forEach((proj,i) => {
         <div class="sleeve-gloss"></div>
       </a>
       ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
-      ${proj.warg ? '<div class="wet-badge">WARG</div>' : ''}
+      ${proj.warg ? '<div class="wet-badge warg-badge"><img src="warg-logo.png" alt="WARG"></div>' : ''}
       ${proj.wip ? '<div class="wip-badge">*WIP</div>' : ''}
     </div>
     <div class="disc-cue">Click to play</div>`;
@@ -412,7 +412,7 @@ const pcbSlides = [
   },
   {
     title: 'RasPi LTE HAT - WARG',
-    date: 'November, 2026 – Present',
+    date: 'October, 2026 – Present',
     description: "This Raspberry Pi HAT gives the WARG drone an LTE and GPS link, so photos, and maybe some low-res video, can be sent back over cellular. It is built around a SIM7600NA-H modem powered by a TPS7A7002 LDO (5V to 3.8V), with a HEF4053 mux to switch between two SIM cards and a bias tee for an active GPS antenna. There is no MCU, so everything direct-connects to the Pi over UART. More can be seen on the <a href='/raspi-lte-hat'>project page</a>.",
     stackup: 'lte',   // adds the PCB 2D Stackup button under the images
     images: [

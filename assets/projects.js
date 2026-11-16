@@ -537,7 +537,7 @@ const projects = [
     trackKey:'lte',
     wip:true,
     warg:true,
-    dates:"Nov '26 – Present",       // shown under the title on the project page
+    dates:"Oct '26 – Present",       // shown under the title on the project page
     html:`
       <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
       <h2 class="detail-title">RasPi LTE HAT - WARG</h2>

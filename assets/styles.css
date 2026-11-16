@@ -251,6 +251,10 @@
     box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none;
   }
 
+  /* same black tag, with the WARG wordmark in place of text */
+  .warg-badge{padding:5px 10px}
+  .warg-badge img{display:block;height:11px;width:auto}
+
   .wip-badge{
     position:absolute;top:6px;left:8px;z-index:15;
     background:#FF6B35;color:#fff;font-family:'Anton',sans-serif;
