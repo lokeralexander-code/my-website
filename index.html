@@ -411,6 +411,20 @@ const pcbSlides = [
     ],
   },
   {
+    title: 'RasPi LTE HAT - WARG',
+    date: 'November, 2026 – Present',
+    description: "This Raspberry Pi HAT gives the WARG drone an LTE and GPS link, so photos, and maybe some low-res video, can be sent back over cellular. It is built around a SIM7600NA-H modem powered by a TPS7A7002 LDO (5V to 3.8V), with a HEF4053 mux to switch between two SIM cards and a bias tee for an active GPS antenna. There is no MCU, so everything direct-connects to the Pi over UART. More can be seen on the <a href='/raspi-lte-hat'>project page</a>.",
+    stackup: 'lte',   // adds the PCB 2D Stackup button under the images
+    images: [
+      { src: 'https://i.imgur.com/aonQFKS.png', alt: 'PCB Revision B, isometric' },
+      { src: 'https://i.imgur.com/FaLorTB.png', alt: 'PCB Revision B, top' },
+      { src: 'https://i.imgur.com/zLcbvKO.png', alt: 'PCB Revision B, bottom' },
+      { src: 'https://i.imgur.com/tS3h9zc.png', alt: 'Modem schematic' },
+      { src: 'https://i.imgur.com/f3pKiXY.png', alt: 'Power schematic' },
+      { src: 'https://i.imgur.com/wXBIM0C.png', alt: 'Overall schematic' },
+    ],
+  },
+  {
     title: 'Companion Robot: Custom BMS PCB',
     date: 'September, 2026',
     description: "Before resuming this project this September, I realized something after my time being an intern at WET, that the battery was in grave danger and I had no protection or proper power distribution from the battery, and furthermore, if the servos stall and I'm running them from the raspberry pi, it will overcurrent and potentially break. So, I decided to make a BQ Charger, and two independent boost chips on one PCB for the Companion Robot to keep the battery properly charged and safe, while properly distributing power.",
