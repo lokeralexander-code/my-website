@@ -240,6 +240,12 @@ const PCB_STACKUPS = {
     { src: 'https://i.imgur.com/iFqMLca.png', label: 'Layer 5 (GND)', w: 1630, h: 1615 },
     { src: 'https://i.imgur.com/pFsHyJD.png', label: 'Bottom Layer', w: 1632, h: 1615 },
   ],
+  lte: [
+    { src: 'https://i.imgur.com/1Sx8IPy.png', label: 'Layer 1 (SIG)', w: 1652, h: 1420 },
+    { src: 'https://i.imgur.com/mplwr0k.png', label: 'Layer 2 (GND)', w: 1732, h: 1480 },
+    { src: 'https://i.imgur.com/YIxfRWj.png', label: 'Layer 3 (GND)', w: 1715, h: 1487 },
+    { src: 'https://i.imgur.com/iItgKQv.png', label: 'Layer 4 (SIG)', w: 1727, h: 1480 },
+  ],
 };
 
 // The layer images are only inserted (and fetched) on first open
@@ -515,6 +521,58 @@ const projects = [
 
         <h3>See Each IC</h3>
         ${dapICLauncherHtml()}
+      </div>
+    `
+  },
+  {
+    name:'RasPi\nLTE HAT',
+    displayName:'RasPi LTE HAT - WARG',
+    catalog:'AL-008',side:'A',year:'2026',
+    slug:'raspi-lte-hat',
+    tone:'light',            // artwork tone: 'light' art gets dark type, 'dark' art gets light type
+    cover:'https://i.imgur.com/aonQFKS.png',   // PCB Rev B isometric render
+    sleeve:'band',
+    color:palette[3],
+    tags:['Altium Designer','PCB Design','RF Design','LTE','Raspberry Pi'],
+    trackKey:'lte',
+    wip:true,
+    warg:true,
+    dates:"Nov '26 – Present",       // shown under the title on the project page
+    html:`
+      <button class="detail-back" onclick="closeDetail()">← Back to Records</button>
+      <h2 class="detail-title">RasPi LTE HAT - WARG</h2>
+      <div class="detail-tags" style="margin-bottom:30px">
+        <span class="detail-tag">Altium Designer</span>
+        <span class="detail-tag">PCB Design</span>
+        <span class="detail-tag">RF Design</span>
+        <span class="detail-tag">LTE</span>
+        <span class="detail-tag">Raspberry Pi</span>
+      </div>
+      <div class="detail-body">
+        <h3>Schematic</h3>
+        <div class="dap-quad">
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/tS3h9zc.png" width="1987" height="1525" alt="Modem schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Modem</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/f3pKiXY.png" width="1865" height="1435" alt="Power schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Power</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/wXBIM0C.png" width="1795" height="1380" alt="Overall schematic" onclick="openLightbox(this.src,this.alt)"><figcaption>Overall</figcaption></figure>
+        </div>
+
+        <h3>PCB Revision B</h3>
+        <div class="dap-quad dap-pcb3">
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/FaLorTB.png" width="1207" height="1065" alt="PCB Revision B, top" onclick="openLightbox(this.src,this.alt)"><figcaption>Top</figcaption></figure>
+          <figure><img decoding="async" class="zoomable" src="https://i.imgur.com/zLcbvKO.png" width="1127" height="992" alt="PCB Revision B, bottom" onclick="openLightbox(this.src,this.alt)"><figcaption>Bottom</figcaption></figure>
+        </div>
+        ${pcbStackupHtml('lte')}
+
+        <h3>Assembly and Testing</h3>
+        <div class="dap-placeholder dap-placeholder-text">Assembly and testing to come.</div>
+
+        <h3>Overview</h3>
+        <div class="arch-text">
+          <p>WARG (Waterloo Aerial Robotics Group) needs a way for the drone to send photos, and maybe some low-res video, back over LTE, alongside GPS. The previous revision, RPi HAT Interface Rev C, combined the entire Raspberry Pi interface alongside an LTE breakout, which made it very difficult to bring up. So, it was split into two boards: Buck &amp; Telemetry, and this one, which is LTE only. There is no MCU, to make integration easier, so all the GPIO direct-connects to the Raspberry Pi, with UART as the communication protocol of choice and USB if video ends up being necessary.</p>
+          <p>The modem <span class="pn">(SIM7600NA-H)</span> was chosen over four other options due to its superior band selection (12, 13 and 71 in North America) and its CAT-4 upload speed of 50 Mbps, while still being in the JLCPCB parts library. It is bigger and more expensive than the runner-up <span class="pn">(EG915QNALC)</span>, but that is negligible with our budget and large board space.</p>
+          <p>The modem is powered by an LDO <span class="pn">(TPS7A7002DDAR)</span>, which takes 5V from the Raspberry Pi and outputs 3.8V, specced to 3A for the 2A+ the modem can draw. Next, since no service provider covers all three bands, a 3-channel 2:1 mux <span class="pn">(HEF4053BT)</span> lets the Pi switch between two SIM cards, one for bands 12 and 13, and one for band 71.</p>
+          <p>Lastly, in the case of an active GPS antenna, a bias tee powers the antenna's built-in LNA (low-noise amplifier). An inductor in series with a 10Ω resistor from the 3V8 rail lets the DC through while choking the RF, with its SRF specced slightly above the GPS band at 1920 MHz, as an inductor's impedance falls off much steeper past resonance than it climbs. A series capacitor does the opposite, only letting the GPS signal through, with its SRF at 1570 MHz, right in the middle of the band.</p>
+        </div>
       </div>
     `
   },

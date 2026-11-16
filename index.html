@@ -182,7 +182,10 @@
     <div class="header-row">
       <div class="header-titles">
         <h1 class="name">Alexander Loker</h1>
-        <p class="subtitle">Mechatronics Engineering @ University of Waterloo</p>
+        <div class="subtitle-row">
+          <p class="subtitle">Mechatronics Engineering @ University of Waterloo</p>
+          <div class="internship-chip"><img class="internship-logo" src="warg-logo.png" alt="WARG"></div>
+        </div>
       </div>
       <div class="internship-strip">
         <div class="internship-item">
@@ -299,6 +302,7 @@ projects.forEach((proj,i) => {
         <div class="sleeve-gloss"></div>
       </a>
       ${proj.wet ? '<div class="wet-badge">WET</div>' : ''}
+      ${proj.warg ? '<div class="wet-badge">WARG</div>' : ''}
       ${proj.wip ? '<div class="wip-badge">*WIP</div>' : ''}
     </div>
     <div class="disc-cue">Click to play</div>`;

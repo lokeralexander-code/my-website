@@ -118,6 +118,10 @@
     text-shadow:2px 2px 0 rgba(0,0,0,.07);
   }
   .subtitle{font-size:clamp(11px,1.5vw,16px);color:#444;margin-top:8px;letter-spacing:1.5px;font-weight:700}
+  /* tagline with the WARG chip beside it */
+  .subtitle-row{display:flex;align-items:center;gap:14px;margin-top:8px}
+  .subtitle-row .subtitle{margin-top:0}
+  .subtitle-row .internship-chip{flex:none}
 
   /* VINYL ROW - album sleeves with the record tucked inside */
   .vinyl-section{display:flex;justify-content:center;padding:60px 20px 60px}
