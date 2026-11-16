@@ -643,15 +643,12 @@ const projects = [
     tags:['SolidWorks','Altium Designer','Raspberry Pi','Electromechanical Assembly','Python','PID Controls','Soldering','3D Printing'],
     trackKey:'robot',
     dates:"Jan – Apr, Sep '26",       // shown under the title on the project page
-    wip:true,
     subpage:`
 <div id="subpage-detail" style="position:fixed;inset:0;background:#fff;z-index:1100;display:none;overflow-y:auto">
   <div class="detail-content">
     <button class="detail-back" onclick="closeSubpage()">← Back to Companion Robot</button>
     <h2 class="detail-title">Subassemblies · In Depth</h2>
     <div class="detail-body">
-      <p style="background:rgba(0,0,0,.03);border:1px solid #ddd;border-radius:10px;padding:10px 16px;font-size:12px;color:#888;font-style:italic;margin:20px 0">⚠ Due to the assembly being still in progress, descriptions may be incomplete/unavailable.</p>
-
       <div class="sub-section">
         <h3>Base</h3>
         <div class="detail-img-row">
@@ -753,7 +750,7 @@ const projects = [
           </div>
         </div>
         <h3>Demo:</h3>
-        <p>Will record once finished custom BMS PCB, for now see this video below from February, and the arm video from April.</p>
+        <p>Below are the movement demo from February and the arm demo from April.</p>
         <iframe src="https://www.youtube.com/embed/3BMh1MimUH4?si=PDeN6alPbzbswrNz" title="Movement Demo · February" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/-AL4-MPjDz8?si=2oNmssdj8Eq2eI_4" title="Arm Demo · April" allowfullscreen></iframe>
       </div>
